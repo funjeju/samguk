@@ -2,14 +2,16 @@
 
 import GeneralCard from "@/components/GeneralCard";
 import { createCard, rollGrade, shuffle } from "@/lib/battle";
+import { fetchCollection, fetchRecord, saveMatchResult, type UserRecord } from "@/lib/collection";
 import { INFO_FACTION_DETAIL_TURN, INFO_POWER_EVERY, INFO_ROLE_TURN, REWARD, TURNS } from "@/lib/constants";
+import { firebaseEnabled } from "@/lib/firebase";
 import { createMatch, oppRemainingInfo, playTurn, type MatchState } from "@/lib/match";
 import { GENERAL_BY_ID, ROSTER } from "@/lib/roster";
 import type { CardInstance, Difficulty, Faction, TurnLog } from "@/lib/types";
 import { AnimatePresence, motion } from "framer-motion";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-type Screen = "intro" | "sequence" | "battle" | "result";
+type Screen = "intro" | "sequence" | "battle" | "result" | "collection";
 
 const DIFF_LABEL: Record<Difficulty, string> = { easy: "쉬움", normal: "보통", hard: "어려움" };
 
@@ -24,7 +26,8 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-stone-950 via-stone-900 to-stone-950 text-white">
-      {screen === "intro" && <Intro onStart={startMatch} />}
+      {screen === "intro" && <Intro onStart={startMatch} onCollection={() => setScreen("collection")} />}
+      {screen === "collection" && <Collection onBack={() => setScreen("intro")} />}
       {screen === "sequence" && match && <StartSequence match={match} onDone={() => setScreen("battle")} />}
       {screen === "battle" && match && (
         <Battle match={match} setMatch={setMatch} onFinished={() => setScreen("result")} />
@@ -44,7 +47,12 @@ export default function Home() {
 
 /* ─────────────── 인트로 ─────────────── */
 
-function Intro({ onStart }: { onStart: (d: Difficulty) => void }) {
+function Intro({ onStart, onCollection }: { onStart: (d: Difficulty) => void; onCollection: () => void }) {
+  const [record, setRecord] = useState<UserRecord | null>(null);
+  useEffect(() => {
+    if (firebaseEnabled) fetchRecord().then(setRecord).catch(() => {});
+  }, []);
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-8 p-6">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center">
@@ -70,6 +78,17 @@ function Intro({ onStart }: { onStart: (d: Difficulty) => void }) {
             </button>
           ))}
         </div>
+        <button
+          onClick={onCollection}
+          className="mt-2 rounded-lg border border-white/20 px-8 py-2 text-sm text-white/70 hover:bg-white/10 transition-colors"
+        >
+          내 컬렉션
+        </button>
+        {record && (
+          <p className="text-white/40 text-xs">
+            전적 {record.wins}승 {record.losses}패{record.draws > 0 && ` ${record.draws}무`}
+          </p>
+        )}
       </motion.div>
     </div>
   );
@@ -349,12 +368,35 @@ function PowerLine({ label, bd, show }: { label: string; bd: TurnLog["myPower"];
 
 function Result({ match, onRestart }: { match: MatchState; onRestart: () => void }) {
   const won = match.result === "win";
-  const rewards = useMemo(() => {
-    const n = won ? REWARD.win : REWARD.lose;
-    return shuffle([...ROSTER])
-      .slice(0, n)
-      .map((r) => createCard(r.id, rollGrade()));
-  }, [won]);
+  const [rewards, setRewards] = useState<CardInstance[] | null>(null);
+  const [saved, setSaved] = useState<"saving" | "saved" | "local">("saving");
+
+  useEffect(() => {
+    let alive = true;
+    const localFallback = () => {
+      const n = won ? REWARD.win : REWARD.lose;
+      if (alive) {
+        setRewards(shuffle([...ROSTER]).slice(0, n).map((r) => createCard(r.id, rollGrade())));
+        setSaved("local");
+      }
+    };
+    if (!firebaseEnabled || !match.result) {
+      localFallback();
+      return;
+    }
+    saveMatchResult(match.result)
+      .then(({ rewards }) => {
+        if (alive) {
+          setRewards(rewards);
+          setSaved("saved");
+        }
+      })
+      .catch(localFallback);
+    return () => {
+      alive = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 p-6">
@@ -373,20 +415,28 @@ function Result({ match, onRestart }: { match: MatchState; onRestart: () => void
       </p>
 
       <div className="text-center">
-        <p className="text-amber-400 mb-3">보상 카드 {rewards.length}장</p>
-        <div className="flex gap-2 flex-wrap justify-center">
-          {rewards.map((c, i) => (
-            <motion.div
-              key={c.cardId}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + i * 0.15 }}
-            >
-              <GeneralCard card={c} small />
-            </motion.div>
-          ))}
-        </div>
-        <p className="text-white/30 text-xs mt-3">※ 컬렉션 저장은 다음 단계(Firebase)에서 연결됩니다</p>
+        {rewards === null ? (
+          <p className="text-white/40">보상 지급 중...</p>
+        ) : (
+          <>
+            <p className="text-amber-400 mb-3">보상 카드 {rewards.length}장</p>
+            <div className="flex gap-2 flex-wrap justify-center">
+              {rewards.map((c, i) => (
+                <motion.div
+                  key={c.cardId}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 + i * 0.15 }}
+                >
+                  <GeneralCard card={c} small />
+                </motion.div>
+              ))}
+            </div>
+            <p className="text-white/30 text-xs mt-3">
+              {saved === "saved" ? "컬렉션에 저장되었습니다" : "※ 오프라인 — 이번 보상은 저장되지 않습니다"}
+            </p>
+          </>
+        )}
       </div>
 
       <button
@@ -395,6 +445,51 @@ function Result({ match, onRestart }: { match: MatchState; onRestart: () => void
       >
         다시 대전
       </button>
+    </div>
+  );
+}
+
+/* ─────────────── 내 컬렉션 ─────────────── */
+
+function Collection({ onBack }: { onBack: () => void }) {
+  const [cards, setCards] = useState<CardInstance[] | null>(null);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (!firebaseEnabled) {
+      setError(true);
+      return;
+    }
+    fetchCollection().then(setCards).catch(() => setError(true));
+  }, []);
+
+  return (
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-3xl font-bold">내 컬렉션</h2>
+        <button
+          onClick={onBack}
+          className="rounded-lg border border-white/20 px-6 py-2 text-sm hover:bg-white/10 transition-colors"
+        >
+          돌아가기
+        </button>
+      </div>
+      {error ? (
+        <p className="text-white/40">오프라인 상태라 컬렉션을 불러올 수 없습니다.</p>
+      ) : cards === null ? (
+        <p className="text-white/40">불러오는 중...</p>
+      ) : cards.length === 0 ? (
+        <p className="text-white/40">아직 카드가 없습니다. 대전에서 승리해 카드를 모아보세요.</p>
+      ) : (
+        <>
+          <p className="text-white/50 text-sm mb-4">총 {cards.length}장</p>
+          <div className="flex gap-2 flex-wrap">
+            {cards.map((c) => (
+              <GeneralCard key={c.cardId} card={c} small />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
