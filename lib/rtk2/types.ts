@@ -29,6 +29,7 @@ export interface Officer {
   isRuler: boolean;
   acted: boolean; // 이번 달 행동 완료 여부 (도시 명령 수 = 미행동 장수 수)
   wounded: number; // 부상 (남은 개월, 0 = 정상)
+  discovered?: boolean; // 재야가 탐색으로 발견됐는지 (발견해야 등용 가능)
   appearYear?: number;
   appearCity?: number;
   alive: boolean;
