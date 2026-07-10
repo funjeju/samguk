@@ -8,6 +8,7 @@ export interface MatchState {
   scenario: Scenario;
   city: City;
   difficulty: Difficulty;
+  ownedCount: number; // 내 덱 중 컬렉션 카드 수 (나머지는 용병)
   turn: number; // 1부터
   myScore: number;
   oppScore: number;
@@ -25,18 +26,30 @@ export interface MatchState {
 const remainingPower = (cards: CardInstance[], scenario: Scenario, city: City) =>
   cards.reduce((sum, c) => sum + calcPower(c, scenario, city).total, 0);
 
-export function createMatch(difficulty: Difficulty): MatchState {
+// 내 덱: 컬렉션 상위 30장 출전, 모자라면 용병(1등급 랜덤 장수)으로 충원
+function buildPlayerDeck(owned: CardInstance[]): { deck: CardInstance[]; ownedCount: number } {
+  const statSum = (c: CardInstance) =>
+    c.stats.combat + c.stats.politics + c.stats.intellect + c.stats.leadership;
+  const picked = [...owned].sort((a, b) => b.grade - a.grade || statSum(b) - statSum(a)).slice(0, DECK_SIZE);
+  const fillers = shuffle(ROSTER)
+    .slice(0, DECK_SIZE - picked.length)
+    .map((r) => createCard(r.id, 1));
+  return { deck: shuffle([...picked, ...fillers]), ownedCount: picked.length };
+}
+
+export function createMatch(difficulty: Difficulty, ownedCards: CardInstance[] = []): MatchState {
   const scenario = SCENARIOS[Math.floor(Math.random() * SCENARIOS.length)];
   const city = CITIES[Math.floor(Math.random() * CITIES.length)];
 
-  // 348명 풀에서 매판 랜덤 30명 추출 (양측 독립 — 같은 장수가 양쪽에 나올 수 있음)
-  const myCards = shuffle(ROSTER).slice(0, DECK_SIZE).map((r) => createCard(r.id));
+  const { deck: myCards, ownedCount } = buildPlayerDeck(ownedCards);
+  // 상대(AI): 348명 풀에서 랜덤 30명 (같은 장수가 양쪽에 나올 수 있음)
   const oppCards = shuffle(ROSTER).slice(0, DECK_SIZE).map((r) => createCard(r.id));
 
   return {
     scenario,
     city,
     difficulty,
+    ownedCount,
     turn: 1,
     myScore: 0,
     oppScore: 0,

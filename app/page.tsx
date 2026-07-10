@@ -2,7 +2,7 @@
 
 import GeneralCard from "@/components/GeneralCard";
 import { createCard, rollGrade, shuffle } from "@/lib/battle";
-import { fetchCollection, fetchRecord, saveMatchResult, type UserRecord } from "@/lib/collection";
+import { enhanceCards, fetchCollection, fetchRecord, saveMatchResult, type UserRecord } from "@/lib/collection";
 import { INFO_FACTION_DETAIL_TURN, INFO_POWER_EVERY, INFO_ROLE_TURN, REWARD, TURNS } from "@/lib/constants";
 import { firebaseEnabled } from "@/lib/firebase";
 import { createMatch, oppRemainingInfo, playTurn, type MatchState } from "@/lib/match";
@@ -19,8 +19,16 @@ export default function Home() {
   const [screen, setScreen] = useState<Screen>("intro");
   const [match, setMatch] = useState<MatchState | null>(null);
 
-  const startMatch = (d: Difficulty) => {
-    setMatch(createMatch(d));
+  const startMatch = async (d: Difficulty) => {
+    let owned: CardInstance[] = [];
+    if (firebaseEnabled) {
+      try {
+        owned = await fetchCollection();
+      } catch {
+        // 오프라인 — 용병 덱으로 진행
+      }
+    }
+    setMatch(createMatch(d, owned));
     setScreen("sequence");
   };
 
@@ -117,7 +125,11 @@ function StartSequence({ match, onDone }: { match: MatchState; onDone: () => voi
     {
       label: "국가 구성 공개",
       title: "양측 구성 비율",
-      lines: [`나의 덱 — ${myFactions}`, "상대 덱 — 총 전투력·구성은 대전 중 점차 공개"],
+      lines: [
+        `나의 덱 — ${myFactions}`,
+        `컬렉션 카드 ${match.ownedCount}장 + 용병 ${30 - match.ownedCount}장 출전`,
+        "상대 덱 — 총 전투력·구성은 대전 중 점차 공개",
+      ],
       color: "text-amber-400",
     },
   ];
@@ -126,15 +138,13 @@ function StartSequence({ match, onDone }: { match: MatchState; onDone: () => voi
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-10 p-6">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={step}
-          initial={{ opacity: 0, scale: 0.8, rotateX: 60 }}
-          animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-          exit={{ opacity: 0, scale: 1.1 }}
-          transition={{ duration: 0.5 }}
-          className="w-full max-w-md rounded-2xl border border-white/20 bg-stone-900/90 p-8 text-center shadow-2xl"
-        >
+      <motion.div
+        key={step}
+        initial={{ opacity: 0, scale: 0.8, rotateX: 60 }}
+        animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md rounded-2xl border border-white/20 bg-stone-900/90 p-8 text-center shadow-2xl"
+      >
           <p className={`${cur.color} tracking-[0.4em] text-sm mb-4`}>{cur.label}</p>
           <h2 className="text-4xl font-bold mb-6">{cur.title}</h2>
           <div className="space-y-2">
@@ -150,8 +160,7 @@ function StartSequence({ match, onDone }: { match: MatchState; onDone: () => voi
               </motion.p>
             ))}
           </div>
-        </motion.div>
-      </AnimatePresence>
+      </motion.div>
       <button
         onClick={() => (step < steps.length - 1 ? setStep(step + 1) : onDone())}
         className="rounded-lg bg-amber-600 px-10 py-3 text-lg font-bold hover:bg-amber-500 transition-colors"
@@ -454,18 +463,47 @@ function Result({ match, onRestart }: { match: MatchState; onRestart: () => void
 function Collection({ onBack }: { onBack: () => void }) {
   const [cards, setCards] = useState<CardInstance[] | null>(null);
   const [error, setError] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
 
+  const load = () => fetchCollection().then(setCards).catch(() => setError(true));
   useEffect(() => {
     if (!firebaseEnabled) {
       setError(true);
       return;
     }
-    fetchCollection().then(setCards).catch(() => setError(true));
+    load();
   }, []);
+
+  // 같은 장수 + 같은 등급끼리 묶기 (강화 재료 표시)
+  const groups = useMemo(() => {
+    if (!cards) return [];
+    const map = new Map<string, CardInstance[]>();
+    for (const c of cards) {
+      const key = `${c.generalId}:${c.grade}`;
+      map.set(key, [...(map.get(key) ?? []), c]);
+    }
+    return [...map.values()];
+  }, [cards]);
+
+  const enhance = async (group: CardInstance[]) => {
+    if (busy || group.length < 2) return;
+    setBusy(true);
+    setNotice(null);
+    try {
+      const merged = await enhanceCards(group[0], group[1]);
+      const gen = GENERAL_BY_ID[merged.generalId];
+      setNotice(`${gen.name} ★${group[0].grade} 2장 → ★${merged.grade} 강화 성공!`);
+      await load();
+    } catch {
+      setNotice("강화에 실패했습니다. 다시 시도해주세요.");
+    }
+    setBusy(false);
+  };
 
   return (
     <div className="min-h-screen p-6 max-w-5xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4">
         <h2 className="text-3xl font-bold">내 컬렉션</h2>
         <button
           onClick={onBack}
@@ -474,6 +512,7 @@ function Collection({ onBack }: { onBack: () => void }) {
           돌아가기
         </button>
       </div>
+      {notice && <p className="mb-4 text-amber-300 text-sm">{notice}</p>}
       {error ? (
         <p className="text-white/40">오프라인 상태라 컬렉션을 불러올 수 없습니다.</p>
       ) : cards === null ? (
@@ -482,10 +521,30 @@ function Collection({ onBack }: { onBack: () => void }) {
         <p className="text-white/40">아직 카드가 없습니다. 대전에서 승리해 카드를 모아보세요.</p>
       ) : (
         <>
-          <p className="text-white/50 text-sm mb-4">총 {cards.length}장</p>
-          <div className="flex gap-2 flex-wrap">
-            {cards.map((c) => (
-              <GeneralCard key={c.cardId} card={c} small />
+          <p className="text-white/50 text-sm mb-4">
+            총 {cards.length}장 · 대전 시 상위 30장이 출전합니다 · 같은 장수 같은 등급 2장 = 강화 가능
+          </p>
+          <div className="flex gap-2 flex-wrap items-start">
+            {groups.map((g) => (
+              <div key={`${g[0].generalId}:${g[0].grade}`} className="relative flex flex-col items-center gap-1">
+                <div className="relative">
+                  <GeneralCard card={g[0]} small />
+                  {g.length > 1 && (
+                    <span className="absolute -top-1.5 -right-1.5 rounded-full bg-amber-500 text-black text-[10px] font-bold px-1.5 py-0.5">
+                      ×{g.length}
+                    </span>
+                  )}
+                </div>
+                {g.length >= 2 && g[0].grade < 4 && (
+                  <button
+                    onClick={() => enhance(g)}
+                    disabled={busy}
+                    className="rounded bg-amber-700 px-3 py-0.5 text-[11px] font-bold hover:bg-amber-600 disabled:opacity-40 transition-colors"
+                  >
+                    강화 ★{g[0].grade}→★{g[0].grade + 1}
+                  </button>
+                )}
+              </div>
             ))}
           </div>
         </>

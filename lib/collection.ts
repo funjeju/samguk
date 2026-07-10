@@ -7,6 +7,7 @@ import {
   runTransaction,
   setDoc,
   where,
+  writeBatch,
 } from "firebase/firestore";
 import { createCard, rollGrade, shuffle } from "./battle";
 import { REWARD } from "./constants";
@@ -78,6 +79,26 @@ export async function fetchCollection(): Promise<CardInstance[]> {
   const snap = await getDocs(q);
   const cards = snap.docs.map((d) => d.data() as CardInstance);
   return cards.sort((a, b) => b.grade - a.grade || b.createdAt - a.createdAt);
+}
+
+// 강화: 같은 장수 + 같은 등급 2장 합성 → 등급 +1 (보너스 랜덤가중 재추첨 — 구현명세 §6)
+// 소모된 개체 이력은 결과 카드 history에 병합 (거래 대비 — GDD §5.2)
+export async function enhanceCards(a: CardInstance, b: CardInstance): Promise<CardInstance> {
+  if (a.generalId !== b.generalId || a.grade !== b.grade || a.grade >= 4 || a.cardId === b.cardId) {
+    throw new Error("강화 조건이 맞지 않습니다");
+  }
+  const user = await ensureUser();
+  const merged = createCard(a.generalId, (a.grade + 1) as 2 | 3 | 4);
+  const batch = writeBatch(db!);
+  batch.delete(doc(db!, "cards", a.cardId));
+  batch.delete(doc(db!, "cards", b.cardId));
+  batch.set(doc(db!, "cards", merged.cardId), {
+    ...merged,
+    ownerId: user.uid,
+    history: [{ event: "enhance", at: Date.now(), detail: `${a.cardId} + ${b.cardId}` }],
+  });
+  await batch.commit();
+  return merged;
 }
 
 export async function fetchRecord(): Promise<UserRecord | null> {
