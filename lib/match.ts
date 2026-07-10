@@ -34,26 +34,62 @@ export interface MatchState {
 const remainingPower = (cards: CardInstance[], scenario: Scenario, city: City, eraFloor?: number) =>
   cards.reduce((sum, c) => sum + calcPower(c, scenario, city, eraFloor).total, 0);
 
-// 내 덱: 컬렉션 상위 30장 출전, 모자라면 용병(1등급 랜덤 장수)으로 충원
-function buildPlayerDeck(owned: CardInstance[]): { deck: CardInstance[]; ownedCount: number } {
+export type FillMode = "random" | "tiered"; // 용병 충원: 전체 랜덤 / 전투력 권역별 균형
+
+// 내 덱: 지정 카드 우선 출전(덱 편성), 미지정 시 컬렉션 상위 30장, 모자라면 용병(1등급) 충원
+function buildPlayerDeck(
+  owned: CardInstance[],
+  pinnedIds: string[] = [],
+  fillMode: FillMode = "random"
+): { deck: CardInstance[]; ownedCount: number } {
   const statSum = (c: CardInstance) =>
     c.stats.combat + c.stats.politics + c.stats.intellect + c.stats.leadership;
-  const picked = [...owned].sort((a, b) => b.grade - a.grade || statSum(b) - statSum(a)).slice(0, DECK_SIZE);
-  const fillers = shuffle(ROSTER)
-    .slice(0, DECK_SIZE - picked.length)
-    .map((r) => createCard(r.id, 1));
+
+  // 1) 지정 카드 (덱 편성 화면에서 고른 것)
+  const pinned = pinnedIds
+    .map((id) => owned.find((c) => c.cardId === id))
+    .filter((c): c is CardInstance => !!c)
+    .slice(0, DECK_SIZE);
+  // 2) 지정이 없으면 기존 방식: 컬렉션 상위 자동 선발
+  const picked =
+    pinned.length > 0
+      ? pinned
+      : [...owned].sort((a, b) => b.grade - a.grade || statSum(b) - statSum(a)).slice(0, DECK_SIZE);
+
+  // 3) 용병 충원
+  const need = DECK_SIZE - picked.length;
+  let fillers: CardInstance[] = [];
+  if (need > 0) {
+    if (fillMode === "tiered") {
+      // 전투력 권역별 균형: 로스터를 가중 전투력 순으로 3등분 → 상/중/하에서 고르게
+      const ranked = [...ROSTER].sort(
+        (a, b) =>
+          b.base.combat * 0.5 + b.base.leadership * 0.3 + b.base.intellect * 0.2 -
+          (a.base.combat * 0.5 + a.base.leadership * 0.3 + a.base.intellect * 0.2)
+      );
+      const third = Math.ceil(ranked.length / 3);
+      const tiers = [ranked.slice(0, third), ranked.slice(third, third * 2), ranked.slice(third * 2)];
+      const perTier = [Math.ceil(need / 3), Math.ceil(need / 3), need - Math.ceil(need / 3) * 2];
+      fillers = tiers.flatMap((tier, i) => shuffle(tier).slice(0, Math.max(0, perTier[i])).map((r) => createCard(r.id, 1)));
+      fillers = fillers.slice(0, need);
+    } else {
+      fillers = shuffle(ROSTER).slice(0, need).map((r) => createCard(r.id, 1));
+    }
+  }
   return { deck: shuffle([...picked, ...fillers]), ownedCount: picked.length };
 }
 
 export function createMatch(
   difficulty: Difficulty,
   ownedCards: CardInstance[] = [],
-  phaseShifts = 0
+  phaseShifts = 0,
+  pinnedIds: string[] = [],
+  fillMode: FillMode = "random"
 ): MatchState {
   const scenario = SCENARIOS[Math.floor(Math.random() * SCENARIOS.length)];
   const city = CITIES[Math.floor(Math.random() * CITIES.length)];
 
-  const { deck: myCards, ownedCount } = buildPlayerDeck(ownedCards);
+  const { deck: myCards, ownedCount } = buildPlayerDeck(ownedCards, pinnedIds, fillMode);
   // 상대(AI): 348명 풀에서 랜덤 30명 (같은 장수가 양쪽에 나올 수 있음)
   const oppCards = shuffle(ROSTER).slice(0, DECK_SIZE).map((r) => createCard(r.id));
 

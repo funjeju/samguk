@@ -4,7 +4,7 @@ import GeneralCard from "@/components/GeneralCard";
 import { createCard, rollGrade, shuffle } from "@/lib/battle";
 import { enhanceCards, fetchCollection, fetchRecord, saveMatchResult, type UserRecord } from "@/lib/collection";
 import { INFO_FACTION_DETAIL_TURN, INFO_POWER_EVERY, INFO_ROLE_TURN, REWARD, TURNS } from "@/lib/constants";
-import { firebaseEnabled } from "@/lib/firebase";
+import { AUTH_ERROR_KO, currentUser, ensureUser, firebaseEnabled, signInEmail, signOutUser, signUpEmail } from "@/lib/firebase";
 import { createMatch, oppRemainingInfo, playTurn, type MatchState } from "@/lib/match";
 import { GENERAL_BY_ID, ROSTER } from "@/lib/roster";
 import type { CardInstance, Difficulty, Faction, TurnLog } from "@/lib/types";
@@ -28,7 +28,14 @@ export default function Home() {
         // 오프라인 — 용병 덱으로 진행
       }
     }
-    setMatch(createMatch(d, owned, shifts));
+    // 덱 편성 (컬렉션 화면에서 지정) + 용병 충원 방식
+    let pinned: string[] = [];
+    let fillMode: "random" | "tiered" = "random";
+    try {
+      pinned = JSON.parse(localStorage.getItem("deck_pinned") ?? "[]");
+      fillMode = (localStorage.getItem("deck_fillmode") as "random" | "tiered") ?? "random";
+    } catch {}
+    setMatch(createMatch(d, owned, shifts, pinned, fillMode));
     setScreen("sequence");
   };
 
@@ -133,6 +140,7 @@ function Intro({
             전적 {record.wins}승 {record.losses}패{record.draws > 0 && ` ${record.draws}무`}
           </p>
         )}
+        <AuthBox />
       </motion.div>
     </div>
   );
@@ -206,6 +214,99 @@ function StartSequence({ match, onDone }: { match: MatchState; onDone: () => voi
       >
         {step < steps.length - 1 ? "다음" : "대전 시작"}
       </button>
+    </div>
+  );
+}
+
+/* ─────────────── 로그인 (마이페이지 계정) ─────────────── */
+
+function AuthBox() {
+  const [email, setEmail] = useState<string | null>(null); // 로그인된 이메일
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState({ email: "", pw: "" });
+  const [msg, setMsg] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    if (!firebaseEnabled) return;
+    ensureUser().then(() => setEmail(currentUser()?.email ?? null)).catch(() => {});
+  }, []);
+
+  const doAuth = async (mode: "signup" | "login") => {
+    if (busy || !form.email || form.pw.length < 6) {
+      setMsg("이메일과 6자 이상 비밀번호를 입력하세요");
+      return;
+    }
+    setBusy(true);
+    setMsg(null);
+    try {
+      const user = mode === "signup" ? await signUpEmail(form.email, form.pw) : await signInEmail(form.email, form.pw);
+      setEmail(user.email);
+      setOpen(false);
+      setMsg(null);
+      window.location.reload(); // 전적·컬렉션 재로드
+    } catch (e) {
+      const code = (e as { code?: string }).code ?? "";
+      setMsg(AUTH_ERROR_KO[code] ?? `실패: ${code}`);
+    }
+    setBusy(false);
+  };
+
+  if (!firebaseEnabled) return null;
+
+  if (email) {
+    return (
+      <p className="text-white/40 text-xs flex items-center gap-2">
+        {email}
+        <button
+          onClick={async () => {
+            await signOutUser();
+            window.location.reload();
+          }}
+          className="underline hover:text-white"
+        >
+          로그아웃
+        </button>
+      </p>
+    );
+  }
+
+  return (
+    <div className="text-xs text-center">
+      {!open ? (
+        <button onClick={() => setOpen(true)} className="text-white/40 underline hover:text-white">
+          게스트로 플레이 중 — 계정 만들면 다른 기기에서도 이어집니다
+        </button>
+      ) : (
+        <div className="flex flex-col gap-1.5 items-center rounded-lg border border-white/15 bg-black/40 p-3">
+          <input
+            type="email"
+            placeholder="이메일"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            className="rounded bg-white/10 px-3 py-1.5 w-56 outline-none focus:bg-white/15"
+          />
+          <input
+            type="password"
+            placeholder="비밀번호 (6자 이상)"
+            value={form.pw}
+            onChange={(e) => setForm({ ...form, pw: e.target.value })}
+            className="rounded bg-white/10 px-3 py-1.5 w-56 outline-none focus:bg-white/15"
+          />
+          <div className="flex gap-2">
+            <button onClick={() => doAuth("signup")} disabled={busy} className="rounded bg-amber-700 px-4 py-1.5 font-bold hover:bg-amber-600 disabled:opacity-40">
+              가입 (현재 컬렉션 유지)
+            </button>
+            <button onClick={() => doAuth("login")} disabled={busy} className="rounded bg-white/10 px-4 py-1.5 font-bold hover:bg-white/20 disabled:opacity-40">
+              로그인
+            </button>
+            <button onClick={() => setOpen(false)} className="text-white/40 hover:text-white">
+              닫기
+            </button>
+          </div>
+          {msg && <p className="text-red-300">{msg}</p>}
+        </div>
+      )}
     </div>
   );
 }
@@ -397,6 +498,27 @@ function RevealPanel({
   onNext: () => void;
   finished: boolean;
 }) {
+  // 일기토 합 진행 타이머 (합마다 카드 충돌 연출)
+  const [duelStep, setDuelStep] = useState(0);
+  const duelRounds = log.duel?.rounds.length ?? 0;
+  useEffect(() => {
+    if (!flipped || !log.duel) return;
+    setDuelStep(0);
+    const iv = setInterval(() => {
+      setDuelStep((s) => {
+        if (s >= duelRounds + 1) {
+          clearInterval(iv);
+          return s;
+        }
+        return s + 1;
+      });
+    }, 850);
+    return () => clearInterval(iv);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flipped, log]);
+
+  const curRound = log.duel && duelStep >= 1 && duelStep <= duelRounds ? log.duel.rounds[duelStep - 1] : null;
+  const duelDone = !log.duel || duelStep > duelRounds;
   const winnerLabel = log.duel
     ? log.winner === "me"
       ? "일기토 승리!"
@@ -410,19 +532,43 @@ function RevealPanel({
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-6 relative">
         {/* 내 카드 (+모사) */}
         <motion.div initial={{ x: -80, opacity: 0 }} animate={{ x: 0, opacity: 1 }}>
-          <div className="flex items-end gap-1.5">
-            <div className={flipped && log.winner === "me" ? "ring-4 ring-green-400 rounded-xl" : ""}>
-              <GeneralCard card={log.myCard} />
+          <motion.div
+            key={`me-${duelStep}`}
+            animate={
+              curRound
+                ? curRound.winner === "me"
+                  ? { x: [0, 44, 0] } // 승자: 돌진
+                  : { x: [0, -10, 8, -6, 0], rotate: [0, -3, 2, 0] } // 패자: 피격 흔들림
+                : {}
+            }
+            transition={{ duration: 0.55 }}
+          >
+            <div className="flex items-end gap-1.5">
+              <div className={flipped && duelDone && log.winner === "me" ? "ring-4 ring-green-400 rounded-xl" : ""}>
+                <GeneralCard card={log.myCard} />
+              </div>
+              {log.mySupport && <GeneralCard card={log.mySupport} small />}
             </div>
-            {log.mySupport && <GeneralCard card={log.mySupport} small />}
-          </div>
+          </motion.div>
           <PowerLine label="나" bd={log.myPower} show={flipped} />
         </motion.div>
 
-        <span className="text-3xl font-bold text-white/40">VS</span>
+        <span className="text-3xl font-bold text-white/40 relative">
+          VS
+          {/* 합 충돌 플래시 */}
+          {curRound && (
+            <motion.span
+              key={`spark-${duelStep}`}
+              initial={{ opacity: 1, scale: 0.3 }}
+              animate={{ opacity: 0, scale: 2.4 }}
+              transition={{ duration: 0.5 }}
+              className="absolute -inset-6 rounded-full bg-amber-400/60 blur-sm pointer-events-none"
+            />
+          )}
+        </span>
 
         {/* 상대 카드 (뒤집힘 연출) */}
         <motion.div initial={{ x: 80, opacity: 0 }} animate={{ x: 0, opacity: 1 }} style={{ perspective: 800 }}>
@@ -432,12 +578,24 @@ function RevealPanel({
             style={{ transformStyle: "preserve-3d" }}
           >
             {flipped ? (
-              <div className="flex items-end gap-1.5">
-                <div className={log.winner === "opp" ? "ring-4 ring-red-400 rounded-xl" : ""}>
-                  <GeneralCard card={log.oppCard} />
+              <motion.div
+                key={`op-${duelStep}`}
+                animate={
+                  curRound
+                    ? curRound.winner === "opp"
+                      ? { x: [0, -44, 0] }
+                      : { x: [0, 10, -8, 6, 0], rotate: [0, 3, -2, 0] }
+                    : {}
+                }
+                transition={{ duration: 0.55 }}
+              >
+                <div className="flex items-end gap-1.5">
+                  <div className={duelDone && log.winner === "opp" ? "ring-4 ring-red-400 rounded-xl" : ""}>
+                    <GeneralCard card={log.oppCard} />
+                  </div>
+                  {log.oppSupport && <GeneralCard card={log.oppSupport} small />}
                 </div>
-                {log.oppSupport && <GeneralCard card={log.oppSupport} small />}
-              </div>
+              </motion.div>
             ) : (
               <div className="w-40 h-56 rounded-xl border-2 border-white/20 bg-gradient-to-b from-stone-800 to-stone-900 flex items-center justify-center">
                 <span className="text-white/20 text-5xl font-serif">戰</span>
@@ -458,34 +616,29 @@ function RevealPanel({
             <p className="text-amber-400 font-bold tracking-[0.3em]">
               {log.duel.isRival ? "숙명의 일기토!" : "일기토 발동!"}
             </p>
-            {log.duel.rounds.map((r, i) => (
+            {log.duel.rounds.slice(0, duelStep).map((r) => (
               <motion.p
                 key={r.n}
                 initial={{ opacity: 0, x: -15 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 + i * 0.55 }}
                 className={`text-sm ${r.winner === "me" ? "text-green-300" : "text-red-300"}`}
               >
                 {r.n}합 — {r.winner === "me" ? "나" : "상대"}의 {r.event}
               </motion.p>
             ))}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 + log.duel.rounds.length * 0.55 }}
-              className="text-white/40 text-[10px]"
-            >
-              반전 확률 {Math.round(log.duel.upsetP * 100)}%
-            </motion.p>
+            {duelDone && (
+              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-white/40 text-[10px]">
+                반전 확률 {Math.round(log.duel.upsetP * 100)}%
+              </motion.p>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
       <AnimatePresence>
-        {flipped && (
+        {flipped && duelDone && (
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: log.duel ? 0.6 + log.duel.rounds.length * 0.55 : 0 }}
             className="flex flex-col items-center gap-2"
           >
             <p className={`text-3xl font-bold ${winnerColor}`}>
@@ -614,6 +767,8 @@ function Collection({ onBack }: { onBack: () => void }) {
   const [error, setError] = useState(false);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+  const [pinned, setPinned] = useState<string[]>([]);
+  const [fillMode, setFillMode] = useState<"random" | "tiered">("random");
 
   const load = () => fetchCollection().then(setCards).catch(() => setError(true));
   useEffect(() => {
@@ -622,7 +777,26 @@ function Collection({ onBack }: { onBack: () => void }) {
       return;
     }
     load();
+    try {
+      setPinned(JSON.parse(localStorage.getItem("deck_pinned") ?? "[]"));
+      setFillMode((localStorage.getItem("deck_fillmode") as "random" | "tiered") ?? "random");
+    } catch {}
   }, []);
+
+  const togglePin = (cardId: string) => {
+    const next = pinned.includes(cardId)
+      ? pinned.filter((id) => id !== cardId)
+      : pinned.length < 30
+        ? [...pinned, cardId]
+        : pinned;
+    setPinned(next);
+    localStorage.setItem("deck_pinned", JSON.stringify(next));
+  };
+
+  const changeFill = (m: "random" | "tiered") => {
+    setFillMode(m);
+    localStorage.setItem("deck_fillmode", m);
+  };
 
   // 같은 장수 + 같은 등급끼리 묶기 (강화 재료 표시)
   const groups = useMemo(() => {
@@ -670,31 +844,64 @@ function Collection({ onBack }: { onBack: () => void }) {
         <p className="text-white/40">아직 카드가 없습니다. 대전에서 승리해 카드를 모아보세요.</p>
       ) : (
         <>
+          <div className="mb-3 rounded-lg border border-amber-500/30 bg-black/30 p-2 text-xs">
+            <p className="text-amber-300 font-bold mb-1">
+              덱 편성 — 지정 {pinned.length}/30 <span className="text-white/40 font-normal">(카드를 눌러 출전 지정, 나머지는 용병 충원)</span>
+            </p>
+            <div className="flex gap-2 items-center">
+              <span className="text-white/50">용병 충원:</span>
+              {(["random", "tiered"] as const).map((m) => (
+                <button
+                  key={m}
+                  onClick={() => changeFill(m)}
+                  className={`rounded px-2 py-0.5 border ${fillMode === m ? "border-amber-400 bg-amber-800/50" : "border-white/15 hover:bg-white/10"}`}
+                >
+                  {m === "random" ? "전체 랜덤" : "전투력 권역 균형"}
+                </button>
+              ))}
+              {pinned.length > 0 && (
+                <button onClick={() => { setPinned([]); localStorage.setItem("deck_pinned", "[]"); }} className="ml-auto text-white/40 hover:text-white">
+                  지정 해제
+                </button>
+              )}
+            </div>
+          </div>
           <p className="text-white/50 text-sm mb-4">
-            총 {cards.length}장 · 대전 시 상위 30장이 출전합니다 · 같은 장수 같은 등급 2장 = 강화 가능
+            총 {cards.length}장 · 같은 장수 같은 등급 2장 = 강화 가능
           </p>
           <div className="flex gap-2 flex-wrap items-start">
-            {groups.map((g) => (
-              <div key={`${g[0].generalId}:${g[0].grade}`} className="relative flex flex-col items-center gap-1">
-                <div className="relative">
-                  <GeneralCard card={g[0]} small />
-                  {g.length > 1 && (
-                    <span className="absolute -top-1.5 -right-1.5 rounded-full bg-amber-500 text-black text-[10px] font-bold px-1.5 py-0.5">
-                      ×{g.length}
-                    </span>
+            {groups.map((g) => {
+              const pinnedInGroup = g.filter((c) => pinned.includes(c.cardId)).length;
+              return (
+                <div key={`${g[0].generalId}:${g[0].grade}`} className="relative flex flex-col items-center gap-1">
+                  <div
+                    className={`relative cursor-pointer ${pinnedInGroup > 0 ? "ring-2 ring-amber-400 rounded-xl" : ""}`}
+                    onClick={() => togglePin(g.find((c) => !pinned.includes(c.cardId))?.cardId ?? g[0].cardId)}
+                  >
+                    <GeneralCard card={g[0]} small />
+                    {g.length > 1 && (
+                      <span className="absolute -top-1.5 -right-1.5 rounded-full bg-amber-500 text-black text-[10px] font-bold px-1.5 py-0.5">
+                        ×{g.length}
+                      </span>
+                    )}
+                    {pinnedInGroup > 0 && (
+                      <span className="absolute -top-1.5 -left-1.5 rounded bg-green-600 text-[9px] font-bold px-1 py-0.5">
+                        덱{pinnedInGroup > 1 ? ` ×${pinnedInGroup}` : ""}
+                      </span>
+                    )}
+                  </div>
+                  {g.length >= 2 && g[0].grade < 4 && (
+                    <button
+                      onClick={() => enhance(g)}
+                      disabled={busy}
+                      className="rounded bg-amber-700 px-3 py-0.5 text-[11px] font-bold hover:bg-amber-600 disabled:opacity-40 transition-colors"
+                    >
+                      강화 ★{g[0].grade}→★{g[0].grade + 1}
+                    </button>
                   )}
                 </div>
-                {g.length >= 2 && g[0].grade < 4 && (
-                  <button
-                    onClick={() => enhance(g)}
-                    disabled={busy}
-                    className="rounded bg-amber-700 px-3 py-0.5 text-[11px] font-bold hover:bg-amber-600 disabled:opacity-40 transition-colors"
-                  >
-                    강화 ★{g[0].grade}→★{g[0].grade + 1}
-                  </button>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         </>
       )}

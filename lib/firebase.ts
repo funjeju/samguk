@@ -1,5 +1,13 @@
 import { getApps, initializeApp } from "firebase/app";
-import { getAuth, signInAnonymously, type User } from "firebase/auth";
+import {
+  EmailAuthProvider,
+  getAuth,
+  linkWithCredential,
+  signInAnonymously,
+  signInWithEmailAndPassword,
+  signOut,
+  type User,
+} from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const config = {
@@ -41,3 +49,39 @@ export function ensureUser(): Promise<User> {
   }
   return userPromise;
 }
+
+// 회원가입: 익명 계정에 이메일을 연결 → 기존 컬렉션·전적 그대로 유지
+export async function signUpEmail(email: string, password: string): Promise<User> {
+  const user = await ensureUser();
+  const cred = EmailAuthProvider.credential(email, password);
+  const result = await linkWithCredential(user, cred);
+  return result.user;
+}
+
+// 로그인: 기존 이메일 계정으로 전환 (다른 기기에서 이어하기)
+export async function signInEmail(email: string, password: string): Promise<User> {
+  const auth = getAuth(app!);
+  const result = await signInWithEmailAndPassword(auth, email, password);
+  userPromise = Promise.resolve(result.user);
+  return result.user;
+}
+
+export async function signOutUser(): Promise<void> {
+  const auth = getAuth(app!);
+  await signOut(auth);
+  userPromise = null; // 다음 접속 시 새 익명 계정
+}
+
+export function currentUser(): User | null {
+  return app ? getAuth(app).currentUser : null;
+}
+
+export const AUTH_ERROR_KO: Record<string, string> = {
+  "auth/email-already-in-use": "이미 가입된 이메일입니다. 로그인해 주세요.",
+  "auth/invalid-email": "이메일 형식이 올바르지 않습니다.",
+  "auth/weak-password": "비밀번호는 6자 이상이어야 합니다.",
+  "auth/invalid-credential": "이메일 또는 비밀번호가 틀렸습니다.",
+  "auth/wrong-password": "비밀번호가 틀렸습니다.",
+  "auth/user-not-found": "가입되지 않은 이메일입니다.",
+  "auth/credential-already-in-use": "이미 다른 계정에 연결된 이메일입니다. 로그인해 주세요.",
+};
