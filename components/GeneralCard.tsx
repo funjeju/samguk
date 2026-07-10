@@ -1,6 +1,6 @@
 "use client";
 
-import { STRATEGIST_INTELLECT_MIN, WARRIOR_COMBAT_MIN } from "@/lib/constants";
+import { STRATEGIST_INTELLECT_MIN, TRAITS, WARRIOR_COMBAT_MIN } from "@/lib/constants";
 import { GENERAL_BY_ID } from "@/lib/roster";
 import type { CardInstance, Faction } from "@/lib/types";
 
@@ -77,7 +77,17 @@ export default function GeneralCard({
       </div>
 
       {!small && <p className="text-center text-white/70 text-[10px] leading-tight mb-1">{gen.title}</p>}
-      <p className="text-center text-white/50 text-[9px] mb-1">{roleTag(card)}</p>
+      <p className="text-center text-white/50 text-[9px] mb-1">
+        {roleTag(card)}
+        {card.traits?.map((id) => {
+          const t = TRAITS.find((x) => x.id === id);
+          return t ? (
+            <span key={id} className="ml-1 text-amber-300" title={t.desc}>
+              [{t.name}]
+            </span>
+          ) : null;
+        })}
+      </p>
 
       {/* 4수치 */}
       <div className="grid grid-cols-4 gap-0.5 rounded bg-black/40 p-1">

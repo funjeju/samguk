@@ -7,6 +7,9 @@ import {
   HOME_MULT,
   POWER_W,
   SUPPORT_W,
+  TRAIT_VALUES,
+  TRAITS,
+  TRAITS_PER_GRADE,
 } from "./constants";
 import { GENERAL_BY_ID } from "./roster";
 import type { CardInstance, City, PowerBreakdown, Scenario, Stats } from "./types";
@@ -42,7 +45,13 @@ export function createCard(generalId: string, grade?: 1 | 2 | 3 | 4): CardInstan
     given[k] += 1;
     remaining -= 1;
   }
-  return { cardId: newCardId(), generalId, grade: gr, stats, createdAt: Date.now() };
+  // 특수 속성: 등급 3=1개, 등급 4=2개 랜덤 부여 (레전드의 시작 — GDD §2.2)
+  // 주의: traits가 없으면 키 자체를 생략 (Firestore는 undefined 필드를 거부함)
+  const traitCount = TRAITS_PER_GRADE[gr - 1];
+  const base = { cardId: newCardId(), generalId, grade: gr, stats, createdAt: Date.now() };
+  return traitCount > 0
+    ? { ...base, traits: shuffle([...TRAITS.map((t) => t.id)]).slice(0, traitCount) }
+    : base;
 }
 
 // 유효 전투력 계산 — 구현명세 §1.2
@@ -76,7 +85,9 @@ export function calcPower(
     eraMult = ERA_MULT.absent;
     eraLabel = "미등장";
   }
-  if (minEraMult && eraMult < minEraMult) eraMult = minEraMult;
+  // 철벽 속성: 역사 배율 하한 보장 / 국면 전환 완충 하한과 중첩 시 높은 쪽 적용
+  const floor = Math.max(minEraMult ?? 0, card.traits?.includes("ironwall") ? TRAIT_VALUES.ironwallFloor : 0);
+  if (floor && eraMult < floor) eraMult = floor;
 
   // 홈 배율 (MVP: 연고지 하프 홈만)
   const isHome = gen.homeCity === city.name;

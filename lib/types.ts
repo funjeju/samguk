@@ -29,6 +29,7 @@ export interface CardInstance {
   generalId: string;
   grade: 1 | 2 | 3 | 4;
   stats: Stats; // 등급 보너스 랜덤가중 반영 최종값
+  traits?: string[]; // 특수 속성 id (등급 3=1개, 4=2개)
   createdAt: number;
 }
 
@@ -59,6 +60,7 @@ export interface PowerBreakdown {
   homeLabel: "홈" | "중립";
   cityBonus: number;
   supportBonus?: number; // 2:2 모사 보정 (모사 지략·정치 × 모사의 역사·홈 배율)
+  traitNote?: string; // 발동한 특수 속성 (예: "수성·위엄")
   total: number;
 }
 

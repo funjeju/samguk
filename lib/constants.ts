@@ -46,6 +46,25 @@ export const INFO_POWER_EVERY = 5; // 5턴마다 상대 잔여 총 전투력 갱
 export const INFO_FACTION_DETAIL_TURN = 10; // 국가 구성 상세
 export const INFO_ROLE_TURN = 20; // 장수/모사 구분
 
+// 특수 속성 (등급 3~4, 구현명세 §7.4) — "항상형은 작게, 조건부형은 크게" (GDD §6)
+export const TRAITS = [
+  { id: "majesty", name: "위엄", type: "always", desc: "아군 전체 유효 전투력 +1.5%" },
+  { id: "guardian", name: "수성", type: "cond", desc: "연고 전장에서 +12%" },
+  { id: "ironwall", name: "철벽", type: "cond", desc: "역사 배율 하한 ×0.8 (저항)" },
+  { id: "vengeance", name: "복수", type: "cond", desc: "직전 턴 패배 시 +15%" },
+  { id: "chain", name: "연환", type: "cond", desc: "직전 턴 동일 국가 아군 승리 시 +10%" },
+  { id: "rhetoric", name: "설전", type: "cond", desc: "상대 모사 보정 50% 감쇄" },
+] as const;
+export const TRAIT_VALUES = {
+  majestyPct: 0.015,
+  guardianMult: 1.12,
+  ironwallFloor: 0.8,
+  vengeanceMult: 1.15,
+  chainMult: 1.1,
+  rhetoricReduce: 0.5,
+};
+export const TRAITS_PER_GRADE = [0, 0, 1, 2]; // 등급 1~4
+
 // 일기토 (GDD §2.6, 구현명세 §7.2)
 export const DUEL = {
   combatThreshold: 85, // 라이벌이 아니어도 양측 전투 85+ 면 발동

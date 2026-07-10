@@ -114,12 +114,20 @@ function Intro({
             </button>
           ))}
         </div>
-        <button
-          onClick={onCollection}
-          className="mt-2 rounded-lg border border-white/20 px-8 py-2 text-sm text-white/70 hover:bg-white/10 transition-colors"
-        >
-          내 컬렉션
-        </button>
+        <div className="mt-2 flex gap-2">
+          <button
+            onClick={onCollection}
+            className="rounded-lg border border-white/20 px-8 py-2 text-sm text-white/70 hover:bg-white/10 transition-colors"
+          >
+            내 컬렉션
+          </button>
+          <a
+            href="/minigame"
+            className="rounded-lg border border-amber-500/30 px-8 py-2 text-sm text-amber-300/90 hover:bg-amber-900/30 transition-colors"
+          >
+            내 세계 (경영)
+          </a>
+        </div>
         {record && (
           <p className="text-white/40 text-xs">
             전적 {record.wins}승 {record.losses}패{record.draws > 0 && ` ${record.draws}무`}
@@ -508,6 +516,7 @@ function PowerLine({ label, bd, show }: { label: string; bd: TurnLog["myPower"];
         {bd.weighted} × {bd.eraLabel} {bd.eraMult} × {bd.homeLabel} {bd.homeMult}
         {bd.cityBonus > 0 && ` + 도시 ${bd.cityBonus}`}
         {bd.supportBonus != null && ` + 모사 ${bd.supportBonus}`}
+        {bd.traitNote && <span className="text-amber-300"> ⚡{bd.traitNote}</span>}
       </p>
     </div>
   );

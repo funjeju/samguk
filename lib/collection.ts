@@ -101,6 +101,22 @@ export async function enhanceCards(a: CardInstance, b: CardInstance): Promise<Ca
   return merged;
 }
 
+// 미니게임 등용 → 대전 카드 지급 (미니게임↔대전 자원 연결 — 구현명세 §0-6)
+export async function grantCards(generalIds: string[]): Promise<CardInstance[]> {
+  const user = await ensureUser();
+  const cards = generalIds.map((id) => createCard(id, rollGrade()));
+  await Promise.all(
+    cards.map((c) =>
+      setDoc(doc(db!, "cards", c.cardId), {
+        ...c,
+        ownerId: user.uid,
+        history: [{ event: "drop", at: Date.now(), detail: "미니게임 등용" }],
+      })
+    )
+  );
+  return cards;
+}
+
 export async function fetchRecord(): Promise<UserRecord | null> {
   const user = await ensureUser();
   const snap = await getDoc(doc(db!, "users", user.uid));

@@ -1,8 +1,8 @@
 import { aiPickCard } from "./ai";
 import { calcPairPower, calcPower, createCard, shuffle } from "./battle";
-import { DECK_SIZE, DUEL, EARLY_WIN, HAND_SIZE, PHASE_SHIFT_ERA_FLOOR, TURNS } from "./constants";
+import { DECK_SIZE, DUEL, EARLY_WIN, HAND_SIZE, PHASE_SHIFT_ERA_FLOOR, TRAIT_VALUES, TURNS } from "./constants";
 import { checkDuelTrigger, resolveDuel } from "./duel";
-import { CITIES, ROSTER, SCENARIOS } from "./roster";
+import { CITIES, GENERAL_BY_ID, ROSTER, SCENARIOS } from "./roster";
 import type { CardInstance, City, Difficulty, Scenario, TurnLog } from "./types";
 
 export interface MatchState {
@@ -10,6 +10,8 @@ export interface MatchState {
   city: City;
   difficulty: Difficulty;
   ownedCount: number; // 내 덱 중 컬렉션 카드 수 (나머지는 용병)
+  myAura: number; // 위엄 속성 누적 (아군 전체 배율, 예: 0.03 = +3%)
+  oppAura: number;
   phaseShifts: number; // 국면 전환 총 횟수 (0~3, 시작 시 공개)
   shiftTurns: number[]; // 전환이 일어나는 턴 (공개)
   shiftsDone: number;
@@ -60,11 +62,17 @@ export function createMatch(
     Math.floor((TURNS * (k + 1)) / (phaseShifts + 1)) + 1
   );
 
+  // 위엄(항상형): 덱에 있는 것만으로 아군 전체에 +1.5%씩 — 항상형이라 폭은 작게 (GDD §6)
+  const countAura = (cards: CardInstance[]) =>
+    cards.filter((c) => c.traits?.includes("majesty")).length * TRAIT_VALUES.majestyPct;
+
   return {
     scenario,
     city,
     difficulty,
     ownedCount,
+    myAura: countAura(myCards),
+    oppAura: countAura(oppCards),
     phaseShifts,
     shiftTurns,
     shiftsDone: 0,
@@ -120,8 +128,69 @@ export function playTurn(m: MatchState, myCardId: string, mySupportId?: string):
   const oppCard = oppPick.main;
   const oppSupport = oppPick.support;
 
-  const myPower = calcPairPower(myCard, mySupport, m.scenario, m.city, m.eraFloor);
-  const oppPower = calcPairPower(oppCard, oppSupport, m.scenario, m.city, m.eraFloor);
+  const myPowerRaw = calcPairPower(myCard, mySupport, m.scenario, m.city, m.eraFloor);
+  const oppPowerRaw = calcPairPower(oppCard, oppSupport, m.scenario, m.city, m.eraFloor);
+
+  // 특수 속성 적용 (조건부형 — 발동 시에만, 폭은 크게)
+  const last = m.logs[m.logs.length - 1];
+  const applyTraits = (
+    bd: typeof myPowerRaw,
+    main: CardInstance,
+    enemySupport: CardInstance | null,
+    enemyBd: typeof myPowerRaw,
+    aura: number,
+    side: "me" | "opp"
+  ) => {
+    let total = bd.total;
+    const notes: string[] = [];
+    const t = main.traits ?? [];
+    const gen = GENERAL_BY_ID[main.generalId];
+    if (t.includes("guardian") && gen.homeCity === m.city.name) {
+      total *= TRAIT_VALUES.guardianMult;
+      notes.push("수성");
+    }
+    if (t.includes("vengeance") && last && last.winner === (side === "me" ? "opp" : "me")) {
+      total *= TRAIT_VALUES.vengeanceMult;
+      notes.push("복수");
+    }
+    if (t.includes("chain") && last && last.winner === side) {
+      const prevMain = side === "me" ? last.myCard : last.oppCard;
+      if (GENERAL_BY_ID[prevMain.generalId].faction === gen.faction) {
+        total *= TRAIT_VALUES.chainMult;
+        notes.push("연환");
+      }
+    }
+    // 설전: 상대가 2:2일 때 그 모사 보정을 감쇄 (상대 총합에서 차감)
+    if (t.includes("rhetoric") && enemySupport && enemyBd.supportBonus) {
+      notes.push("설전");
+    }
+    if (aura > 0) {
+      total *= 1 + aura;
+      notes.push(`위엄+${Math.round(aura * 1000) / 10}%`);
+    }
+    return { total, notes };
+  };
+
+  const myAdj = applyTraits(myPowerRaw, myCard, oppSupport, oppPowerRaw, m.myAura, "me");
+  const oppAdj = applyTraits(oppPowerRaw, oppCard, mySupport, myPowerRaw, m.oppAura, "opp");
+  // 설전 감쇄 반영
+  if ((myCard.traits ?? []).includes("rhetoric") && oppSupport && oppPowerRaw.supportBonus) {
+    oppAdj.total -= oppPowerRaw.supportBonus * TRAIT_VALUES.rhetoricReduce;
+  }
+  if ((oppCard.traits ?? []).includes("rhetoric") && mySupport && myPowerRaw.supportBonus) {
+    myAdj.total -= myPowerRaw.supportBonus * TRAIT_VALUES.rhetoricReduce;
+  }
+
+  const myPower = {
+    ...myPowerRaw,
+    total: Math.round(myAdj.total * 10) / 10,
+    traitNote: myAdj.notes.length ? myAdj.notes.join("·") : undefined,
+  };
+  const oppPower = {
+    ...oppPowerRaw,
+    total: Math.round(oppAdj.total * 10) / 10,
+    traitNote: oppAdj.notes.length ? oppAdj.notes.join("·") : undefined,
+  };
 
   // 일기토: 1:1 턴에서 라이벌 매칭 또는 양측 전투 85+ → 합산 판정 이탈, 승자 2점
   let duel: TurnLog["duel"];
