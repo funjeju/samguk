@@ -19,7 +19,7 @@ export default function Home() {
   const [screen, setScreen] = useState<Screen>("intro");
   const [match, setMatch] = useState<MatchState | null>(null);
 
-  const startMatch = async (d: Difficulty) => {
+  const startMatch = async (d: Difficulty, shifts: number) => {
     let owned: CardInstance[] = [];
     if (firebaseEnabled) {
       try {
@@ -28,7 +28,7 @@ export default function Home() {
         // 오프라인 — 용병 덱으로 진행
       }
     }
-    setMatch(createMatch(d, owned));
+    setMatch(createMatch(d, owned, shifts));
     setScreen("sequence");
   };
 
@@ -55,8 +55,15 @@ export default function Home() {
 
 /* ─────────────── 인트로 ─────────────── */
 
-function Intro({ onStart, onCollection }: { onStart: (d: Difficulty) => void; onCollection: () => void }) {
+function Intro({
+  onStart,
+  onCollection,
+}: {
+  onStart: (d: Difficulty, shifts: number) => void;
+  onCollection: () => void;
+}) {
   const [record, setRecord] = useState<UserRecord | null>(null);
+  const [shifts, setShifts] = useState(0);
   useEffect(() => {
     if (firebaseEnabled) fetchRecord().then(setRecord).catch(() => {});
   }, []);
@@ -74,12 +81,33 @@ function Intro({ onStart, onCollection }: { onStart: (d: Difficulty) => void; on
         transition={{ delay: 0.4 }}
         className="flex flex-col items-center gap-3"
       >
-        <p className="text-white/60 text-sm">AI 난이도를 선택하세요</p>
+        <div className="flex flex-col items-center gap-1">
+          <p className="text-white/60 text-sm">국면 전환 — 판 중간에 역사·전장이 바뀌는 횟수</p>
+          <div className="flex gap-2">
+            {[0, 1, 2, 3].map((n) => (
+              <button
+                key={n}
+                onClick={() => setShifts(n)}
+                className={`rounded-lg border px-5 py-1.5 text-sm font-bold transition-colors ${
+                  shifts === n
+                    ? "border-red-400 bg-red-900/60 text-red-200"
+                    : "border-white/20 text-white/60 hover:bg-white/10"
+                }`}
+              >
+                {n}회
+              </button>
+            ))}
+          </div>
+          <p className="text-white/30 text-xs">
+            {shifts === 0 ? "안정 — 처음 국면으로 끝까지" : shifts === 3 ? "격변 — 무엇이 와도 버티는 덱이 유리" : "중간에 판이 갈아엎어집니다"}
+          </p>
+        </div>
+        <p className="text-white/60 text-sm mt-2">AI 난이도를 선택하세요</p>
         <div className="flex gap-3">
           {(["easy", "normal", "hard"] as Difficulty[]).map((d) => (
             <button
               key={d}
-              onClick={() => onStart(d)}
+              onClick={() => onStart(d, shifts)}
               className="rounded-lg border border-amber-500/50 bg-amber-900/30 px-8 py-3 text-lg font-bold hover:bg-amber-700/50 transition-colors"
             >
               {DIFF_LABEL[d]}
@@ -129,6 +157,9 @@ function StartSequence({ match, onDone }: { match: MatchState; onDone: () => voi
         `나의 덱 — ${myFactions}`,
         `컬렉션 카드 ${match.ownedCount}장 + 용병 ${30 - match.ownedCount}장 출전`,
         "상대 덱 — 총 전투력·구성은 대전 중 점차 공개",
+        match.phaseShifts > 0
+          ? `⚡ 국면 전환 ${match.phaseShifts}회 — ${match.shiftTurns.join(", ")}턴에 역사·전장 재추첨`
+          : "국면 전환 없음 — 이 국면으로 끝까지",
       ],
       color: "text-amber-400",
     },
@@ -224,9 +255,15 @@ function Battle({
     <div className="flex min-h-screen flex-col p-4 max-w-5xl mx-auto">
       {/* 상단 정보 바 */}
       <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-white/10 bg-black/40 px-4 py-2 text-sm">
-        <div className="flex gap-4 text-white/70">
+        <div className="flex gap-4 text-white/70 items-center">
           <span className="text-red-400">{match.scenario.name}</span>
           <span className="text-blue-400">{match.city.name}</span>
+          {match.phaseShifts > 0 && (
+            <span className="text-white/40 text-xs">
+              ⚡ 전환 {match.shiftsDone}/{match.phaseShifts}
+              {match.shiftsDone < match.phaseShifts && ` (다음 ${match.shiftTurns[match.shiftsDone]}턴)`}
+            </span>
+          )}
         </div>
         <div className="font-bold text-lg">
           <span className="text-green-400">{match.myScore}</span>
@@ -259,6 +296,23 @@ function Battle({
       <div className="flex flex-1 items-center justify-center py-6">
         {reveal ? (
           <RevealPanel log={reveal} flipped={flipped} onNext={closeReveal} finished={match.finished} />
+        ) : match.shiftNotice ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="flex flex-col items-center gap-3 rounded-2xl border border-red-500/50 bg-red-950/60 px-10 py-8 text-center"
+          >
+            <p className="text-red-400 tracking-[0.4em] text-sm">국 면 전 환</p>
+            <p className="text-3xl font-bold">{match.shiftNotice.scenario.name}</p>
+            <p className="text-blue-300 text-xl">새 전장 — {match.shiftNotice.city.name}</p>
+            <p className="text-white/50 text-xs">모든 카드의 역사 배율이 재판정됩니다 (하한 ×0.7 완충)</p>
+            <button
+              onClick={() => setMatch({ ...match, shiftNotice: null })}
+              className="mt-2 rounded-lg bg-red-700 px-8 py-2 font-bold hover:bg-red-600 transition-colors"
+            >
+              계속
+            </button>
+          </motion.div>
         ) : (
           <p className="text-white/30 text-lg">손패에서 카드를 골라 출진시키세요</p>
         )}

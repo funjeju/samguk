@@ -9,7 +9,8 @@ export function aiPickCard(
   scenario: Scenario,
   city: City,
   opponentRemainingTotal: number, // 공개 정보: 상대(플레이어) 잔여 총 전투력
-  opponentRemainingCount: number
+  opponentRemainingCount: number,
+  eraFloor?: number // 국면 전환 후 역사 배율 하한
 ): CardInstance {
   if (hand.length === 1) return hand[0];
 
@@ -17,7 +18,7 @@ export function aiPickCard(
     return hand[Math.floor(Math.random() * hand.length)];
   }
 
-  const powers = hand.map((c) => ({ card: c, p: calcPower(c, scenario, city).total }));
+  const powers = hand.map((c) => ({ card: c, p: calcPower(c, scenario, city, eraFloor).total }));
   powers.sort((a, b) => b.p - a.p);
 
   if (difficulty === "normal") {

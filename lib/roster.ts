@@ -35,8 +35,36 @@ export const CITIES: City[] = [
   },
 ];
 
-// 역사 시나리오 (MVP 1개: 관도대전) — 구현명세 §4.1
+// 역사 시나리오 6개 — 시대에 따라 전성기/미등장 판정이 크게 달라진다
 export const SCENARIOS: Scenario[] = [
+  {
+    id: "yellowturban",
+    year: 184,
+    name: "황건적의 난 (184년)",
+    ruleTexts: [
+      "난세의 서막 — 군웅 소속 카드 전투 +5",
+      "천공장군 — 장각 통솔 +8",
+      "이 시대 미등장 장수는 전투력 ×0.6",
+    ],
+    statMods: [
+      { faction: "군웅", stat: "combat", add: 5 },
+      { generalId: "장각", stat: "leadership", add: 8 },
+    ],
+  },
+  {
+    id: "antidong",
+    year: 190,
+    name: "반동탁 연합 (190년)",
+    ruleTexts: [
+      "제후 연합 — 오(吳) 소속 카드 통솔 +5",
+      "낙양의 폭군 — 동탁 전투 +8",
+      "이 시대 미등장 장수는 전투력 ×0.6",
+    ],
+    statMods: [
+      { faction: "오", stat: "leadership", add: 5 },
+      { generalId: "동탁", stat: "combat", add: 8 },
+    ],
+  },
   {
     id: "guandu",
     year: 200,
@@ -49,6 +77,48 @@ export const SCENARIOS: Scenario[] = [
     statMods: [
       { faction: "위", stat: "leadership", add: 5 },
       { generalId: "원소", stat: "combat", add: 8 },
+    ],
+  },
+  {
+    id: "chibi",
+    year: 208,
+    name: "적벽대전 (208년)",
+    ruleTexts: [
+      "장강의 불길 — 오(吳) 소속 카드 지략 +5",
+      "미주랑 — 주유 지략 +8",
+      "이 시대 미등장 장수는 전투력 ×0.6",
+    ],
+    statMods: [
+      { faction: "오", stat: "intellect", add: 5 },
+      { generalId: "주유", stat: "intellect", add: 8 },
+    ],
+  },
+  {
+    id: "jingzhou",
+    year: 219,
+    name: "형주 쟁탈전 (219년)",
+    ruleTexts: [
+      "한중왕의 기세 — 촉(蜀) 소속 카드 통솔 +5",
+      "수엄칠군 — 관우 전투 +8",
+      "이 시대 미등장 장수는 전투력 ×0.6",
+    ],
+    statMods: [
+      { faction: "촉", stat: "leadership", add: 5 },
+      { generalId: "관우", stat: "combat", add: 8 },
+    ],
+  },
+  {
+    id: "northern",
+    year: 228,
+    name: "북벌 (228년)",
+    ruleTexts: [
+      "출사표 — 촉(蜀) 소속 카드 지략 +5",
+      "와룡의 집념 — 제갈량 지략 +8",
+      "이 시대 미등장 장수는 전투력 ×0.6",
+    ],
+    statMods: [
+      { faction: "촉", stat: "intellect", add: 5 },
+      { generalId: "제갈량", stat: "intellect", add: 8 },
     ],
   },
 ];

@@ -45,7 +45,13 @@ export function createCard(generalId: string, grade?: 1 | 2 | 3 | 4): CardInstan
 }
 
 // 유효 전투력 계산 — 구현명세 §1.2
-export function calcPower(card: CardInstance, scenario: Scenario, city: City): PowerBreakdown {
+// minEraMult: 국면 전환 후 역사 배율 하한 (완충 — GDD §6)
+export function calcPower(
+  card: CardInstance,
+  scenario: Scenario,
+  city: City,
+  minEraMult?: number
+): PowerBreakdown {
   const gen = GENERAL_BY_ID[card.generalId];
 
   // 시나리오 수치 보정 (판정 전 가산)
@@ -69,6 +75,7 @@ export function calcPower(card: CardInstance, scenario: Scenario, city: City): P
     eraMult = ERA_MULT.absent;
     eraLabel = "미등장";
   }
+  if (minEraMult && eraMult < minEraMult) eraMult = minEraMult;
 
   // 홈 배율 (MVP: 연고지 하프 홈만)
   const isHome = gen.homeCity === city.name;

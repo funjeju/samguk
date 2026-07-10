@@ -34,6 +34,10 @@ export const GRADE_RATE = [60, 27, 10, 3];
 // 보상 장수
 export const REWARD = { win: 5, lose: 2, loseStreakBonus: 4, streakAt: 3 };
 
+// 국면 전환 (GDD §2.8)
+export const PHASE_SHIFT_MAX = 3; // 게임 생성 시 선택 가능한 최대 횟수
+export const PHASE_SHIFT_ERA_FLOOR = 0.7; // 전환 후 역사 배율 하한 (급격한 무력화 완충 — §6)
+
 // 정보 공개 스케줄
 export const INFO_POWER_EVERY = 5; // 5턴마다 상대 잔여 총 전투력 갱신
 export const INFO_FACTION_DETAIL_TURN = 10; // 국가 구성 상세

@@ -1,6 +1,6 @@
 import { aiPickCard } from "./ai";
 import { calcPower, createCard, shuffle } from "./battle";
-import { DECK_SIZE, EARLY_WIN, HAND_SIZE, TURNS } from "./constants";
+import { DECK_SIZE, EARLY_WIN, HAND_SIZE, PHASE_SHIFT_ERA_FLOOR, TURNS } from "./constants";
 import { CITIES, ROSTER, SCENARIOS } from "./roster";
 import type { CardInstance, City, Difficulty, Scenario, TurnLog } from "./types";
 
@@ -9,6 +9,11 @@ export interface MatchState {
   city: City;
   difficulty: Difficulty;
   ownedCount: number; // 내 덱 중 컬렉션 카드 수 (나머지는 용병)
+  phaseShifts: number; // 국면 전환 총 횟수 (0~3, 시작 시 공개)
+  shiftTurns: number[]; // 전환이 일어나는 턴 (공개)
+  shiftsDone: number;
+  shiftNotice: { scenario: Scenario; city: City } | null; // 방금 전환됨 — UI 배너용
+  eraFloor?: number; // 전환 후 역사 배율 하한 (완충)
   turn: number; // 1부터
   myScore: number;
   oppScore: number;
@@ -23,8 +28,8 @@ export interface MatchState {
   oppTotalPower: number;
 }
 
-const remainingPower = (cards: CardInstance[], scenario: Scenario, city: City) =>
-  cards.reduce((sum, c) => sum + calcPower(c, scenario, city).total, 0);
+const remainingPower = (cards: CardInstance[], scenario: Scenario, city: City, eraFloor?: number) =>
+  cards.reduce((sum, c) => sum + calcPower(c, scenario, city, eraFloor).total, 0);
 
 // 내 덱: 컬렉션 상위 30장 출전, 모자라면 용병(1등급 랜덤 장수)으로 충원
 function buildPlayerDeck(owned: CardInstance[]): { deck: CardInstance[]; ownedCount: number } {
@@ -37,7 +42,11 @@ function buildPlayerDeck(owned: CardInstance[]): { deck: CardInstance[]; ownedCo
   return { deck: shuffle([...picked, ...fillers]), ownedCount: picked.length };
 }
 
-export function createMatch(difficulty: Difficulty, ownedCards: CardInstance[] = []): MatchState {
+export function createMatch(
+  difficulty: Difficulty,
+  ownedCards: CardInstance[] = [],
+  phaseShifts = 0
+): MatchState {
   const scenario = SCENARIOS[Math.floor(Math.random() * SCENARIOS.length)];
   const city = CITIES[Math.floor(Math.random() * CITIES.length)];
 
@@ -45,11 +54,20 @@ export function createMatch(difficulty: Difficulty, ownedCards: CardInstance[] =
   // 상대(AI): 348명 풀에서 랜덤 30명 (같은 장수가 양쪽에 나올 수 있음)
   const oppCards = shuffle(ROSTER).slice(0, DECK_SIZE).map((r) => createCard(r.id));
 
+  // 전환 시점: 30턴을 (횟수+1)등분한 경계 턴 — 몇 번/언제 바뀔지는 공개, 뭘로 바뀔지는 랜덤
+  const shiftTurns = Array.from({ length: phaseShifts }, (_, k) =>
+    Math.floor((TURNS * (k + 1)) / (phaseShifts + 1)) + 1
+  );
+
   return {
     scenario,
     city,
     difficulty,
     ownedCount,
+    phaseShifts,
+    shiftTurns,
+    shiftsDone: 0,
+    shiftNotice: null,
     turn: 1,
     myScore: 0,
     oppScore: 0,
@@ -69,7 +87,7 @@ export function createMatch(difficulty: Difficulty, ownedCards: CardInstance[] =
 export function oppRemainingInfo(m: MatchState) {
   const cards = [...m.oppHand, ...m.oppDeck];
   return {
-    total: Math.round(remainingPower(cards, m.scenario, m.city)),
+    total: Math.round(remainingPower(cards, m.scenario, m.city, m.eraFloor)),
     count: cards.length,
   };
 }
@@ -77,7 +95,7 @@ export function oppRemainingInfo(m: MatchState) {
 export function myRemainingInfo(m: MatchState) {
   const cards = [...m.myHand, ...m.myDeck];
   return {
-    total: Math.round(remainingPower(cards, m.scenario, m.city)),
+    total: Math.round(remainingPower(cards, m.scenario, m.city, m.eraFloor)),
     count: cards.length,
   };
 }
@@ -88,10 +106,10 @@ export function playTurn(m: MatchState, myCardId: string): MatchState {
   if (!myCard) return m;
 
   const myInfo = myRemainingInfo(m);
-  const oppCard = aiPickCard(m.difficulty, m.oppHand, m.scenario, m.city, myInfo.total, myInfo.count);
+  const oppCard = aiPickCard(m.difficulty, m.oppHand, m.scenario, m.city, myInfo.total, myInfo.count, m.eraFloor);
 
-  const myPower = calcPower(myCard, m.scenario, m.city);
-  const oppPower = calcPower(oppCard, m.scenario, m.city);
+  const myPower = calcPower(myCard, m.scenario, m.city, m.eraFloor);
+  const oppPower = calcPower(oppCard, m.scenario, m.city, m.eraFloor);
   const winner: TurnLog["winner"] =
     myPower.total > oppPower.total ? "me" : myPower.total < oppPower.total ? "opp" : "draw";
 
@@ -121,9 +139,26 @@ export function playTurn(m: MatchState, myCardId: string): MatchState {
     else result = "draw";
   }
 
+  // 국면 전환: 다음 턴이 전환 시점이면 역사·도시 재추첨 + 완충 하한 적용
+  const nextTurn = m.turn + 1;
+  let { scenario, city, shiftsDone, shiftNotice, eraFloor } = m;
+  shiftNotice = null;
+  if (!finished && m.shiftTurns.includes(nextTurn)) {
+    scenario = shuffle(SCENARIOS.filter((s) => s.id !== m.scenario.id))[0];
+    city = shuffle(CITIES.filter((c) => c.id !== m.city.id))[0];
+    shiftsDone += 1;
+    shiftNotice = { scenario, city };
+    eraFloor = PHASE_SHIFT_ERA_FLOOR;
+  }
+
   return {
     ...m,
-    turn: m.turn + 1,
+    scenario,
+    city,
+    shiftsDone,
+    shiftNotice,
+    eraFloor,
+    turn: nextTurn,
     myScore,
     oppScore,
     myHand,
