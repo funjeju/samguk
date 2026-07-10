@@ -76,17 +76,24 @@ function Intro({
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-8 p-6">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center">
-        <p className="text-amber-400/80 tracking-[0.5em] text-sm mb-2">三國志</p>
-        <h1 className="text-5xl font-bold mb-3">삼국지 카드 대전</h1>
-        <p className="text-white/50">같은 역사를 함께 플레이한다 — 30턴 정보전</p>
+    <div className="relative flex min-h-screen flex-col items-center justify-center gap-8 p-6 overflow-hidden">
+      {/* 배경: 대전장 파노라마 */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/bg/main.webp" alt="" className="absolute inset-0 h-full w-full object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-b from-stone-950/70 via-transparent to-stone-950/90" />
+
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="relative text-center">
+        <p className="text-amber-400/90 tracking-[0.5em] text-sm mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">三國志</p>
+        <h1 className="text-6xl font-bold mb-3 drop-shadow-[0_3px_8px_rgba(0,0,0,0.95)] bg-gradient-to-b from-amber-100 via-white to-amber-300 bg-clip-text text-transparent">
+          삼국지 카드 대전
+        </h1>
+        <p className="text-white/70 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">같은 역사를 함께 플레이한다 — 30턴 정보전</p>
       </motion.div>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}
-        className="flex flex-col items-center gap-3"
+        className="relative flex flex-col items-center gap-3"
       >
         <div className="flex flex-col items-center gap-1">
           <p className="text-white/60 text-sm">국면 전환 — 판 중간에 역사·전장이 바뀌는 횟수</p>

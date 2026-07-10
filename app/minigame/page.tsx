@@ -30,8 +30,16 @@ export default function Rtk2Page() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-stone-950 via-amber-950/10 to-stone-950 text-white">
-      <div className="max-w-6xl mx-auto p-3">
+    <main className="relative min-h-screen bg-gradient-to-b from-stone-950 via-amber-950/10 to-stone-950 text-white overflow-x-hidden">
+      {/* 시작 화면(게임 미시작)에만 군략 지도 배경 */}
+      {!game && (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/bg/rtk2.webp" alt="" className="fixed inset-0 h-full w-full object-cover" />
+          <div className="fixed inset-0 bg-gradient-to-b from-stone-950/80 via-stone-950/55 to-stone-950/90" />
+        </>
+      )}
+      <div className="relative max-w-6xl mx-auto p-3">
         <div className="flex items-center justify-between mb-2">
           <h1 className="text-xl font-bold">
             삼국지Ⅱ 재구성 <span className="text-white/40 text-xs">중국 41개 주 통일</span>
