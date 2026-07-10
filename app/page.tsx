@@ -597,7 +597,7 @@ function RevealPanel({
                 </div>
               </motion.div>
             ) : (
-              <div className="w-40 h-56 rounded-xl border-2 border-white/20 bg-gradient-to-b from-stone-800 to-stone-900 flex items-center justify-center">
+              <div className="w-40 h-[15rem] rounded-xl border-2 border-white/20 bg-gradient-to-b from-stone-800 to-stone-900 flex items-center justify-center">
                 <span className="text-white/20 text-5xl font-serif">戰</span>
               </div>
             )}

@@ -3,8 +3,9 @@
 import { STRATEGIST_INTELLECT_MIN, TRAITS, WARRIOR_COMBAT_MIN } from "@/lib/constants";
 import { GENERAL_BY_ID } from "@/lib/roster";
 import type { CardInstance, Faction } from "@/lib/types";
+import { useState } from "react";
 
-// 국가별 색상 (샘플 아트 톤 참고: 위=보라, 촉=초록, 오=금, 군웅=적)
+// 국가별 색상 (아트 없을 때 배경 + 테두리·배지)
 const FACTION_STYLE: Record<Faction, { hanja: string; from: string; to: string; border: string; badge: string }> = {
   위: { hanja: "魏", from: "from-purple-950", to: "to-purple-800", border: "border-purple-500", badge: "bg-purple-700" },
   촉: { hanja: "蜀", from: "from-green-950", to: "to-green-800", border: "border-green-500", badge: "bg-green-700" },
@@ -43,60 +44,76 @@ export default function GeneralCard({
 }) {
   const gen = GENERAL_BY_ID[card.generalId];
   const fs = FACTION_STYLE[gen.faction];
+  const [hasArt, setHasArt] = useState(true);
 
   return (
     <div
       onClick={onClick}
-      className={`relative flex flex-col rounded-xl border-2 bg-gradient-to-b ${fs.from} ${fs.to} ${
+      className={`relative overflow-hidden rounded-xl border-2 bg-gradient-to-b ${fs.from} ${fs.to} ${
         selected ? "border-yellow-300 -translate-y-3 shadow-lg shadow-yellow-500/30" : fs.border
       } ${dimmed ? "opacity-40" : ""} ${onClick ? "cursor-pointer hover:-translate-y-2" : ""} ${
-        small ? "w-28 p-1.5" : "w-40 p-2"
+        small ? "w-28 h-40" : "w-40 h-[15rem]"
       } transition-transform duration-150 select-none shrink-0`}
     >
-      {/* 상단: 국가 + 등급 */}
-      <div className="flex items-center justify-between">
-        <span className={`${fs.badge} text-white rounded px-1 text-xs font-bold`}>{fs.hanja}</span>
-        <span className="text-yellow-300 text-xs tracking-tighter">{"★".repeat(card.grade)}</span>
-      </div>
-
-      {/* 초상: public/art/{id}.png가 있으면 사용, 없으면 한자 플레이스홀더 */}
-      <div className={`relative flex items-center justify-center overflow-hidden rounded ${small ? "h-14" : "h-24"}`}>
-        <span className="text-white/15 font-serif" style={{ fontSize: small ? 40 : 64 }}>
+      {/* 배경 워터마크 (아트 없을 때) */}
+      {!hasArt && (
+        <span
+          className="absolute inset-0 flex items-center justify-center text-white/15 font-serif"
+          style={{ fontSize: small ? 56 : 84 }}
+        >
           {fs.hanja}
         </span>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`/art/${gen.id}.png`}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover object-top"
-          onError={(e) => ((e.target as HTMLImageElement).style.display = "none")}
-        />
-        <span className={`absolute bottom-0 text-white font-bold drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] ${small ? "text-base" : "text-2xl"}`}>
-          {gen.name}
+      )}
+
+      {/* 전면 아트: 카드 전체 채움 */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`/art/${gen.id}.png`}
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover"
+        onError={() => setHasArt(false)}
+        style={{ display: hasArt ? "block" : "none" }}
+      />
+
+      {/* 상단 오버레이: 국가·등급 */}
+      <div className="absolute top-0 inset-x-0 flex items-start justify-between p-1.5 bg-gradient-to-b from-black/70 via-black/25 to-transparent pb-4">
+        <span className={`${fs.badge} text-white rounded px-1 text-xs font-bold shadow`}>{fs.hanja}</span>
+        <span className="text-yellow-300 text-xs tracking-tighter drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+          {"★".repeat(card.grade)}
         </span>
       </div>
 
-      {!small && <p className="text-center text-white/70 text-[10px] leading-tight mb-1">{gen.title}</p>}
-      <p className="text-center text-white/50 text-[9px] mb-1">
-        {roleTag(card)}
-        {card.traits?.map((id) => {
-          const t = TRAITS.find((x) => x.id === id);
-          return t ? (
-            <span key={id} className="ml-1 text-amber-300" title={t.desc}>
-              [{t.name}]
-            </span>
-          ) : null;
-        })}
-      </p>
-
-      {/* 4수치 */}
-      <div className="grid grid-cols-4 gap-0.5 rounded bg-black/40 p-1">
-        {STAT_LABELS.map(({ key, label }) => (
-          <div key={key} className="flex flex-col items-center">
-            <span className="text-white/50 text-[8px]">{label}</span>
-            <span className={`text-white font-bold ${small ? "text-[10px]" : "text-sm"}`}>{card.stats[key]}</span>
-          </div>
-        ))}
+      {/* 하단 오버레이: 이름·문구·역할·특성·수치 */}
+      <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/65 to-transparent pt-6 px-1.5 pb-1.5">
+        <p
+          className={`text-center text-white font-bold leading-tight drop-shadow-[0_1px_3px_rgba(0,0,0,1)] ${
+            small ? "text-sm" : "text-xl"
+          }`}
+        >
+          {gen.name}
+        </p>
+        {!small && (
+          <p className="text-center text-white/75 text-[10px] leading-tight truncate">{gen.title}</p>
+        )}
+        <p className="text-center text-white/60 text-[9px] mb-1 leading-tight">
+          {roleTag(card)}
+          {card.traits?.map((id) => {
+            const t = TRAITS.find((x) => x.id === id);
+            return t ? (
+              <span key={id} className="ml-1 text-amber-300" title={t.desc}>
+                [{t.name}]
+              </span>
+            ) : null;
+          })}
+        </p>
+        <div className="grid grid-cols-4 gap-0.5 rounded bg-black/55 backdrop-blur-[2px] p-1">
+          {STAT_LABELS.map(({ key, label }) => (
+            <div key={key} className="flex flex-col items-center">
+              <span className="text-white/55 text-[8px]">{label}</span>
+              <span className={`text-white font-bold ${small ? "text-[10px]" : "text-sm"}`}>{card.stats[key]}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
