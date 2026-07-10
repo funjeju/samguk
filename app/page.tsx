@@ -389,7 +389,15 @@ function RevealPanel({
   onNext: () => void;
   finished: boolean;
 }) {
-  const winnerLabel = log.winner === "me" ? "승리!" : log.winner === "opp" ? "패배" : "무승부";
+  const winnerLabel = log.duel
+    ? log.winner === "me"
+      ? "일기토 승리!"
+      : "일기토 패배"
+    : log.winner === "me"
+      ? "승리!"
+      : log.winner === "opp"
+        ? "패배"
+        : "무승부";
   const winnerColor = log.winner === "me" ? "text-green-400" : log.winner === "opp" ? "text-red-400" : "text-white/60";
 
   return (
@@ -433,13 +441,49 @@ function RevealPanel({
       </div>
 
       <AnimatePresence>
+        {flipped && log.duel && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col items-center gap-1 rounded-xl border border-amber-500/40 bg-black/50 px-6 py-3"
+          >
+            <p className="text-amber-400 font-bold tracking-[0.3em]">
+              {log.duel.isRival ? "숙명의 일기토!" : "일기토 발동!"}
+            </p>
+            {log.duel.rounds.map((r, i) => (
+              <motion.p
+                key={r.n}
+                initial={{ opacity: 0, x: -15 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4 + i * 0.55 }}
+                className={`text-sm ${r.winner === "me" ? "text-green-300" : "text-red-300"}`}
+              >
+                {r.n}합 — {r.winner === "me" ? "나" : "상대"}의 {r.event}
+              </motion.p>
+            ))}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 + log.duel.rounds.length * 0.55 }}
+              className="text-white/40 text-[10px]"
+            >
+              반전 확률 {Math.round(log.duel.upsetP * 100)}%
+            </motion.p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
         {flipped && (
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: log.duel ? 0.6 + log.duel.rounds.length * 0.55 : 0 }}
             className="flex flex-col items-center gap-2"
           >
-            <p className={`text-3xl font-bold ${winnerColor}`}>{winnerLabel}</p>
+            <p className={`text-3xl font-bold ${winnerColor}`}>
+              {winnerLabel}
+              {log.duel && log.winner !== "draw" && <span className="text-lg ml-2">+2점</span>}
+            </p>
             <button
               onClick={onNext}
               className="rounded-lg bg-amber-600 px-10 py-2 font-bold hover:bg-amber-500 transition-colors"

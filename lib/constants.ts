@@ -46,6 +46,16 @@ export const INFO_POWER_EVERY = 5; // 5턴마다 상대 잔여 총 전투력 갱
 export const INFO_FACTION_DETAIL_TURN = 10; // 국가 구성 상세
 export const INFO_ROLE_TURN = 20; // 장수/모사 구분
 
+// 일기토 (GDD §2.6, 구현명세 §7.2)
+export const DUEL = {
+  combatThreshold: 85, // 라이벌이 아니어도 양측 전투 85+ 면 발동
+  rounds: 5, // 총 합
+  winAt: 3, // 선취 합
+  points: 2, // 일기토 승자는 그 턴 2점
+  clampMin: 0.05, // 반전 확률 하한 — "여포도 한 방에"의 낭만
+  clampMax: 0.35, // 상한 — 실력 존중
+};
+
 // 카드 타입 판정 임계
 export const WARRIOR_COMBAT_MIN = 75; // 전투 75+ = 장수
 export const STRATEGIST_INTELLECT_MIN = 85; // 지략 85+ = 모사

@@ -64,6 +64,21 @@ export interface PowerBreakdown {
 
 export type Difficulty = "easy" | "normal" | "hard";
 
+export interface DuelRound {
+  n: number;
+  winner: "me" | "opp";
+  event: string;
+}
+
+// 일기토 결과 = 재생 가능한 전투 기록 (영상 카드의 원형 — GDD §2.7)
+export interface DuelResult {
+  isRival: boolean;
+  favorite: "me" | "opp"; // 전투 우위자
+  upsetP: number; // 언더독 합 승리 확률 (클램프 후)
+  rounds: DuelRound[];
+  winner: "me" | "opp";
+}
+
 export interface TurnLog {
   turn: number;
   myCard: CardInstance;
@@ -72,5 +87,6 @@ export interface TurnLog {
   oppSupport?: CardInstance;
   myPower: PowerBreakdown;
   oppPower: PowerBreakdown;
+  duel?: DuelResult; // 일기토 발동 시 — 합산 판정 대신 이것으로 승부
   winner: "me" | "opp" | "draw";
 }

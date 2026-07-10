@@ -1,6 +1,7 @@
 import { aiPickCard } from "./ai";
 import { calcPairPower, calcPower, createCard, shuffle } from "./battle";
-import { DECK_SIZE, EARLY_WIN, HAND_SIZE, PHASE_SHIFT_ERA_FLOOR, TURNS } from "./constants";
+import { DECK_SIZE, DUEL, EARLY_WIN, HAND_SIZE, PHASE_SHIFT_ERA_FLOOR, TURNS } from "./constants";
+import { checkDuelTrigger, resolveDuel } from "./duel";
 import { CITIES, ROSTER, SCENARIOS } from "./roster";
 import type { CardInstance, City, Difficulty, Scenario, TurnLog } from "./types";
 
@@ -121,8 +122,19 @@ export function playTurn(m: MatchState, myCardId: string, mySupportId?: string):
 
   const myPower = calcPairPower(myCard, mySupport, m.scenario, m.city, m.eraFloor);
   const oppPower = calcPairPower(oppCard, oppSupport, m.scenario, m.city, m.eraFloor);
-  const winner: TurnLog["winner"] =
-    myPower.total > oppPower.total ? "me" : myPower.total < oppPower.total ? "opp" : "draw";
+
+  // 일기토: 1:1 턴에서 라이벌 매칭 또는 양측 전투 85+ → 합산 판정 이탈, 승자 2점
+  let duel: TurnLog["duel"];
+  let winner: TurnLog["winner"];
+  let winPoints = 1;
+  const duelCheck = !mySupport && !oppSupport ? checkDuelTrigger(myCard, oppCard) : { trigger: false, isRival: false };
+  if (duelCheck.trigger) {
+    duel = resolveDuel(myCard, oppCard, m.scenario, m.city, duelCheck.isRival, m.eraFloor);
+    winner = duel.winner;
+    winPoints = DUEL.points;
+  } else {
+    winner = myPower.total > oppPower.total ? "me" : myPower.total < oppPower.total ? "opp" : "draw";
+  }
 
   const log: TurnLog = {
     turn: m.turn,
@@ -132,6 +144,7 @@ export function playTurn(m: MatchState, myCardId: string, mySupportId?: string):
     oppSupport: oppSupport ?? undefined,
     myPower,
     oppPower,
+    duel,
     winner,
   };
 
@@ -145,8 +158,8 @@ export function playTurn(m: MatchState, myCardId: string, mySupportId?: string):
   while (myHand.length < HAND_SIZE && myDeck.length > 0) myHand.push(myDeck.shift()!);
   while (oppHand.length < HAND_SIZE && oppDeck.length > 0) oppHand.push(oppDeck.shift()!);
 
-  const myScore = m.myScore + (winner === "me" ? 1 : 0);
-  const oppScore = m.oppScore + (winner === "opp" ? 1 : 0);
+  const myScore = m.myScore + (winner === "me" ? winPoints : 0);
+  const oppScore = m.oppScore + (winner === "opp" ? winPoints : 0);
   const myTotalPower = m.myTotalPower + myPower.total;
   const oppTotalPower = m.oppTotalPower + oppPower.total;
 
