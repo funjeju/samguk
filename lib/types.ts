@@ -58,6 +58,7 @@ export interface PowerBreakdown {
   homeMult: number;
   homeLabel: "홈" | "중립";
   cityBonus: number;
+  supportBonus?: number; // 2:2 모사 보정 (모사 지략·정치 × 모사의 역사·홈 배율)
   total: number;
 }
 
@@ -67,6 +68,8 @@ export interface TurnLog {
   turn: number;
   myCard: CardInstance;
   oppCard: CardInstance;
+  mySupport?: CardInstance; // 2:2 시 모사
+  oppSupport?: CardInstance;
   myPower: PowerBreakdown;
   oppPower: PowerBreakdown;
   winner: "me" | "opp" | "draw";

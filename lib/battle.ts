@@ -6,6 +6,7 @@ import {
   GRADE_RATE,
   HOME_MULT,
   POWER_W,
+  SUPPORT_W,
 } from "./constants";
 import { GENERAL_BY_ID } from "./roster";
 import type { CardInstance, City, PowerBreakdown, Scenario, Stats } from "./types";
@@ -94,6 +95,32 @@ export function calcPower(
     cityBonus,
     total: Math.round(total * 10) / 10,
   };
+}
+
+// 2:2 모사 보정 (구현명세 §1.3): (모사 지략×0.3 + 정치×0.2) × 모사 자신의 역사·홈 배율
+export function calcSupportBonus(
+  support: CardInstance,
+  scenario: Scenario,
+  city: City,
+  minEraMult?: number
+): number {
+  const supPower = calcPower(support, scenario, city, minEraMult);
+  const raw = support.stats.intellect * SUPPORT_W.intellect + support.stats.politics * SUPPORT_W.politics;
+  return Math.round(raw * supPower.eraMult * supPower.homeMult * 10) / 10;
+}
+
+// 장수(+모사) 유효 전투력 — 모사가 없으면 calcPower와 동일
+export function calcPairPower(
+  main: CardInstance,
+  support: CardInstance | null,
+  scenario: Scenario,
+  city: City,
+  minEraMult?: number
+): PowerBreakdown {
+  const base = calcPower(main, scenario, city, minEraMult);
+  if (!support) return base;
+  const supportBonus = calcSupportBonus(support, scenario, city, minEraMult);
+  return { ...base, supportBonus, total: Math.round((base.total + supportBonus) * 10) / 10 };
 }
 
 export function shuffle<T>(arr: T[]): T[] {

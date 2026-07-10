@@ -226,8 +226,27 @@ function Battle({
   onFinished: () => void;
 }) {
   const [selected, setSelected] = useState<string | null>(null);
+  const [supportSel, setSupportSel] = useState<string | null>(null);
   const [reveal, setReveal] = useState<TurnLog | null>(null);
   const [flipped, setFlipped] = useState(false);
+
+  const isStrategist = (c: CardInstance) => c.stats.intellect >= 85;
+
+  const clickCard = (c: CardInstance) => {
+    if (reveal) return;
+    if (selected === c.cardId) {
+      // 메인 해제 → 모사가 있으면 모사를 메인으로 승격
+      setSelected(supportSel);
+      setSupportSel(null);
+    } else if (supportSel === c.cardId) {
+      setSupportSel(null);
+    } else if (selected && isStrategist(c)) {
+      setSupportSel(c.cardId); // 모사로 지정 (2:2)
+    } else {
+      setSelected(c.cardId);
+      setSupportSel(null);
+    }
+  };
 
   // 정보 공개 곡선: 5턴마다 갱신된 값만 표시
   const infoTurn = Math.floor((match.turn - 1) / INFO_POWER_EVERY) * INFO_POWER_EVERY;
@@ -237,10 +256,11 @@ function Battle({
 
   const commit = () => {
     if (!selected || reveal) return;
-    const next = playTurn(match, selected);
+    const next = playTurn(match, selected, supportSel ?? undefined);
     const log = next.logs[next.logs.length - 1];
     setMatch(next);
     setSelected(null);
+    setSupportSel(null);
     setReveal(log);
     setFlipped(false);
     setTimeout(() => setFlipped(true), 700);
@@ -322,21 +342,36 @@ function Battle({
       <div className="flex flex-col items-center gap-3 pb-4">
         <div className="flex gap-2 justify-center flex-wrap">
           {match.myHand.map((c) => (
-            <GeneralCard
-              key={c.cardId}
-              card={c}
-              selected={selected === c.cardId}
-              dimmed={!!reveal}
-              onClick={() => !reveal && setSelected(c.cardId === selected ? null : c.cardId)}
-            />
+            <div key={c.cardId} className="relative">
+              <GeneralCard
+                card={c}
+                selected={selected === c.cardId || supportSel === c.cardId}
+                dimmed={!!reveal}
+                onClick={() => clickCard(c)}
+              />
+              {supportSel === c.cardId && (
+                <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded bg-blue-500 px-2 py-0.5 text-[10px] font-bold">
+                  모사
+                </span>
+              )}
+            </div>
           ))}
         </div>
+        <p className="text-white/30 text-xs h-4">
+          {selected && !supportSel && match.myHand.some((c) => c.cardId !== selected && isStrategist(c))
+            ? "지략 85+ 카드를 추가로 누르면 2:2 (모사 보정, 카드 2장 소모)"
+            : supportSel
+              ? "2:2 출진 — 이겨도 1점, 카드는 2장 소모됩니다"
+              : ""}
+        </p>
         <button
           onClick={commit}
           disabled={!selected || !!reveal}
-          className="rounded-lg bg-red-700 px-12 py-2.5 text-lg font-bold hover:bg-red-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          className={`rounded-lg px-12 py-2.5 text-lg font-bold disabled:opacity-30 disabled:cursor-not-allowed transition-colors ${
+            supportSel ? "bg-blue-700 hover:bg-blue-600" : "bg-red-700 hover:bg-red-600"
+          }`}
         >
-          출진
+          {supportSel ? "2:2 출진" : "출진"}
         </button>
       </div>
     </div>
@@ -360,10 +395,13 @@ function RevealPanel({
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="flex items-center gap-6">
-        {/* 내 카드 */}
+        {/* 내 카드 (+모사) */}
         <motion.div initial={{ x: -80, opacity: 0 }} animate={{ x: 0, opacity: 1 }}>
-          <div className={flipped && log.winner === "me" ? "ring-4 ring-green-400 rounded-xl" : ""}>
-            <GeneralCard card={log.myCard} />
+          <div className="flex items-end gap-1.5">
+            <div className={flipped && log.winner === "me" ? "ring-4 ring-green-400 rounded-xl" : ""}>
+              <GeneralCard card={log.myCard} />
+            </div>
+            {log.mySupport && <GeneralCard card={log.mySupport} small />}
           </div>
           <PowerLine label="나" bd={log.myPower} show={flipped} />
         </motion.div>
@@ -378,8 +416,11 @@ function RevealPanel({
             style={{ transformStyle: "preserve-3d" }}
           >
             {flipped ? (
-              <div className={log.winner === "opp" ? "ring-4 ring-red-400 rounded-xl" : ""}>
-                <GeneralCard card={log.oppCard} />
+              <div className="flex items-end gap-1.5">
+                <div className={log.winner === "opp" ? "ring-4 ring-red-400 rounded-xl" : ""}>
+                  <GeneralCard card={log.oppCard} />
+                </div>
+                {log.oppSupport && <GeneralCard card={log.oppSupport} small />}
               </div>
             ) : (
               <div className="w-40 h-56 rounded-xl border-2 border-white/20 bg-gradient-to-b from-stone-800 to-stone-900 flex items-center justify-center">
@@ -422,6 +463,7 @@ function PowerLine({ label, bd, show }: { label: string; bd: TurnLog["myPower"];
       <p className="text-[10px]">
         {bd.weighted} × {bd.eraLabel} {bd.eraMult} × {bd.homeLabel} {bd.homeMult}
         {bd.cityBonus > 0 && ` + 도시 ${bd.cityBonus}`}
+        {bd.supportBonus != null && ` + 모사 ${bd.supportBonus}`}
       </p>
     </div>
   );

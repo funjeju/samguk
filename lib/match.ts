@@ -1,5 +1,5 @@
 import { aiPickCard } from "./ai";
-import { calcPower, createCard, shuffle } from "./battle";
+import { calcPairPower, calcPower, createCard, shuffle } from "./battle";
 import { DECK_SIZE, EARLY_WIN, HAND_SIZE, PHASE_SHIFT_ERA_FLOOR, TURNS } from "./constants";
 import { CITIES, ROSTER, SCENARIOS } from "./roster";
 import type { CardInstance, City, Difficulty, Scenario, TurnLog } from "./types";
@@ -100,28 +100,50 @@ export function myRemainingInfo(m: MatchState) {
   };
 }
 
-export function playTurn(m: MatchState, myCardId: string): MatchState {
+export function playTurn(m: MatchState, myCardId: string, mySupportId?: string): MatchState {
   if (m.finished) return m;
   const myCard = m.myHand.find((c) => c.cardId === myCardId);
   if (!myCard) return m;
+  const mySupport = mySupportId ? (m.myHand.find((c) => c.cardId === mySupportId) ?? null) : null;
 
   const myInfo = myRemainingInfo(m);
-  const oppCard = aiPickCard(m.difficulty, m.oppHand, m.scenario, m.city, myInfo.total, myInfo.count, m.eraFloor);
+  const oppPick = aiPickCard(m.difficulty, m.oppHand, {
+    scenario: m.scenario,
+    city: m.city,
+    eraFloor: m.eraFloor,
+    oppRemainingTotal: myInfo.total,
+    oppRemainingCount: myInfo.count,
+    myDeckCount: m.oppDeck.length,
+    turnsLeft: TURNS - m.turn + 1,
+  });
+  const oppCard = oppPick.main;
+  const oppSupport = oppPick.support;
 
-  const myPower = calcPower(myCard, m.scenario, m.city, m.eraFloor);
-  const oppPower = calcPower(oppCard, m.scenario, m.city, m.eraFloor);
+  const myPower = calcPairPower(myCard, mySupport, m.scenario, m.city, m.eraFloor);
+  const oppPower = calcPairPower(oppCard, oppSupport, m.scenario, m.city, m.eraFloor);
   const winner: TurnLog["winner"] =
     myPower.total > oppPower.total ? "me" : myPower.total < oppPower.total ? "opp" : "draw";
 
-  const log: TurnLog = { turn: m.turn, myCard, oppCard, myPower, oppPower, winner };
+  const log: TurnLog = {
+    turn: m.turn,
+    myCard,
+    oppCard,
+    mySupport: mySupport ?? undefined,
+    oppSupport: oppSupport ?? undefined,
+    myPower,
+    oppPower,
+    winner,
+  };
 
-  // 소모 + 드로우
-  const myHand = m.myHand.filter((c) => c.cardId !== myCard.cardId);
-  const oppHand = m.oppHand.filter((c) => c.cardId !== oppCard.cardId);
+  // 소모 + 드로우 (손패 5장까지 보충)
+  const myUsed = new Set([myCard.cardId, ...(mySupport ? [mySupport.cardId] : [])]);
+  const oppUsed = new Set([oppCard.cardId, ...(oppSupport ? [oppSupport.cardId] : [])]);
+  const myHand = m.myHand.filter((c) => !myUsed.has(c.cardId));
+  const oppHand = m.oppHand.filter((c) => !oppUsed.has(c.cardId));
   const myDeck = [...m.myDeck];
   const oppDeck = [...m.oppDeck];
-  if (myDeck.length > 0) myHand.push(myDeck.shift()!);
-  if (oppDeck.length > 0) oppHand.push(oppDeck.shift()!);
+  while (myHand.length < HAND_SIZE && myDeck.length > 0) myHand.push(myDeck.shift()!);
+  while (oppHand.length < HAND_SIZE && oppDeck.length > 0) oppHand.push(oppDeck.shift()!);
 
   const myScore = m.myScore + (winner === "me" ? 1 : 0);
   const oppScore = m.oppScore + (winner === "opp" ? 1 : 0);
