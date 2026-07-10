@@ -1,0 +1,7416 @@
+[
+ {
+  "id": "가규",
+  "name": "가규",
+  "faction": "위",
+  "base": {
+   "combat": 60,
+   "politics": 89,
+   "intellect": 84,
+   "leadership": 74
+  },
+  "activeFrom": 199,
+  "activeTo": 231,
+  "peakFrom": 207,
+  "peakTo": 223,
+  "homeCity": "낙양",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "조조",
+   "조휴"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "가화",
+  "name": "가화",
+  "faction": "군웅",
+  "base": {
+   "combat": 66,
+   "politics": 44,
+   "intellect": 50,
+   "leadership": 44
+  },
+  "activeFrom": 195,
+  "activeTo": 224,
+  "peakFrom": 202,
+  "peakTo": 217,
+  "homeCity": "여강",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "송겸"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "가후",
+  "name": "가후",
+  "faction": "위",
+  "base": {
+   "combat": 46,
+   "politics": 96,
+   "intellect": 97,
+   "leadership": 90
+  },
+  "activeFrom": 184,
+  "activeTo": 223,
+  "peakFrom": 194,
+  "peakTo": 213,
+  "homeCity": "무위",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "장수"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "간옹",
+  "name": "간옹",
+  "faction": "촉",
+  "base": {
+   "combat": 41,
+   "politics": 79,
+   "intellect": 76,
+   "leadership": 30
+  },
+  "activeFrom": 184,
+  "activeTo": 225,
+  "peakFrom": 194,
+  "peakTo": 215,
+  "homeCity": "계",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "손건",
+   "미축",
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "감녕",
+  "name": "감녕",
+  "faction": "오",
+  "base": {
+   "combat": 97,
+   "politics": 35,
+   "intellect": 75,
+   "leadership": 95
+  },
+  "activeFrom": 193,
+  "activeTo": 222,
+  "peakFrom": 200,
+  "peakTo": 215,
+  "homeCity": "완",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "능통",
+   "여몽",
+   "황조"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "감택",
+  "name": "감택",
+  "faction": "오",
+  "base": {
+   "combat": 47,
+   "politics": 94,
+   "intellect": 90,
+   "leadership": 42
+  },
+  "activeFrom": 201,
+  "activeTo": 243,
+  "peakFrom": 211,
+  "peakTo": 233,
+  "homeCity": "회계",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "황개",
+   "손화",
+   "육손"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "강유",
+  "name": "강유",
+  "faction": "촉",
+  "base": {
+   "combat": 95,
+   "politics": 79,
+   "intellect": 96,
+   "leadership": 96
+  },
+  "activeFrom": 225,
+  "activeTo": 264,
+  "peakFrom": 235,
+  "peakTo": 254,
+  "homeCity": "천수",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "하후패",
+   "종회",
+   "제갈량",
+   "조운"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "고간",
+  "name": "고간",
+  "faction": "군웅",
+  "base": {
+   "combat": 59,
+   "politics": 57,
+   "intellect": 53,
+   "leadership": 75
+  },
+  "activeFrom": 187,
+  "activeTo": 206,
+  "peakFrom": 192,
+  "peakTo": 201,
+  "homeCity": "진류",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "고람",
+  "name": "고람",
+  "faction": "위",
+  "base": {
+   "combat": 85,
+   "politics": 53,
+   "intellect": 58,
+   "leadership": 78
+  },
+  "activeFrom": 184,
+  "activeTo": 201,
+  "peakFrom": 188,
+  "peakTo": 197,
+  "homeCity": "남피",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "장합",
+   "곽도"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "고순",
+  "name": "고순",
+  "faction": "군웅",
+  "base": {
+   "combat": 87,
+   "politics": 50,
+   "intellect": 61,
+   "leadership": 92
+  },
+  "activeFrom": 186,
+  "activeTo": 198,
+  "peakFrom": 189,
+  "peakTo": 195,
+  "homeCity": "진양",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "장료",
+   "여포",
+   "진궁"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "고옹",
+  "name": "고옹",
+  "faction": "오",
+  "base": {
+   "combat": 32,
+   "politics": 95,
+   "intellect": 85,
+   "leadership": 37
+  },
+  "activeFrom": 197,
+  "activeTo": 243,
+  "peakFrom": 209,
+  "peakTo": 231,
+  "homeCity": "오",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "장온"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "고정",
+  "name": "고정",
+  "faction": "촉",
+  "base": {
+   "combat": 64,
+   "politics": 45,
+   "intellect": 41,
+   "leadership": 51
+  },
+  "activeFrom": 207,
+  "activeTo": 251,
+  "peakFrom": 218,
+  "peakTo": 240,
+  "homeCity": "건녕",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "고패",
+  "name": "고패",
+  "faction": "군웅",
+  "base": {
+   "combat": 59,
+   "politics": 58,
+   "intellect": 57,
+   "leadership": 60
+  },
+  "activeFrom": 189,
+  "activeTo": 212,
+  "peakFrom": 195,
+  "peakTo": 206,
+  "homeCity": "자동",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "양회"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "공손연",
+  "name": "공손연",
+  "faction": "군웅",
+  "base": {
+   "combat": 83,
+   "politics": 53,
+   "intellect": 64,
+   "leadership": 68
+  },
+  "activeFrom": 219,
+  "activeTo": 238,
+  "peakFrom": 224,
+  "peakTo": 233,
+  "homeCity": "양평",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "공손월",
+  "name": "공손월",
+  "faction": "촉",
+  "base": {
+   "combat": 67,
+   "politics": 59,
+   "intellect": 52,
+   "leadership": 65
+  },
+  "activeFrom": 184,
+  "activeTo": 191,
+  "peakFrom": 186,
+  "peakTo": 189,
+  "homeCity": "북평",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "공손찬",
+  "name": "공손찬",
+  "faction": "군웅",
+  "base": {
+   "combat": 91,
+   "politics": 63,
+   "intellect": 75,
+   "leadership": 85
+  },
+  "activeFrom": 184,
+  "activeTo": 199,
+  "peakFrom": 188,
+  "peakTo": 195,
+  "homeCity": "북평",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "조운",
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "공융",
+  "name": "공융",
+  "faction": "군웅",
+  "base": {
+   "combat": 36,
+   "politics": 81,
+   "intellect": 85,
+   "leadership": 37
+  },
+  "activeFrom": 184,
+  "activeTo": 208,
+  "peakFrom": 190,
+  "peakTo": 202,
+  "homeCity": "낙양",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "왕수",
+   "우번",
+   "태사자",
+   "양수"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "공지",
+  "name": "공지",
+  "faction": "군웅",
+  "base": {
+   "combat": 50,
+   "politics": 69,
+   "intellect": 64,
+   "leadership": 41
+  },
+  "activeFrom": 197,
+  "activeTo": 242,
+  "peakFrom": 208,
+  "peakTo": 231,
+  "homeCity": "무릉",
+  "title": "행정에 밝은 문관",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "곽가",
+  "name": "곽가",
+  "faction": "위",
+  "base": {
+   "combat": 30,
+   "politics": 96,
+   "intellect": 98,
+   "leadership": 54
+  },
+  "activeFrom": 189,
+  "activeTo": 207,
+  "peakFrom": 193,
+  "peakTo": 203,
+  "homeCity": "허창",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "순욱",
+   "순유",
+   "조조",
+   "정욱"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "곽도",
+  "name": "곽도",
+  "faction": "군웅",
+  "base": {
+   "combat": 48,
+   "politics": 76,
+   "intellect": 88,
+   "leadership": 44
+  },
+  "activeFrom": 184,
+  "activeTo": 205,
+  "peakFrom": 189,
+  "peakTo": 200,
+  "homeCity": "허창",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "고람",
+   "심배",
+   "장합"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "곽사",
+  "name": "곽사",
+  "faction": "군웅",
+  "base": {
+   "combat": 73,
+   "politics": 29,
+   "intellect": 31,
+   "leadership": 59
+  },
+  "activeFrom": 184,
+  "activeTo": 197,
+  "peakFrom": 187,
+  "peakTo": 194,
+  "homeCity": "천수",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "이각"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "곽유지",
+  "name": "곽유지",
+  "faction": "촉",
+  "base": {
+   "combat": 30,
+   "politics": 87,
+   "intellect": 75,
+   "leadership": 30
+  },
+  "activeFrom": 209,
+  "activeTo": 259,
+  "peakFrom": 221,
+  "peakTo": 247,
+  "homeCity": "완",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "곽준",
+  "name": "곽준",
+  "faction": "촉",
+  "base": {
+   "combat": 71,
+   "politics": 68,
+   "intellect": 73,
+   "leadership": 78
+  },
+  "activeFrom": 197,
+  "activeTo": 217,
+  "peakFrom": 202,
+  "peakTo": 212,
+  "homeCity": "강릉",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "맹달"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "곽혁",
+  "name": "곽혁",
+  "faction": "위",
+  "base": {
+   "combat": 34,
+   "politics": 85,
+   "intellect": 82,
+   "leadership": 33
+  },
+  "activeFrom": 201,
+  "activeTo": 228,
+  "peakFrom": 208,
+  "peakTo": 221,
+  "homeCity": "허창",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "곽가"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "곽회(곽준)",
+  "name": "곽회(곽준)",
+  "faction": "위",
+  "base": {
+   "combat": 52,
+   "politics": 51,
+   "intellect": 70,
+   "leadership": 51
+  },
+  "activeFrom": 215,
+  "activeTo": 232,
+  "peakFrom": 219,
+  "peakTo": 228,
+  "homeCity": "",
+  "title": "지모를 갖춘 참모",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "관구검",
+  "name": "관구검",
+  "faction": "위",
+  "base": {
+   "combat": 86,
+   "politics": 61,
+   "intellect": 62,
+   "leadership": 84
+  },
+  "activeFrom": 220,
+  "activeTo": 255,
+  "peakFrom": 229,
+  "peakTo": 246,
+  "homeCity": "낙양",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "제갈탄",
+   "조예",
+   "조상",
+   "이풍"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "관색(관삭)",
+  "name": "관색(관삭)",
+  "faction": "촉",
+  "base": {
+   "combat": 96,
+   "politics": 72,
+   "intellect": 74,
+   "leadership": 72
+  },
+  "activeFrom": 207,
+  "activeTo": 247,
+  "peakFrom": 217,
+  "peakTo": 237,
+  "homeCity": "",
+  "title": "전장을 누비는 맹장",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "관우",
+  "name": "관우",
+  "faction": "촉",
+  "base": {
+   "combat": 99,
+   "politics": 73,
+   "intellect": 88,
+   "leadership": 98
+  },
+  "activeFrom": 184,
+  "activeTo": 219,
+  "peakFrom": 193,
+  "peakTo": 210,
+  "homeCity": "계",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "유비",
+   "주창",
+   "서황",
+   "조운"
+  ],
+  "rivals": [
+   "여포"
+  ]
+ },
+ {
+  "id": "관평",
+  "name": "관평",
+  "faction": "촉",
+  "base": {
+   "combat": 90,
+   "politics": 64,
+   "intellect": 77,
+   "leadership": 85
+  },
+  "activeFrom": 200,
+  "activeTo": 219,
+  "peakFrom": 205,
+  "peakTo": 214,
+  "homeCity": "낙양",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "관우",
+   "관우",
+   "주창",
+   "조루"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "관흥",
+  "name": "관흥",
+  "faction": "촉",
+  "base": {
+   "combat": 93,
+   "politics": 60,
+   "intellect": 70,
+   "leadership": 82
+  },
+  "activeFrom": 213,
+  "activeTo": 234,
+  "peakFrom": 218,
+  "peakTo": 229,
+  "homeCity": "낙양",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "관우",
+   "장포",
+   "관우",
+   "장포"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "괴량",
+  "name": "괴량",
+  "faction": "군웅",
+  "base": {
+   "combat": 38,
+   "politics": 91,
+   "intellect": 93,
+   "leadership": 55
+  },
+  "activeFrom": 184,
+  "activeTo": 204,
+  "peakFrom": 189,
+  "peakTo": 199,
+  "homeCity": "양양",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "괴월",
+  "name": "괴월",
+  "faction": "군웅",
+  "base": {
+   "combat": 36,
+   "politics": 94,
+   "intellect": 91,
+   "leadership": 38
+  },
+  "activeFrom": 184,
+  "activeTo": 214,
+  "peakFrom": 192,
+  "peakTo": 206,
+  "homeCity": "양양",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "금선",
+  "name": "금선",
+  "faction": "군웅",
+  "base": {
+   "combat": 51,
+   "politics": 41,
+   "intellect": 34,
+   "leadership": 39
+  },
+  "activeFrom": 201,
+  "activeTo": 205,
+  "peakFrom": 202,
+  "peakTo": 204,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "금환결",
+  "name": "금환결",
+  "faction": "군웅",
+  "base": {
+   "combat": 54,
+   "politics": 25,
+   "intellect": 25,
+   "leadership": 29
+  },
+  "activeFrom": 197,
+  "activeTo": 232,
+  "peakFrom": 206,
+  "peakTo": 223,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "기령",
+  "name": "기령",
+  "faction": "군웅",
+  "base": {
+   "combat": 88,
+   "politics": 51,
+   "intellect": 51,
+   "leadership": 82
+  },
+  "activeFrom": 184,
+  "activeTo": 199,
+  "peakFrom": 188,
+  "peakTo": 195,
+  "homeCity": "완",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "원술"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "냉포",
+  "name": "냉포",
+  "faction": "촉",
+  "base": {
+   "combat": 88,
+   "politics": 42,
+   "intellect": 56,
+   "leadership": 74
+  },
+  "activeFrom": 205,
+  "activeTo": 214,
+  "peakFrom": 207,
+  "peakTo": 212,
+  "homeCity": "성도",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "노숙",
+  "name": "노숙",
+  "faction": "오",
+  "base": {
+   "combat": 55,
+   "politics": 98,
+   "intellect": 97,
+   "leadership": 93
+  },
+  "activeFrom": 191,
+  "activeTo": 217,
+  "peakFrom": 197,
+  "peakTo": 211,
+  "homeCity": "여강",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "장승"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "뇌동",
+  "name": "뇌동",
+  "faction": "촉",
+  "base": {
+   "combat": 89,
+   "politics": 43,
+   "intellect": 49,
+   "leadership": 74
+  },
+  "activeFrom": 191,
+  "activeTo": 218,
+  "peakFrom": 198,
+  "peakTo": 211,
+  "homeCity": "성도",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "오의",
+   "오란",
+   "장비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "뇌박",
+  "name": "뇌박",
+  "faction": "촉",
+  "base": {
+   "combat": 66,
+   "politics": 30,
+   "intellect": 39,
+   "leadership": 54
+  },
+  "activeFrom": 184,
+  "activeTo": 206,
+  "peakFrom": 190,
+  "peakTo": 200,
+  "homeCity": "여남",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "진란"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "능조",
+  "name": "능조",
+  "faction": "오",
+  "base": {
+   "combat": 90,
+   "politics": 43,
+   "intellect": 42,
+   "leadership": 77
+  },
+  "activeFrom": 184,
+  "activeTo": 203,
+  "peakFrom": 189,
+  "peakTo": 198,
+  "homeCity": "오",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "손책"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "능통",
+  "name": "능통",
+  "faction": "오",
+  "base": {
+   "combat": 92,
+   "politics": 55,
+   "intellect": 64,
+   "leadership": 79
+  },
+  "activeFrom": 203,
+  "activeTo": 237,
+  "peakFrom": 211,
+  "peakTo": 229,
+  "homeCity": "오",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "능조",
+   "감녕",
+   "여몽"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "담웅",
+  "name": "담웅",
+  "faction": "오",
+  "base": {
+   "combat": 84,
+   "politics": 31,
+   "intellect": 27,
+   "leadership": 53
+  },
+  "activeFrom": 207,
+  "activeTo": 221,
+  "peakFrom": 211,
+  "peakTo": 217,
+  "homeCity": "무릉",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "이이"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "도겸",
+  "name": "도겸",
+  "faction": "군웅",
+  "base": {
+   "combat": 45,
+   "politics": 71,
+   "intellect": 66,
+   "leadership": 44
+  },
+  "activeFrom": 184,
+  "activeTo": 194,
+  "peakFrom": 186,
+  "peakTo": 192,
+  "homeCity": "진류",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "동도나(동다노)",
+  "name": "동도나(동다노)",
+  "faction": "군웅",
+  "base": {
+   "combat": 57,
+   "politics": 35,
+   "intellect": 26,
+   "leadership": 35
+  },
+  "activeFrom": 205,
+  "activeTo": 240,
+  "peakFrom": 214,
+  "peakTo": 231,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "동민",
+  "name": "동민",
+  "faction": "촉",
+  "base": {
+   "combat": 58,
+   "politics": 31,
+   "intellect": 42,
+   "leadership": 43
+  },
+  "activeFrom": 184,
+  "activeTo": 192,
+  "peakFrom": 186,
+  "peakTo": 190,
+  "homeCity": "천수",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "동탁"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "동습",
+  "name": "동습",
+  "faction": "오",
+  "base": {
+   "combat": 84,
+   "politics": 48,
+   "intellect": 51,
+   "leadership": 68
+  },
+  "activeFrom": 188,
+  "activeTo": 215,
+  "peakFrom": 195,
+  "peakTo": 208,
+  "homeCity": "회계",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "우번",
+   "진무"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "동윤",
+  "name": "동윤",
+  "faction": "촉",
+  "base": {
+   "combat": 32,
+   "politics": 96,
+   "intellect": 89,
+   "leadership": 43
+  },
+  "activeFrom": 214,
+  "activeTo": 246,
+  "peakFrom": 222,
+  "peakTo": 238,
+  "homeCity": "강릉",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "동화"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "동탁",
+  "name": "동탁",
+  "faction": "군웅",
+  "base": {
+   "combat": 94,
+   "politics": 41,
+   "intellect": 67,
+   "leadership": 89
+  },
+  "activeFrom": 184,
+  "activeTo": 192,
+  "peakFrom": 186,
+  "peakTo": 190,
+  "homeCity": "천수",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "이유"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "동형",
+  "name": "동형",
+  "faction": "위",
+  "base": {
+   "combat": 78,
+   "politics": 45,
+   "intellect": 46,
+   "leadership": 73
+  },
+  "activeFrom": 193,
+  "activeTo": 219,
+  "peakFrom": 199,
+  "peakTo": 213,
+  "homeCity": "안정",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "우금",
+   "방덕"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "동화",
+  "name": "동화",
+  "faction": "군웅",
+  "base": {
+   "combat": 47,
+   "politics": 88,
+   "intellect": 72,
+   "leadership": 49
+  },
+  "activeFrom": 187,
+  "activeTo": 219,
+  "peakFrom": 195,
+  "peakTo": 211,
+  "homeCity": "강릉",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "제갈량"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "두습",
+  "name": "두습",
+  "faction": "군웅",
+  "base": {
+   "combat": 65,
+   "politics": 76,
+   "intellect": 78,
+   "leadership": 83
+  },
+  "activeFrom": 184,
+  "activeTo": 237,
+  "peakFrom": 197,
+  "peakTo": 224,
+  "homeCity": "허창",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "장합",
+   "유표"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "등애",
+  "name": "등애",
+  "faction": "위",
+  "base": {
+   "combat": 94,
+   "politics": 92,
+   "intellect": 95,
+   "leadership": 97
+  },
+  "activeFrom": 216,
+  "activeTo": 264,
+  "peakFrom": 228,
+  "peakTo": 252,
+  "homeCity": "신야",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "주태",
+   "진태",
+   "종회"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "등의",
+  "name": "등의",
+  "faction": "촉",
+  "base": {
+   "combat": 51,
+   "politics": 52,
+   "intellect": 41,
+   "leadership": 41
+  },
+  "activeFrom": 189,
+  "activeTo": 216,
+  "peakFrom": 196,
+  "peakTo": 209,
+  "homeCity": "신야",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "유선"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "등지",
+  "name": "등지",
+  "faction": "촉",
+  "base": {
+   "combat": 53,
+   "politics": 93,
+   "intellect": 88,
+   "leadership": 77
+  },
+  "activeFrom": 201,
+  "activeTo": 251,
+  "peakFrom": 213,
+  "peakTo": 239,
+  "homeCity": "신야",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "강유",
+   "조운"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "등현",
+  "name": "등현",
+  "faction": "군웅",
+  "base": {
+   "combat": 74,
+   "politics": 54,
+   "intellect": 55,
+   "leadership": 60
+  },
+  "activeFrom": 208,
+  "activeTo": 248,
+  "peakFrom": 218,
+  "peakTo": 238,
+  "homeCity": "장안",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "마대",
+  "name": "마대",
+  "faction": "촉",
+  "base": {
+   "combat": 91,
+   "politics": 55,
+   "intellect": 56,
+   "leadership": 85
+  },
+  "activeFrom": 197,
+  "activeTo": 246,
+  "peakFrom": 209,
+  "peakTo": 234,
+  "homeCity": "무위",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "마휴",
+   "마초",
+   "마철",
+   "마등"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "마등",
+  "name": "마등",
+  "faction": "촉",
+  "base": {
+   "combat": 93,
+   "politics": 64,
+   "intellect": 58,
+   "leadership": 91
+  },
+  "activeFrom": 184,
+  "activeTo": 211,
+  "peakFrom": 191,
+  "peakTo": 204,
+  "homeCity": "무위",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "한수",
+   "마휴",
+   "마대",
+   "마초"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "마량",
+  "name": "마량",
+  "faction": "촉",
+  "base": {
+   "combat": 39,
+   "politics": 97,
+   "intellect": 94,
+   "leadership": 45
+  },
+  "activeFrom": 206,
+  "activeTo": 222,
+  "peakFrom": 210,
+  "peakTo": 218,
+  "homeCity": "양양",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "이적",
+   "제갈량"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "마속",
+  "name": "마속",
+  "faction": "촉",
+  "base": {
+   "combat": 69,
+   "politics": 79,
+   "intellect": 92,
+   "leadership": 63
+  },
+  "activeFrom": 209,
+  "activeTo": 228,
+  "peakFrom": 214,
+  "peakTo": 223,
+  "homeCity": "양양",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "이적",
+   "제갈량",
+   "왕평"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "마연",
+  "name": "마연",
+  "faction": "군웅",
+  "base": {
+   "combat": 62,
+   "politics": 38,
+   "intellect": 41,
+   "leadership": 45
+  },
+  "activeFrom": 185,
+  "activeTo": 208,
+  "peakFrom": 191,
+  "peakTo": 202,
+  "homeCity": "업",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "마완",
+  "name": "마완",
+  "faction": "군웅",
+  "base": {
+   "combat": 67,
+   "politics": 32,
+   "intellect": 29,
+   "leadership": 61
+  },
+  "activeFrom": 189,
+  "activeTo": 211,
+  "peakFrom": 195,
+  "peakTo": 205,
+  "homeCity": "무위",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "마철",
+  "name": "마철",
+  "faction": "촉",
+  "base": {
+   "combat": 62,
+   "politics": 50,
+   "intellect": 52,
+   "leadership": 69
+  },
+  "activeFrom": 193,
+  "activeTo": 211,
+  "peakFrom": 197,
+  "peakTo": 207,
+  "homeCity": "무위",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "마등",
+   "마휴",
+   "마대",
+   "마초"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "마초",
+  "name": "마초",
+  "faction": "촉",
+  "base": {
+   "combat": 98,
+   "politics": 40,
+   "intellect": 48,
+   "leadership": 95
+  },
+  "activeFrom": 189,
+  "activeTo": 226,
+  "peakFrom": 198,
+  "peakTo": 217,
+  "homeCity": "무위",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "마등",
+   "마휴",
+   "마대",
+   "마철"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "마충",
+  "name": "마충",
+  "faction": "오",
+  "base": {
+   "combat": 71,
+   "politics": 54,
+   "intellect": 59,
+   "leadership": 76
+  },
+  "activeFrom": 205,
+  "activeTo": 222,
+  "peakFrom": 209,
+  "peakTo": 218,
+  "homeCity": "시상",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "마휴",
+  "name": "마휴",
+  "faction": "촉",
+  "base": {
+   "combat": 65,
+   "politics": 47,
+   "intellect": 50,
+   "leadership": 64
+  },
+  "activeFrom": 192,
+  "activeTo": 211,
+  "peakFrom": 197,
+  "peakTo": 206,
+  "homeCity": "무위",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "마등",
+   "마대",
+   "마초",
+   "마철"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "만총",
+  "name": "만총",
+  "faction": "위",
+  "base": {
+   "combat": 54,
+   "politics": 87,
+   "intellect": 90,
+   "leadership": 90
+  },
+  "activeFrom": 189,
+  "activeTo": 242,
+  "peakFrom": 202,
+  "peakTo": 229,
+  "homeCity": "진류",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "서황",
+   "조인",
+   "모개",
+   "유엽"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "맹달",
+  "name": "맹달",
+  "faction": "촉",
+  "base": {
+   "combat": 79,
+   "politics": 69,
+   "intellect": 81,
+   "leadership": 78
+  },
+  "activeFrom": 191,
+  "activeTo": 228,
+  "peakFrom": 200,
+  "peakTo": 219,
+  "homeCity": "장안",
+  "title": "지모를 갖춘 참모",
+  "bonds": [
+   "곽준",
+   "하후상",
+   "조비",
+   "장송"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "맹우",
+  "name": "맹우",
+  "faction": "군웅",
+  "base": {
+   "combat": 79,
+   "politics": 26,
+   "intellect": 28,
+   "leadership": 49
+  },
+  "activeFrom": 215,
+  "activeTo": 251,
+  "peakFrom": 224,
+  "peakTo": 242,
+  "homeCity": "운남",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "맹획",
+  "name": "맹획",
+  "faction": "군웅",
+  "base": {
+   "combat": 94,
+   "politics": 41,
+   "intellect": 42,
+   "leadership": 88
+  },
+  "activeFrom": 212,
+  "activeTo": 250,
+  "peakFrom": 222,
+  "peakTo": 240,
+  "homeCity": "운남",
+  "title": "전장을 누비는 맹장",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "모개",
+  "name": "모개",
+  "faction": "위",
+  "base": {
+   "combat": 50,
+   "politics": 84,
+   "intellect": 61,
+   "leadership": 52
+  },
+  "activeFrom": 184,
+  "activeTo": 216,
+  "peakFrom": 192,
+  "peakTo": 208,
+  "homeCity": "진류",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "만총",
+   "여건"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "무안국",
+  "name": "무안국",
+  "faction": "위",
+  "base": {
+   "combat": 83,
+   "politics": 33,
+   "intellect": 31,
+   "leadership": 57
+  },
+  "activeFrom": 184,
+  "activeTo": 190,
+  "peakFrom": 186,
+  "peakTo": 188,
+  "homeCity": "북해",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "문빙",
+  "name": "문빙",
+  "faction": "위",
+  "base": {
+   "combat": 91,
+   "politics": 65,
+   "intellect": 54,
+   "leadership": 86
+  },
+  "activeFrom": 197,
+  "activeTo": 237,
+  "peakFrom": 207,
+  "peakTo": 227,
+  "homeCity": "완",
+  "title": "전장을 누비는 맹장",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "문추",
+  "name": "문추",
+  "faction": "군웅",
+  "base": {
+   "combat": 98,
+   "politics": 30,
+   "intellect": 30,
+   "leadership": 92
+  },
+  "activeFrom": 184,
+  "activeTo": 200,
+  "peakFrom": 188,
+  "peakTo": 196,
+  "homeCity": "남피",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "원소",
+   "안량"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "문흠",
+  "name": "문흠",
+  "faction": "위",
+  "base": {
+   "combat": 90,
+   "politics": 42,
+   "intellect": 47,
+   "leadership": 79
+  },
+  "activeFrom": 217,
+  "activeTo": 258,
+  "peakFrom": 227,
+  "peakTo": 248,
+  "homeCity": "허창",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "조상",
+   "제갈탄"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "미방",
+  "name": "미방",
+  "faction": "촉",
+  "base": {
+   "combat": 61,
+   "politics": 32,
+   "intellect": 35,
+   "leadership": 48
+  },
+  "activeFrom": 188,
+  "activeTo": 222,
+  "peakFrom": 196,
+  "peakTo": 214,
+  "homeCity": "하비",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "부사인",
+   "관우"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "미축",
+  "name": "미축",
+  "faction": "촉",
+  "base": {
+   "combat": 40,
+   "politics": 91,
+   "intellect": 76,
+   "leadership": 33
+  },
+  "activeFrom": 184,
+  "activeTo": 220,
+  "peakFrom": 193,
+  "peakTo": 211,
+  "homeCity": "하비",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "간옹",
+   "손건",
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "반봉",
+  "name": "반봉",
+  "faction": "군웅",
+  "base": {
+   "combat": 85,
+   "politics": 28,
+   "intellect": 26,
+   "leadership": 52
+  },
+  "activeFrom": 184,
+  "activeTo": 190,
+  "peakFrom": 186,
+  "peakTo": 188,
+  "homeCity": "업",
+  "title": "전장을 누비는 맹장",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "반장(번장)",
+  "name": "반장(번장)",
+  "faction": "오",
+  "base": {
+   "combat": 80,
+   "politics": 52,
+   "intellect": 44,
+   "leadership": 52
+  },
+  "activeFrom": 191,
+  "activeTo": 226,
+  "peakFrom": 200,
+  "peakTo": 217,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "반준",
+  "name": "반준",
+  "faction": "군웅",
+  "base": {
+   "combat": 37,
+   "politics": 84,
+   "intellect": 68,
+   "leadership": 53
+  },
+  "activeFrom": 193,
+  "activeTo": 239,
+  "peakFrom": 205,
+  "peakTo": 227,
+  "homeCity": "무릉",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "왕찬",
+   "장완",
+   "송충"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "방덕",
+  "name": "방덕",
+  "faction": "위",
+  "base": {
+   "combat": 97,
+   "politics": 55,
+   "intellect": 74,
+   "leadership": 90
+  },
+  "activeFrom": 184,
+  "activeTo": 219,
+  "peakFrom": 193,
+  "peakTo": 210,
+  "homeCity": "무위",
+  "title": "전장을 누비는 맹장",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "방유",
+  "name": "방유",
+  "faction": "촉",
+  "base": {
+   "combat": 66,
+   "politics": 58,
+   "intellect": 60,
+   "leadership": 52
+  },
+  "activeFrom": 197,
+  "activeTo": 232,
+  "peakFrom": 206,
+  "peakTo": 223,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "방의",
+  "name": "방의",
+  "faction": "촉",
+  "base": {
+   "combat": 35,
+   "politics": 82,
+   "intellect": 69,
+   "leadership": 38
+  },
+  "activeFrom": 210,
+  "activeTo": 229,
+  "peakFrom": 215,
+  "peakTo": 224,
+  "homeCity": "",
+  "title": "행정에 밝은 문관",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "방통",
+  "name": "방통",
+  "faction": "촉",
+  "base": {
+   "combat": 47,
+   "politics": 95,
+   "intellect": 99,
+   "leadership": 91
+  },
+  "activeFrom": 208,
+  "activeTo": 214,
+  "peakFrom": 210,
+  "peakTo": 212,
+  "homeCity": "양양",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "한숭",
+   "주유",
+   "제갈량",
+   "서서"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "번조(번주)",
+  "name": "번조(번주)",
+  "faction": "군웅",
+  "base": {
+   "combat": 86,
+   "politics": 36,
+   "intellect": 35,
+   "leadership": 68
+  },
+  "activeFrom": 173,
+  "activeTo": 208,
+  "peakFrom": 182,
+  "peakTo": 199,
+  "homeCity": "",
+  "title": "전장을 누비는 맹장",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "범강",
+  "name": "범강",
+  "faction": "군웅",
+  "base": {
+   "combat": 50,
+   "politics": 39,
+   "intellect": 36,
+   "leadership": 45
+  },
+  "activeFrom": 209,
+  "activeTo": 222,
+  "peakFrom": 212,
+  "peakTo": 219,
+  "homeCity": "영안",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "장달",
+   "장비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "법정",
+  "name": "법정",
+  "faction": "촉",
+  "base": {
+   "combat": 51,
+   "politics": 90,
+   "intellect": 96,
+   "leadership": 88
+  },
+  "activeFrom": 195,
+  "activeTo": 220,
+  "peakFrom": 201,
+  "peakTo": 214,
+  "homeCity": "장안",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "황충",
+   "장송",
+   "맹달",
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "보즐",
+  "name": "보즐",
+  "faction": "오",
+  "base": {
+   "combat": 44,
+   "politics": 90,
+   "intellect": 89,
+   "leadership": 60
+  },
+  "activeFrom": 196,
+  "activeTo": 247,
+  "peakFrom": 209,
+  "peakTo": 234,
+  "homeCity": "광릉",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "제갈근",
+   "장승",
+   "반준",
+   "장소"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "봉기",
+  "name": "봉기",
+  "faction": "군웅",
+  "base": {
+   "combat": 44,
+   "politics": 75,
+   "intellect": 92,
+   "leadership": 39
+  },
+  "activeFrom": 184,
+  "activeTo": 202,
+  "peakFrom": 188,
+  "peakTo": 198,
+  "homeCity": "남피",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "원소",
+   "곽도",
+   "심배",
+   "신평"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "부간",
+  "name": "부간",
+  "faction": "위",
+  "base": {
+   "combat": 41,
+   "politics": 84,
+   "intellect": 81,
+   "leadership": 36
+  },
+  "activeFrom": 187,
+  "activeTo": 220,
+  "peakFrom": 195,
+  "peakTo": 212,
+  "homeCity": "천수",
+  "title": "행정에 밝은 문관",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "부동",
+  "name": "부동",
+  "faction": "촉",
+  "base": {
+   "combat": 75,
+   "politics": 62,
+   "intellect": 65,
+   "leadership": 61
+  },
+  "activeFrom": 216,
+  "activeTo": 223,
+  "peakFrom": 218,
+  "peakTo": 221,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "부사인",
+  "name": "부사인",
+  "faction": "군웅",
+  "base": {
+   "combat": 57,
+   "politics": 36,
+   "intellect": 43,
+   "leadership": 40
+  },
+  "activeFrom": 201,
+  "activeTo": 222,
+  "peakFrom": 206,
+  "peakTo": 217,
+  "homeCity": "계",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "우번",
+   "미방",
+   "관우"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "비관",
+  "name": "비관",
+  "faction": "촉",
+  "base": {
+   "combat": 58,
+   "politics": 63,
+   "intellect": 56,
+   "leadership": 82
+  },
+  "activeFrom": 207,
+  "activeTo": 225,
+  "peakFrom": 211,
+  "peakTo": 221,
+  "homeCity": "강하",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "이엄"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "비시",
+  "name": "비시",
+  "faction": "촉",
+  "base": {
+   "combat": 35,
+   "politics": 77,
+   "intellect": 64,
+   "leadership": 27
+  },
+  "activeFrom": 195,
+  "activeTo": 240,
+  "peakFrom": 206,
+  "peakTo": 229,
+  "homeCity": "성도",
+  "title": "행정에 밝은 문관",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "비의(비위)",
+  "name": "비의(비위)",
+  "faction": "촉",
+  "base": {
+   "combat": 31,
+   "politics": 98,
+   "intellect": 91,
+   "leadership": 77
+  },
+  "activeFrom": 210,
+  "activeTo": 223,
+  "peakFrom": 213,
+  "peakTo": 220,
+  "homeCity": "",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "사마가",
+  "name": "사마가",
+  "faction": "촉",
+  "base": {
+   "combat": 92,
+   "politics": 27,
+   "intellect": 29,
+   "leadership": 61
+  },
+  "activeFrom": 206,
+  "activeTo": 222,
+  "peakFrom": 210,
+  "peakTo": 218,
+  "homeCity": "무릉",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "마량"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "사마사",
+  "name": "사마사",
+  "faction": "위",
+  "base": {
+   "combat": 69,
+   "politics": 92,
+   "intellect": 95,
+   "leadership": 88
+  },
+  "activeFrom": 222,
+  "activeTo": 255,
+  "peakFrom": 230,
+  "peakTo": 247,
+  "homeCity": "낙양",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "사마의",
+   "사마의",
+   "사마소",
+   "진태"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "사마소",
+  "name": "사마소",
+  "faction": "위",
+  "base": {
+   "combat": 60,
+   "politics": 95,
+   "intellect": 94,
+   "leadership": 86
+  },
+  "activeFrom": 225,
+  "activeTo": 265,
+  "peakFrom": 235,
+  "peakTo": 255,
+  "homeCity": "낙양",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "사마의",
+   "사마의",
+   "사마사",
+   "주태"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "사마의",
+  "name": "사마의",
+  "faction": "위",
+  "base": {
+   "combat": 66,
+   "politics": 97,
+   "intellect": 98,
+   "leadership": 99
+  },
+  "activeFrom": 198,
+  "activeTo": 251,
+  "peakFrom": 211,
+  "peakTo": 238,
+  "homeCity": "낙양",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "장제",
+   "조예",
+   "조비",
+   "장합"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "사정(사상,사생)",
+  "name": "사정(사상,사생)",
+  "faction": "오",
+  "base": {
+   "combat": 89,
+   "politics": 50,
+   "intellect": 30,
+   "leadership": 50
+  },
+  "activeFrom": 198,
+  "activeTo": 233,
+  "peakFrom": 207,
+  "peakTo": 224,
+  "homeCity": "",
+  "title": "전장을 누비는 맹장",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "상랑(상귄)",
+  "name": "상랑(상귄)",
+  "faction": "촉",
+  "base": {
+   "combat": 27,
+   "politics": 45,
+   "intellect": 79,
+   "leadership": 45
+  },
+  "activeFrom": 199,
+  "activeTo": 228,
+  "peakFrom": 206,
+  "peakTo": 221,
+  "homeCity": "",
+  "title": "지모를 갖춘 참모",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "상총",
+  "name": "상총",
+  "faction": "촉",
+  "base": {
+   "combat": 60,
+   "politics": 78,
+   "intellect": 81,
+   "leadership": 83
+  },
+  "activeFrom": 214,
+  "activeTo": 240,
+  "peakFrom": 220,
+  "peakTo": 234,
+  "homeCity": "양양",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "서상",
+  "name": "서상",
+  "faction": "위",
+  "base": {
+   "combat": 68,
+   "politics": 42,
+   "intellect": 51,
+   "leadership": 62
+  },
+  "activeFrom": 202,
+  "activeTo": 232,
+  "peakFrom": 210,
+  "peakTo": 224,
+  "homeCity": "진양",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "서서",
+  "name": "서서",
+  "faction": "군웅",
+  "base": {
+   "combat": 70,
+   "politics": 93,
+   "intellect": 97,
+   "leadership": 94
+  },
+  "activeFrom": 206,
+  "activeTo": 232,
+  "peakFrom": 212,
+  "peakTo": 226,
+  "homeCity": "허창",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "한숭",
+   "제갈량",
+   "방통",
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "서성",
+  "name": "서성",
+  "faction": "오",
+  "base": {
+   "combat": 88,
+   "politics": 75,
+   "intellect": 88,
+   "leadership": 94
+  },
+  "activeFrom": 196,
+  "activeTo": 228,
+  "peakFrom": 204,
+  "peakTo": 220,
+  "homeCity": "하비",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "정봉"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "서영",
+  "name": "서영",
+  "faction": "군웅",
+  "base": {
+   "combat": 64,
+   "politics": 51,
+   "intellect": 53,
+   "leadership": 71
+  },
+  "activeFrom": 186,
+  "activeTo": 190,
+  "peakFrom": 187,
+  "peakTo": 189,
+  "homeCity": "양평",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "서황",
+  "name": "서황",
+  "faction": "위",
+  "base": {
+   "combat": 95,
+   "politics": 58,
+   "intellect": 99,
+   "leadership": 94
+  },
+  "activeFrom": 188,
+  "activeTo": 228,
+  "peakFrom": 198,
+  "peakTo": 218,
+  "homeCity": "낙양",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "관우",
+   "만총",
+   "왕평"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "설종",
+  "name": "설종",
+  "faction": "오",
+  "base": {
+   "combat": 33,
+   "politics": 86,
+   "intellect": 71,
+   "leadership": 34
+  },
+  "activeFrom": 206,
+  "activeTo": 243,
+  "peakFrom": 215,
+  "peakTo": 234,
+  "homeCity": "소패",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "성의",
+  "name": "성의",
+  "faction": "군웅",
+  "base": {
+   "combat": 69,
+   "politics": 49,
+   "intellect": 42,
+   "leadership": 65
+  },
+  "activeFrom": 184,
+  "activeTo": 211,
+  "peakFrom": 191,
+  "peakTo": 204,
+  "homeCity": "무위",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "손건",
+  "name": "손건",
+  "faction": "촉",
+  "base": {
+   "combat": 42,
+   "politics": 91,
+   "intellect": 80,
+   "leadership": 35
+  },
+  "activeFrom": 184,
+  "activeTo": 215,
+  "peakFrom": 192,
+  "peakTo": 207,
+  "homeCity": "북해",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "간옹",
+   "미축",
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "손견",
+  "name": "손견",
+  "faction": "오",
+  "base": {
+   "combat": 96,
+   "politics": 76,
+   "intellect": 87,
+   "leadership": 98
+  },
+  "activeFrom": 184,
+  "activeTo": 192,
+  "peakFrom": 186,
+  "peakTo": 190,
+  "homeCity": "하비",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "한당",
+   "황개",
+   "정보",
+   "동탁"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "손권",
+  "name": "손권",
+  "faction": "오",
+  "base": {
+   "combat": 83,
+   "politics": 93,
+   "intellect": 92,
+   "leadership": 88
+  },
+  "activeFrom": 196,
+  "activeTo": 252,
+  "peakFrom": 210,
+  "peakTo": 238,
+  "homeCity": "오",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "손견",
+   "주태",
+   "주유",
+   "주연"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "손등",
+  "name": "손등",
+  "faction": "오",
+  "base": {
+   "combat": 40,
+   "politics": 81,
+   "intellect": 74,
+   "leadership": 50
+  },
+  "activeFrom": 223,
+  "activeTo": 241,
+  "peakFrom": 227,
+  "peakTo": 237,
+  "homeCity": "오",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "손권",
+   "제갈각",
+   "손화",
+   "장휴"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "손례",
+  "name": "손례",
+  "faction": "위",
+  "base": {
+   "combat": 88,
+   "politics": 74,
+   "intellect": 67,
+   "leadership": 79
+  },
+  "activeFrom": 204,
+  "activeTo": 250,
+  "peakFrom": 216,
+  "peakTo": 238,
+  "homeCity": "계",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "조예"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "손유",
+  "name": "손유",
+  "faction": "오",
+  "base": {
+   "combat": 70,
+   "politics": 71,
+   "intellect": 69,
+   "leadership": 81
+  },
+  "activeFrom": 191,
+  "activeTo": 215,
+  "peakFrom": 197,
+  "peakTo": 209,
+  "homeCity": "오",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "주유"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "손익",
+  "name": "손익",
+  "faction": "오",
+  "base": {
+   "combat": 86,
+   "politics": 33,
+   "intellect": 40,
+   "leadership": 66
+  },
+  "activeFrom": 198,
+  "activeTo": 204,
+  "peakFrom": 200,
+  "peakTo": 202,
+  "homeCity": "오",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "손견",
+   "손책"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "손책",
+  "name": "손책",
+  "faction": "오",
+  "base": {
+   "combat": 97,
+   "politics": 75,
+   "intellect": 85,
+   "leadership": 98
+  },
+  "activeFrom": 189,
+  "activeTo": 200,
+  "peakFrom": 192,
+  "peakTo": 197,
+  "homeCity": "오",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "손견",
+   "주유",
+   "태사자",
+   "여범"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "손화",
+  "name": "손화",
+  "faction": "오",
+  "base": {
+   "combat": 40,
+   "politics": 74,
+   "intellect": 66,
+   "leadership": 34
+  },
+  "activeFrom": 238,
+  "activeTo": 253,
+  "peakFrom": 242,
+  "peakTo": 249,
+  "homeCity": "오",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "손권",
+   "감택",
+   "설종",
+   "손등"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "손환(손항)",
+  "name": "손환(손항)",
+  "faction": "오",
+  "base": {
+   "combat": 53,
+   "politics": 45,
+   "intellect": 53,
+   "leadership": 45
+  },
+  "activeFrom": 201,
+  "activeTo": 241,
+  "peakFrom": 211,
+  "peakTo": 231,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "송겸",
+  "name": "송겸",
+  "faction": "오",
+  "base": {
+   "combat": 84,
+   "politics": 45,
+   "intellect": 45,
+   "leadership": 65
+  },
+  "activeFrom": 194,
+  "activeTo": 227,
+  "peakFrom": 202,
+  "peakTo": 219,
+  "homeCity": "여강",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "가화"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "송충",
+  "name": "송충",
+  "faction": "위",
+  "base": {
+   "combat": 37,
+   "politics": 62,
+   "intellect": 55,
+   "leadership": 35
+  },
+  "activeFrom": 184,
+  "activeTo": 235,
+  "peakFrom": 197,
+  "peakTo": 222,
+  "homeCity": "양양",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "반준"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "송헌",
+  "name": "송헌",
+  "faction": "군웅",
+  "base": {
+   "combat": 71,
+   "politics": 44,
+   "intellect": 44,
+   "leadership": 56
+  },
+  "activeFrom": 184,
+  "activeTo": 200,
+  "peakFrom": 188,
+  "peakTo": 196,
+  "homeCity": "진양",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "위속",
+   "후성"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "순우경",
+  "name": "순우경",
+  "faction": "촉",
+  "base": {
+   "combat": 74,
+   "politics": 45,
+   "intellect": 50,
+   "leadership": 75
+  },
+  "activeFrom": 184,
+  "activeTo": 200,
+  "peakFrom": 188,
+  "peakTo": 196,
+  "homeCity": "낙양",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "순욱",
+  "name": "순욱",
+  "faction": "위",
+  "base": {
+   "combat": 31,
+   "politics": 99,
+   "intellect": 98,
+   "leadership": 49
+  },
+  "activeFrom": 184,
+  "activeTo": 212,
+  "peakFrom": 191,
+  "peakTo": 205,
+  "homeCity": "허창",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "사마소",
+   "종요"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "순유",
+  "name": "순유",
+  "faction": "위",
+  "base": {
+   "combat": 38,
+   "politics": 96,
+   "intellect": 97,
+   "leadership": 74
+  },
+  "activeFrom": 184,
+  "activeTo": 214,
+  "peakFrom": 192,
+  "peakTo": 206,
+  "homeCity": "낙양",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "곽가",
+   "순욱",
+   "종요",
+   "조조"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "신비",
+  "name": "신비",
+  "faction": "위",
+  "base": {
+   "combat": 39,
+   "politics": 90,
+   "intellect": 83,
+   "leadership": 37
+  },
+  "activeFrom": 189,
+  "activeTo": 240,
+  "peakFrom": 202,
+  "peakTo": 227,
+  "homeCity": "허창",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "조비",
+   "심배"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "신평",
+  "name": "신평",
+  "faction": "군웅",
+  "base": {
+   "combat": 52,
+   "politics": 77,
+   "intellect": 78,
+   "leadership": 70
+  },
+  "activeFrom": 184,
+  "activeTo": 204,
+  "peakFrom": 189,
+  "peakTo": 199,
+  "homeCity": "허창",
+  "title": "지모를 갖춘 참모",
+  "bonds": [
+   "심배",
+   "봉기"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "심배",
+  "name": "심배",
+  "faction": "군웅",
+  "base": {
+   "combat": 68,
+   "politics": 83,
+   "intellect": 85,
+   "leadership": 87
+  },
+  "activeFrom": 184,
+  "activeTo": 204,
+  "peakFrom": 189,
+  "peakTo": 199,
+  "homeCity": "업",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "원소",
+   "심영",
+   "봉기",
+   "곽도"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "심영",
+  "name": "심영",
+  "faction": "군웅",
+  "base": {
+   "combat": 76,
+   "politics": 49,
+   "intellect": 57,
+   "leadership": 68
+  },
+  "activeFrom": 253,
+  "activeTo": 280,
+  "peakFrom": 260,
+  "peakTo": 273,
+  "homeCity": "건업",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "신비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "아회남",
+  "name": "아회남",
+  "faction": "군웅",
+  "base": {
+   "combat": 80,
+   "politics": 40,
+   "intellect": 31,
+   "leadership": 57
+  },
+  "activeFrom": 217,
+  "activeTo": 225,
+  "peakFrom": 219,
+  "peakTo": 223,
+  "homeCity": "운남",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "악진",
+  "name": "악진",
+  "faction": "위",
+  "base": {
+   "combat": 87,
+   "politics": 53,
+   "intellect": 56,
+   "leadership": 84
+  },
+  "activeFrom": 188,
+  "activeTo": 218,
+  "peakFrom": 196,
+  "peakTo": 210,
+  "homeCity": "복양",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "장료",
+   "이전"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "악취(낙취)",
+  "name": "악취(낙취)",
+  "faction": "군웅",
+  "base": {
+   "combat": 80,
+   "politics": 59,
+   "intellect": 59,
+   "leadership": 59
+  },
+  "activeFrom": 183,
+  "activeTo": 218,
+  "peakFrom": 192,
+  "peakTo": 209,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "안량",
+  "name": "안량",
+  "faction": "군웅",
+  "base": {
+   "combat": 97,
+   "politics": 36,
+   "intellect": 36,
+   "leadership": 92
+  },
+  "activeFrom": 184,
+  "activeTo": 200,
+  "peakFrom": 188,
+  "peakTo": 196,
+  "homeCity": "남피",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "원소",
+   "문추"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "양강",
+  "name": "양강",
+  "faction": "군웅",
+  "base": {
+   "combat": 63,
+   "politics": 32,
+   "intellect": 42,
+   "leadership": 57
+  },
+  "activeFrom": 184,
+  "activeTo": 197,
+  "peakFrom": 187,
+  "peakTo": 194,
+  "homeCity": "완",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "이풍"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "양령",
+  "name": "양령",
+  "faction": "군웅",
+  "base": {
+   "combat": 46,
+   "politics": 73,
+   "intellect": 60,
+   "leadership": 50
+  },
+  "activeFrom": 200,
+  "activeTo": 225,
+  "peakFrom": 206,
+  "peakTo": 219,
+  "homeCity": "",
+  "title": "행정에 밝은 문관",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "양백",
+  "name": "양백",
+  "faction": "군웅",
+  "base": {
+   "combat": 54,
+   "politics": 35,
+   "intellect": 31,
+   "leadership": 40
+  },
+  "activeFrom": 189,
+  "activeTo": 214,
+  "peakFrom": 195,
+  "peakTo": 208,
+  "homeCity": "한중",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "마초"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "양봉",
+  "name": "양봉",
+  "faction": "군웅",
+  "base": {
+   "combat": 62,
+   "politics": 37,
+   "intellect": 44,
+   "leadership": 55
+  },
+  "activeFrom": 184,
+  "activeTo": 197,
+  "peakFrom": 187,
+  "peakTo": 194,
+  "homeCity": "낙양",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "양송",
+  "name": "양송",
+  "faction": "군웅",
+  "base": {
+   "combat": 29,
+   "politics": 51,
+   "intellect": 38,
+   "leadership": 25
+  },
+  "activeFrom": 186,
+  "activeTo": 215,
+  "peakFrom": 193,
+  "peakTo": 208,
+  "homeCity": "한중",
+  "title": "행정에 밝은 문관",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "양수",
+  "name": "양수",
+  "faction": "위",
+  "base": {
+   "combat": 27,
+   "politics": 91,
+   "intellect": 94,
+   "leadership": 27
+  },
+  "activeFrom": 194,
+  "activeTo": 219,
+  "peakFrom": 200,
+  "peakTo": 213,
+  "homeCity": "낙양",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "공융",
+   "장송"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "양앙",
+  "name": "양앙",
+  "faction": "군웅",
+  "base": {
+   "combat": 76,
+   "politics": 40,
+   "intellect": 37,
+   "leadership": 66
+  },
+  "activeFrom": 191,
+  "activeTo": 215,
+  "peakFrom": 197,
+  "peakTo": 209,
+  "homeCity": "한중",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "양임"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "양의",
+  "name": "양의",
+  "faction": "촉",
+  "base": {
+   "combat": 49,
+   "politics": 85,
+   "intellect": 83,
+   "leadership": 68
+  },
+  "activeFrom": 209,
+  "activeTo": 235,
+  "peakFrom": 215,
+  "peakTo": 229,
+  "homeCity": "양양",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "제갈량",
+   "위연",
+   "유파"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "양임",
+  "name": "양임",
+  "faction": "군웅",
+  "base": {
+   "combat": 83,
+   "politics": 49,
+   "intellect": 58,
+   "leadership": 73
+  },
+  "activeFrom": 189,
+  "activeTo": 215,
+  "peakFrom": 195,
+  "peakTo": 209,
+  "homeCity": "한중",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "양앙"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "양추",
+  "name": "양추",
+  "faction": "군웅",
+  "base": {
+   "combat": 65,
+   "politics": 38,
+   "intellect": 41,
+   "leadership": 50
+  },
+  "activeFrom": 184,
+  "activeTo": 199,
+  "peakFrom": 188,
+  "peakTo": 195,
+  "homeCity": "진양",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "양평",
+  "name": "양평",
+  "faction": "군웅",
+  "base": {
+   "combat": 73,
+   "politics": 44,
+   "intellect": 32,
+   "leadership": 44
+  },
+  "activeFrom": 188,
+  "activeTo": 223,
+  "peakFrom": 197,
+  "peakTo": 214,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "양홍",
+  "name": "양홍",
+  "faction": "촉",
+  "base": {
+   "combat": 37,
+   "politics": 65,
+   "intellect": 76,
+   "leadership": 32
+  },
+  "activeFrom": 184,
+  "activeTo": 199,
+  "peakFrom": 188,
+  "peakTo": 195,
+  "homeCity": "완",
+  "title": "지모를 갖춘 참모",
+  "bonds": [
+   "이엄"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "양회",
+  "name": "양회",
+  "faction": "군웅",
+  "base": {
+   "combat": 77,
+   "politics": 56,
+   "intellect": 57,
+   "leadership": 60
+  },
+  "activeFrom": 186,
+  "activeTo": 212,
+  "peakFrom": 192,
+  "peakTo": 206,
+  "homeCity": "자동",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "고패"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "양흥",
+  "name": "양흥",
+  "faction": "군웅",
+  "base": {
+   "combat": 65,
+   "politics": 29,
+   "intellect": 27,
+   "leadership": 52
+  },
+  "activeFrom": 188,
+  "activeTo": 211,
+  "peakFrom": 194,
+  "peakTo": 205,
+  "homeCity": "무위",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "엄안",
+  "name": "엄안",
+  "faction": "촉",
+  "base": {
+   "combat": 92,
+   "politics": 72,
+   "intellect": 76,
+   "leadership": 87
+  },
+  "activeFrom": 184,
+  "activeTo": 222,
+  "peakFrom": 194,
+  "peakTo": 212,
+  "homeCity": "강주",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "황충",
+   "장비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "엄준(염준)",
+  "name": "엄준(염준)",
+  "faction": "오",
+  "base": {
+   "combat": 30,
+   "politics": 49,
+   "intellect": 86,
+   "leadership": 49
+  },
+  "activeFrom": 189,
+  "activeTo": 224,
+  "peakFrom": 198,
+  "peakTo": 215,
+  "homeCity": "",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "여개",
+  "name": "여개",
+  "faction": "촉",
+  "base": {
+   "combat": 42,
+   "politics": 85,
+   "intellect": 73,
+   "leadership": 43
+  },
+  "activeFrom": 214,
+  "activeTo": 227,
+  "peakFrom": 217,
+  "peakTo": 224,
+  "homeCity": "운남",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "왕항",
+   "옹개"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "여건",
+  "name": "여건",
+  "faction": "위",
+  "base": {
+   "combat": 76,
+   "politics": 65,
+   "intellect": 52,
+   "leadership": 45
+  },
+  "activeFrom": 192,
+  "activeTo": 247,
+  "peakFrom": 206,
+  "peakTo": 233,
+  "homeCity": "복양",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "서상"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "여건2(여견)",
+  "name": "여건2(여견)",
+  "faction": "위",
+  "base": {
+   "combat": 78,
+   "politics": 47,
+   "intellect": 33,
+   "leadership": 47
+  },
+  "activeFrom": 179,
+  "activeTo": 214,
+  "peakFrom": 188,
+  "peakTo": 205,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "여공",
+  "name": "여공",
+  "faction": "군웅",
+  "base": {
+   "combat": 48,
+   "politics": 44,
+   "intellect": 49,
+   "leadership": 48
+  },
+  "activeFrom": 184,
+  "activeTo": 192,
+  "peakFrom": 186,
+  "peakTo": 190,
+  "homeCity": "양양",
+  "title": "지모를 갖춘 참모",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "여광",
+  "name": "여광",
+  "faction": "군웅",
+  "base": {
+   "combat": 71,
+   "politics": 33,
+   "intellect": 28,
+   "leadership": 51
+  },
+  "activeFrom": 184,
+  "activeTo": 207,
+  "peakFrom": 190,
+  "peakTo": 201,
+  "homeCity": "업",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "여상"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "여몽",
+  "name": "여몽",
+  "faction": "오",
+  "base": {
+   "combat": 90,
+   "politics": 77,
+   "intellect": 93,
+   "leadership": 97
+  },
+  "activeFrom": 193,
+  "activeTo": 219,
+  "peakFrom": 199,
+  "peakTo": 213,
+  "homeCity": "여남",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "감녕",
+   "주유",
+   "육손",
+   "능통"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "여범",
+  "name": "여범",
+  "faction": "오",
+  "base": {
+   "combat": 49,
+   "politics": 81,
+   "intellect": 79,
+   "leadership": 54
+  },
+  "activeFrom": 188,
+  "activeTo": 228,
+  "peakFrom": 198,
+  "peakTo": 218,
+  "homeCity": "여남",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "주치",
+   "손책"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "여상",
+  "name": "여상",
+  "faction": "위",
+  "base": {
+   "combat": 67,
+   "politics": 37,
+   "intellect": 32,
+   "leadership": 58
+  },
+  "activeFrom": 184,
+  "activeTo": 207,
+  "peakFrom": 190,
+  "peakTo": 201,
+  "homeCity": "업",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "여광"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "여의",
+  "name": "여의",
+  "faction": "촉",
+  "base": {
+   "combat": 57,
+   "politics": 63,
+   "intellect": 65,
+   "leadership": 64
+  },
+  "activeFrom": 187,
+  "activeTo": 222,
+  "peakFrom": 196,
+  "peakTo": 213,
+  "homeCity": "",
+  "title": "지모를 갖춘 참모",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "여패",
+  "name": "여패",
+  "faction": "오",
+  "base": {
+   "combat": 78,
+   "politics": 71,
+   "intellect": 90,
+   "leadership": 71
+  },
+  "activeFrom": 215,
+  "activeTo": 255,
+  "peakFrom": 225,
+  "peakTo": 245,
+  "homeCity": "",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "여포",
+  "name": "여포",
+  "faction": "군웅",
+  "base": {
+   "combat": 99,
+   "politics": 26,
+   "intellect": 30,
+   "leadership": 96
+  },
+  "activeFrom": 184,
+  "activeTo": 198,
+  "peakFrom": 188,
+  "peakTo": 194,
+  "homeCity": "진양",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "고순",
+   "장료",
+   "진궁",
+   "관우"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "염포",
+  "name": "염포",
+  "faction": "군웅",
+  "base": {
+   "combat": 36,
+   "politics": 89,
+   "intellect": 90,
+   "leadership": 33
+  },
+  "activeFrom": 187,
+  "activeTo": 231,
+  "peakFrom": 198,
+  "peakTo": 220,
+  "homeCity": "한중",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "오란",
+  "name": "오란",
+  "faction": "촉",
+  "base": {
+   "combat": 89,
+   "politics": 47,
+   "intellect": 43,
+   "leadership": 69
+  },
+  "activeFrom": 189,
+  "activeTo": 218,
+  "peakFrom": 196,
+  "peakTo": 211,
+  "homeCity": "성도",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "오의",
+   "뇌동"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "오반",
+  "name": "오반",
+  "faction": "촉",
+  "base": {
+   "combat": 76,
+   "politics": 54,
+   "intellect": 54,
+   "leadership": 77
+  },
+  "activeFrom": 190,
+  "activeTo": 234,
+  "peakFrom": 201,
+  "peakTo": 223,
+  "homeCity": "진류",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "오의"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "오의",
+  "name": "오의",
+  "faction": "촉",
+  "base": {
+   "combat": 80,
+   "politics": 78,
+   "intellect": 75,
+   "leadership": 87
+  },
+  "activeFrom": 185,
+  "activeTo": 237,
+  "peakFrom": 198,
+  "peakTo": 224,
+  "homeCity": "진류",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "오반",
+   "오란",
+   "뇌동"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "옹개",
+  "name": "옹개",
+  "faction": "군웅",
+  "base": {
+   "combat": 79,
+   "politics": 49,
+   "intellect": 54,
+   "leadership": 71
+  },
+  "activeFrom": 200,
+  "activeTo": 225,
+  "peakFrom": 206,
+  "peakTo": 219,
+  "homeCity": "건녕",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "왕광",
+  "name": "왕광",
+  "faction": "군웅",
+  "base": {
+   "combat": 56,
+   "politics": 72,
+   "intellect": 60,
+   "leadership": 66
+  },
+  "activeFrom": 184,
+  "activeTo": 190,
+  "peakFrom": 186,
+  "peakTo": 188,
+  "homeCity": "호뢰관",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "동탁"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "왕랑",
+  "name": "왕랑",
+  "faction": "위",
+  "base": {
+   "combat": 44,
+   "politics": 83,
+   "intellect": 78,
+   "leadership": 42
+  },
+  "activeFrom": 184,
+  "activeTo": 228,
+  "peakFrom": 195,
+  "peakTo": 217,
+  "homeCity": "하비",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "화흠",
+   "허정",
+   "제갈량"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "왕루",
+  "name": "왕루",
+  "faction": "군웅",
+  "base": {
+   "combat": 35,
+   "politics": 88,
+   "intellect": 86,
+   "leadership": 33
+  },
+  "activeFrom": 192,
+  "activeTo": 211,
+  "peakFrom": 197,
+  "peakTo": 206,
+  "homeCity": "성도",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "유장",
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "왕수",
+  "name": "왕수",
+  "faction": "위",
+  "base": {
+   "combat": 43,
+   "politics": 82,
+   "intellect": 76,
+   "leadership": 42
+  },
+  "activeFrom": 187,
+  "activeTo": 218,
+  "peakFrom": 195,
+  "peakTo": 210,
+  "homeCity": "북해",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "공융",
+   "곽도",
+   "신평"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "왕쌍",
+  "name": "왕쌍",
+  "faction": "위",
+  "base": {
+   "combat": 94,
+   "politics": 32,
+   "intellect": 27,
+   "leadership": 62
+  },
+  "activeFrom": 219,
+  "activeTo": 228,
+  "peakFrom": 221,
+  "peakTo": 226,
+  "homeCity": "천수",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "조진"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "왕위",
+  "name": "왕위",
+  "faction": "군웅",
+  "base": {
+   "combat": 63,
+   "politics": 60,
+   "intellect": 62,
+   "leadership": 55
+  },
+  "activeFrom": 192,
+  "activeTo": 208,
+  "peakFrom": 196,
+  "peakTo": 204,
+  "homeCity": "양양",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "왕찬",
+  "name": "왕찬",
+  "faction": "위",
+  "base": {
+   "combat": 26,
+   "politics": 93,
+   "intellect": 89,
+   "leadership": 26
+  },
+  "activeFrom": 193,
+  "activeTo": 217,
+  "peakFrom": 199,
+  "peakTo": 211,
+  "homeCity": "복양",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "왕충",
+  "name": "왕충",
+  "faction": "위",
+  "base": {
+   "combat": 57,
+   "politics": 37,
+   "intellect": 33,
+   "leadership": 39
+  },
+  "activeFrom": 186,
+  "activeTo": 214,
+  "peakFrom": 193,
+  "peakTo": 207,
+  "homeCity": "장안",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "유대",
+   "조비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "왕평",
+  "name": "왕평",
+  "faction": "촉",
+  "base": {
+   "combat": 86,
+   "politics": 66,
+   "intellect": 78,
+   "leadership": 90
+  },
+  "activeFrom": 216,
+  "activeTo": 248,
+  "peakFrom": 224,
+  "peakTo": 240,
+  "homeCity": "자동",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "서황",
+   "마속"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "왕항",
+  "name": "왕항",
+  "faction": "촉",
+  "base": {
+   "combat": 56,
+   "politics": 72,
+   "intellect": 61,
+   "leadership": 71
+  },
+  "activeFrom": 213,
+  "activeTo": 254,
+  "peakFrom": 223,
+  "peakTo": 244,
+  "homeCity": "성도",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "여개"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "왕해(왕개)",
+  "name": "왕해(왕개)",
+  "faction": "촉",
+  "base": {
+   "combat": 34,
+   "politics": 41,
+   "intellect": 63,
+   "leadership": 41
+  },
+  "activeFrom": 191,
+  "activeTo": 214,
+  "peakFrom": 197,
+  "peakTo": 208,
+  "homeCity": "",
+  "title": "지모를 갖춘 참모",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "요화",
+  "name": "요화",
+  "faction": "촉",
+  "base": {
+   "combat": 76,
+   "politics": 57,
+   "intellect": 70,
+   "leadership": 72
+  },
+  "activeFrom": 184,
+  "activeTo": 264,
+  "peakFrom": 204,
+  "peakTo": 244,
+  "homeCity": "소패",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "관우",
+   "관평",
+   "장익",
+   "맹달"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "우금",
+  "name": "우금",
+  "faction": "위",
+  "base": {
+   "combat": 84,
+   "politics": 61,
+   "intellect": 71,
+   "leadership": 91
+  },
+  "activeFrom": 184,
+  "activeTo": 221,
+  "peakFrom": 193,
+  "peakTo": 212,
+  "homeCity": "복양",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "조인"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "우번",
+  "name": "우번",
+  "faction": "오",
+  "base": {
+   "combat": 48,
+   "politics": 90,
+   "intellect": 91,
+   "leadership": 36
+  },
+  "activeFrom": 184,
+  "activeTo": 233,
+  "peakFrom": 196,
+  "peakTo": 221,
+  "homeCity": "회계",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "공융",
+   "제갈근",
+   "동습",
+   "부사인"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "원담",
+  "name": "원담",
+  "faction": "군웅",
+  "base": {
+   "combat": 64,
+   "politics": 47,
+   "intellect": 43,
+   "leadership": 56
+  },
+  "activeFrom": 187,
+  "activeTo": 205,
+  "peakFrom": 191,
+  "peakTo": 201,
+  "homeCity": "여남",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "원소",
+   "원소",
+   "유비",
+   "원상"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "원상",
+  "name": "원상",
+  "faction": "군웅",
+  "base": {
+   "combat": 75,
+   "politics": 50,
+   "intellect": 55,
+   "leadership": 57
+  },
+  "activeFrom": 193,
+  "activeTo": 207,
+  "peakFrom": 197,
+  "peakTo": 203,
+  "homeCity": "여남",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "원소",
+   "원소",
+   "원담",
+   "조조"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "원소",
+  "name": "원소",
+  "faction": "군웅",
+  "base": {
+   "combat": 81,
+   "politics": 76,
+   "intellect": 80,
+   "leadership": 89
+  },
+  "activeFrom": 184,
+  "activeTo": 202,
+  "peakFrom": 188,
+  "peakTo": 198,
+  "homeCity": "낙양",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "원상",
+   "안량",
+   "문추",
+   "원술"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "원술",
+  "name": "원술",
+  "faction": "군웅",
+  "base": {
+   "combat": 71,
+   "politics": 35,
+   "intellect": 72,
+   "leadership": 48
+  },
+  "activeFrom": 184,
+  "activeTo": 199,
+  "peakFrom": 188,
+  "peakTo": 195,
+  "homeCity": "낙양",
+  "title": "지모를 갖춘 참모",
+  "bonds": [
+   "원소",
+   "조조"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "원윤",
+  "name": "원윤",
+  "faction": "군웅",
+  "base": {
+   "combat": 31,
+   "politics": 56,
+   "intellect": 52,
+   "leadership": 32
+  },
+  "activeFrom": 184,
+  "activeTo": 199,
+  "peakFrom": 188,
+  "peakTo": 195,
+  "homeCity": "여남",
+  "title": "행정에 밝은 문관",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "원희",
+  "name": "원희",
+  "faction": "군웅",
+  "base": {
+   "combat": 54,
+   "politics": 74,
+   "intellect": 70,
+   "leadership": 67
+  },
+  "activeFrom": 190,
+  "activeTo": 207,
+  "peakFrom": 194,
+  "peakTo": 203,
+  "homeCity": "여남",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "원소",
+   "조비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "위속",
+  "name": "위속",
+  "faction": "위",
+  "base": {
+   "combat": 79,
+   "politics": 44,
+   "intellect": 37,
+   "leadership": 63
+  },
+  "activeFrom": 184,
+  "activeTo": 200,
+  "peakFrom": 188,
+  "peakTo": 196,
+  "homeCity": "진양",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "후성",
+   "송헌"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "위연",
+  "name": "위연",
+  "faction": "촉",
+  "base": {
+   "combat": 96,
+   "politics": 47,
+   "intellect": 63,
+   "leadership": 92
+  },
+  "activeFrom": 194,
+  "activeTo": 234,
+  "peakFrom": 204,
+  "peakTo": 224,
+  "homeCity": "신야",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "진식",
+   "유비",
+   "제갈량",
+   "양의"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "유귀",
+  "name": "유귀",
+  "faction": "촉",
+  "base": {
+   "combat": 48,
+   "politics": 82,
+   "intellect": 57,
+   "leadership": 52
+  },
+  "activeFrom": 194,
+  "activeTo": 229,
+  "peakFrom": 203,
+  "peakTo": 220,
+  "homeCity": "",
+  "title": "행정에 밝은 문관",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "유기(유의)",
+  "name": "유기(유의)",
+  "faction": "군웅",
+  "base": {
+   "combat": 33,
+   "politics": 53,
+   "intellect": 92,
+   "leadership": 53
+  },
+  "activeFrom": 195,
+  "activeTo": 235,
+  "peakFrom": 205,
+  "peakTo": 225,
+  "homeCity": "",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "유대",
+  "name": "유대",
+  "faction": "군웅",
+  "base": {
+   "combat": 62,
+   "politics": 46,
+   "intellect": 45,
+   "leadership": 48
+  },
+  "activeFrom": 184,
+  "activeTo": 202,
+  "peakFrom": 188,
+  "peakTo": 198,
+  "homeCity": "진류",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "왕충"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "유도",
+  "name": "유도",
+  "faction": "군웅",
+  "base": {
+   "combat": 43,
+   "politics": 60,
+   "intellect": 46,
+   "leadership": 31
+  },
+  "activeFrom": 187,
+  "activeTo": 214,
+  "peakFrom": 194,
+  "peakTo": 207,
+  "homeCity": "영릉",
+  "title": "행정에 밝은 문관",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "유반",
+  "name": "유반",
+  "faction": "군웅",
+  "base": {
+   "combat": 65,
+   "politics": 52,
+   "intellect": 51,
+   "leadership": 71
+  },
+  "activeFrom": 188,
+  "activeTo": 210,
+  "peakFrom": 194,
+  "peakTo": 204,
+  "homeCity": "복양",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "황충"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "유봉",
+  "name": "유봉",
+  "faction": "촉",
+  "base": {
+   "combat": 77,
+   "politics": 56,
+   "intellect": 54,
+   "leadership": 73
+  },
+  "activeFrom": 206,
+  "activeTo": 220,
+  "peakFrom": 210,
+  "peakTo": 216,
+  "homeCity": "장사",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "유비",
+   "관평",
+   "맹달"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "유비",
+  "name": "유비",
+  "faction": "촉",
+  "base": {
+   "combat": 82,
+   "politics": 88,
+   "intellect": 83,
+   "leadership": 81
+  },
+  "activeFrom": 184,
+  "activeTo": 223,
+  "peakFrom": 194,
+  "peakTo": 213,
+  "homeCity": "계",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "공손찬",
+   "제갈량",
+   "서서",
+   "조운"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "유선",
+  "name": "유선",
+  "faction": "촉",
+  "base": {
+   "combat": 28,
+   "politics": 42,
+   "intellect": 32,
+   "leadership": 26
+  },
+  "activeFrom": 238,
+  "activeTo": 264,
+  "peakFrom": 244,
+  "peakTo": 258,
+  "homeCity": "계",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "유비",
+   "제갈량",
+   "조운"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "유순",
+  "name": "유순",
+  "faction": "군웅",
+  "base": {
+   "combat": 54,
+   "politics": 50,
+   "intellect": 49,
+   "leadership": 55
+  },
+  "activeFrom": 198,
+  "activeTo": 239,
+  "peakFrom": 208,
+  "peakTo": 229,
+  "homeCity": "계",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "유장"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "유언",
+  "name": "유언",
+  "faction": "군웅",
+  "base": {
+   "combat": 45,
+   "politics": 92,
+   "intellect": 84,
+   "leadership": 44
+  },
+  "activeFrom": 184,
+  "activeTo": 194,
+  "peakFrom": 186,
+  "peakTo": 192,
+  "homeCity": "계",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "유엽",
+  "name": "유엽",
+  "faction": "위",
+  "base": {
+   "combat": 38,
+   "politics": 83,
+   "intellect": 94,
+   "leadership": 40
+  },
+  "activeFrom": 193,
+  "activeTo": 235,
+  "peakFrom": 203,
+  "peakTo": 225,
+  "homeCity": "수춘",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "곽가",
+   "만총",
+   "여건",
+   "노숙"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "유요(유엽)",
+  "name": "유요(유엽)",
+  "faction": "군웅",
+  "base": {
+   "combat": 26,
+   "politics": 36,
+   "intellect": 61,
+   "leadership": 36
+  },
+  "activeFrom": 171,
+  "activeTo": 206,
+  "peakFrom": 180,
+  "peakTo": 197,
+  "homeCity": "",
+  "title": "지모를 갖춘 참모",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "유장",
+  "name": "유장",
+  "faction": "군웅",
+  "base": {
+   "combat": 33,
+   "politics": 53,
+   "intellect": 44,
+   "leadership": 31
+  },
+  "activeFrom": 184,
+  "activeTo": 219,
+  "peakFrom": 193,
+  "peakTo": 210,
+  "homeCity": "계",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "유언",
+   "간옹",
+   "장로"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "유종",
+  "name": "유종",
+  "faction": "군웅",
+  "base": {
+   "combat": 39,
+   "politics": 70,
+   "intellect": 65,
+   "leadership": 29
+  },
+  "activeFrom": 207,
+  "activeTo": 208,
+  "peakFrom": 207,
+  "peakTo": 208,
+  "homeCity": "복양",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "유표",
+   "채모"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "유파",
+  "name": "유파",
+  "faction": "군웅",
+  "base": {
+   "combat": 43,
+   "politics": 82,
+   "intellect": 79,
+   "leadership": 32
+  },
+  "activeFrom": 205,
+  "activeTo": 222,
+  "peakFrom": 209,
+  "peakTo": 218,
+  "homeCity": "영릉",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "장비",
+   "양의"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "유표",
+  "name": "유표",
+  "faction": "촉",
+  "base": {
+   "combat": 49,
+   "politics": 85,
+   "intellect": 75,
+   "leadership": 51
+  },
+  "activeFrom": 184,
+  "activeTo": 208,
+  "peakFrom": 190,
+  "peakTo": 202,
+  "homeCity": "장안",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "유현(유연)",
+  "name": "유현(유연)",
+  "faction": "군웅",
+  "base": {
+   "combat": 45,
+   "politics": 39,
+   "intellect": 48,
+   "leadership": 39
+  },
+  "activeFrom": 201,
+  "activeTo": 221,
+  "peakFrom": 206,
+  "peakTo": 216,
+  "homeCity": "",
+  "title": "지모를 갖춘 참모",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "육손",
+  "name": "육손",
+  "faction": "오",
+  "base": {
+   "combat": 82,
+   "politics": 97,
+   "intellect": 98,
+   "leadership": 98
+  },
+  "activeFrom": 202,
+  "activeTo": 245,
+  "peakFrom": 213,
+  "peakTo": 234,
+  "homeCity": "오",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "감택",
+   "여몽"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "육적",
+  "name": "육적",
+  "faction": "오",
+  "base": {
+   "combat": 27,
+   "politics": 74,
+   "intellect": 74,
+   "leadership": 28
+  },
+  "activeFrom": 206,
+  "activeTo": 219,
+  "peakFrom": 209,
+  "peakTo": 216,
+  "homeCity": "오",
+  "title": "지모를 갖춘 참모",
+  "bonds": [
+   "우번",
+   "전종",
+   "방통"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "윤묵(윤목)",
+  "name": "윤묵(윤목)",
+  "faction": "군웅",
+  "base": {
+   "combat": 25,
+   "politics": 39,
+   "intellect": 68,
+   "leadership": 39
+  },
+  "activeFrom": 217,
+  "activeTo": 227,
+  "peakFrom": 219,
+  "peakTo": 225,
+  "homeCity": "",
+  "title": "지모를 갖춘 참모",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "이각",
+  "name": "이각",
+  "faction": "군웅",
+  "base": {
+   "combat": 70,
+   "politics": 28,
+   "intellect": 37,
+   "leadership": 59
+  },
+  "activeFrom": 184,
+  "activeTo": 198,
+  "peakFrom": 188,
+  "peakTo": 194,
+  "homeCity": "천수",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "곽사"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "이감(이담)",
+  "name": "이감(이담)",
+  "faction": "군웅",
+  "base": {
+   "combat": 52,
+   "politics": 41,
+   "intellect": 45,
+   "leadership": 41
+  },
+  "activeFrom": 191,
+  "activeTo": 231,
+  "peakFrom": 201,
+  "peakTo": 221,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "이규",
+  "name": "이규",
+  "faction": "군웅",
+  "base": {
+   "combat": 29,
+   "politics": 77,
+   "intellect": 66,
+   "leadership": 48
+  },
+  "activeFrom": 177,
+  "activeTo": 212,
+  "peakFrom": 186,
+  "peakTo": 203,
+  "homeCity": "",
+  "title": "행정에 밝은 문관",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "이숙",
+  "name": "이숙",
+  "faction": "촉",
+  "base": {
+   "combat": 56,
+   "politics": 54,
+   "intellect": 63,
+   "leadership": 38
+  },
+  "activeFrom": 184,
+  "activeTo": 192,
+  "peakFrom": 186,
+  "peakTo": 190,
+  "homeCity": "진양",
+  "title": "지모를 갖춘 참모",
+  "bonds": [
+   "여포"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "이엄",
+  "name": "이엄",
+  "faction": "촉",
+  "base": {
+   "combat": 91,
+   "politics": 73,
+   "intellect": 84,
+   "leadership": 89
+  },
+  "activeFrom": 187,
+  "activeTo": 234,
+  "peakFrom": 199,
+  "peakTo": 222,
+  "homeCity": "완",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "제갈량",
+   "맹달",
+   "비관",
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "이유",
+  "name": "이유",
+  "faction": "촉",
+  "base": {
+   "combat": 34,
+   "politics": 84,
+   "intellect": 96,
+   "leadership": 59
+  },
+  "activeFrom": 184,
+  "activeTo": 192,
+  "peakFrom": 186,
+  "peakTo": 190,
+  "homeCity": "천수",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "동탁"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "이이",
+  "name": "이이",
+  "faction": "오",
+  "base": {
+   "combat": 85,
+   "politics": 28,
+   "intellect": 28,
+   "leadership": 56
+  },
+  "activeFrom": 206,
+  "activeTo": 222,
+  "peakFrom": 210,
+  "peakTo": 218,
+  "homeCity": "무릉",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "담웅"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "이적",
+  "name": "이적",
+  "faction": "촉",
+  "base": {
+   "combat": 33,
+   "politics": 94,
+   "intellect": 87,
+   "leadership": 36
+  },
+  "activeFrom": 189,
+  "activeTo": 226,
+  "peakFrom": 198,
+  "peakTo": 217,
+  "homeCity": "복양",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "마속",
+   "마량",
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "이전",
+  "name": "이전",
+  "faction": "위",
+  "base": {
+   "combat": 81,
+   "politics": 71,
+   "intellect": 77,
+   "leadership": 80
+  },
+  "activeFrom": 189,
+  "activeTo": 216,
+  "peakFrom": 196,
+  "peakTo": 209,
+  "homeCity": "복양",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "악진",
+   "장료"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "이통",
+  "name": "이통",
+  "faction": "위",
+  "base": {
+   "combat": 87,
+   "politics": 62,
+   "intellect": 60,
+   "leadership": 77
+  },
+  "activeFrom": 187,
+  "activeTo": 211,
+  "peakFrom": 193,
+  "peakTo": 205,
+  "homeCity": "여남",
+  "title": "전장을 누비는 맹장",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "이풍",
+  "name": "이풍",
+  "faction": "군웅",
+  "base": {
+   "combat": 56,
+   "politics": 66,
+   "intellect": 59,
+   "leadership": 47
+  },
+  "activeFrom": 216,
+  "activeTo": 260,
+  "peakFrom": 227,
+  "peakTo": 249,
+  "homeCity": "완",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "양강"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "이회",
+  "name": "이회",
+  "faction": "촉",
+  "base": {
+   "combat": 59,
+   "politics": 83,
+   "intellect": 88,
+   "leadership": 80
+  },
+  "activeFrom": 194,
+  "activeTo": 231,
+  "peakFrom": 203,
+  "peakTo": 222,
+  "homeCity": "건녕",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "마초"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장굉(장현,장광)",
+  "name": "장굉(장현,장광)",
+  "faction": "오",
+  "base": {
+   "combat": 32,
+   "politics": 54,
+   "intellect": 97,
+   "leadership": 54
+  },
+  "activeFrom": 192,
+  "activeTo": 227,
+  "peakFrom": 201,
+  "peakTo": 218,
+  "homeCity": "",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "장남",
+  "name": "장남",
+  "faction": "군웅",
+  "base": {
+   "combat": 64,
+   "politics": 48,
+   "intellect": 46,
+   "leadership": 58
+  },
+  "activeFrom": 187,
+  "activeTo": 208,
+  "peakFrom": 192,
+  "peakTo": 203,
+  "homeCity": "남피",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "오반"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장달",
+  "name": "장달",
+  "faction": "군웅",
+  "base": {
+   "combat": 50,
+   "politics": 34,
+   "intellect": 35,
+   "leadership": 40
+  },
+  "activeFrom": 209,
+  "activeTo": 222,
+  "peakFrom": 212,
+  "peakTo": 219,
+  "homeCity": "영안",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "범강",
+   "장비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장로",
+  "name": "장로",
+  "faction": "군웅",
+  "base": {
+   "combat": 46,
+   "politics": 86,
+   "intellect": 82,
+   "leadership": 43
+  },
+  "activeFrom": 184,
+  "activeTo": 216,
+  "peakFrom": 192,
+  "peakTo": 208,
+  "homeCity": "한중",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "유장"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장료",
+  "name": "장료",
+  "faction": "위",
+  "base": {
+   "combat": 96,
+   "politics": 73,
+   "intellect": 90,
+   "leadership": 97
+  },
+  "activeFrom": 188,
+  "activeTo": 222,
+  "peakFrom": 196,
+  "peakTo": 214,
+  "homeCity": "진양",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "곽가",
+   "악진",
+   "관우",
+   "고순"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장막",
+  "name": "장막",
+  "faction": "군웅",
+  "base": {
+   "combat": 53,
+   "politics": 61,
+   "intellect": 58,
+   "leadership": 47
+  },
+  "activeFrom": 184,
+  "activeTo": 195,
+  "peakFrom": 187,
+  "peakTo": 192,
+  "homeCity": "낙양",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "원소",
+   "진궁"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장비",
+  "name": "장비",
+  "faction": "촉",
+  "base": {
+   "combat": 99,
+   "politics": 31,
+   "intellect": 37,
+   "leadership": 93
+  },
+  "activeFrom": 184,
+  "activeTo": 221,
+  "peakFrom": 193,
+  "peakTo": 212,
+  "homeCity": "계",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "유비",
+   "엄안",
+   "제갈량",
+   "조운"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장소",
+  "name": "장소",
+  "faction": "오",
+  "base": {
+   "combat": 29,
+   "politics": 97,
+   "intellect": 93,
+   "leadership": 38
+  },
+  "activeFrom": 194,
+  "activeTo": 236,
+  "peakFrom": 204,
+  "peakTo": 226,
+  "homeCity": "하비",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "장비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장송",
+  "name": "장송",
+  "faction": "촉",
+  "base": {
+   "combat": 28,
+   "politics": 94,
+   "intellect": 95,
+   "leadership": 29
+  },
+  "activeFrom": 189,
+  "activeTo": 212,
+  "peakFrom": 195,
+  "peakTo": 206,
+  "homeCity": "성도",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "법정",
+   "맹달",
+   "양수",
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장수",
+  "name": "장수",
+  "faction": "군웅",
+  "base": {
+   "combat": 82,
+   "politics": 55,
+   "intellect": 66,
+   "leadership": 85
+  },
+  "activeFrom": 184,
+  "activeTo": 207,
+  "peakFrom": 190,
+  "peakTo": 201,
+  "homeCity": "천수",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "가후"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장승",
+  "name": "장승",
+  "faction": "오",
+  "base": {
+   "combat": 73,
+   "politics": 70,
+   "intellect": 67,
+   "leadership": 82
+  },
+  "activeFrom": 197,
+  "activeTo": 244,
+  "peakFrom": 209,
+  "peakTo": 232,
+  "homeCity": "하비",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "원술",
+   "동탁"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장억(장익)",
+  "name": "장억(장익)",
+  "faction": "촉",
+  "base": {
+   "combat": 55,
+   "politics": 43,
+   "intellect": 48,
+   "leadership": 43
+  },
+  "activeFrom": 216,
+  "activeTo": 226,
+  "peakFrom": 218,
+  "peakTo": 224,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "장영",
+  "name": "장영",
+  "faction": "군웅",
+  "base": {
+   "combat": 77,
+   "politics": 48,
+   "intellect": 47,
+   "leadership": 70
+  },
+  "activeFrom": 184,
+  "activeTo": 195,
+  "peakFrom": 187,
+  "peakTo": 192,
+  "homeCity": "건업",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "장온",
+  "name": "장온",
+  "faction": "오",
+  "base": {
+   "combat": 29,
+   "politics": 83,
+   "intellect": 72,
+   "leadership": 28
+  },
+  "activeFrom": 210,
+  "activeTo": 231,
+  "peakFrom": 215,
+  "peakTo": 226,
+  "homeCity": "오",
+  "title": "행정에 밝은 문관",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "장완",
+  "name": "장완",
+  "faction": "촉",
+  "base": {
+   "combat": 46,
+   "politics": 98,
+   "intellect": 93,
+   "leadership": 80
+  },
+  "activeFrom": 207,
+  "activeTo": 246,
+  "peakFrom": 217,
+  "peakTo": 236,
+  "homeCity": "영릉",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "제갈량",
+   "반준"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장위(장형)",
+  "name": "장위(장형)",
+  "faction": "군웅",
+  "base": {
+   "combat": 78,
+   "politics": 49,
+   "intellect": 39,
+   "leadership": 49
+  },
+  "activeFrom": 185,
+  "activeTo": 220,
+  "peakFrom": 194,
+  "peakTo": 211,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "장윤",
+  "name": "장윤",
+  "faction": "군웅",
+  "base": {
+   "combat": 63,
+   "politics": 65,
+   "intellect": 54,
+   "leadership": 69
+  },
+  "activeFrom": 187,
+  "activeTo": 208,
+  "peakFrom": 192,
+  "peakTo": 203,
+  "homeCity": "양양",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "채모"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장의(장익)",
+  "name": "장의(장익)",
+  "faction": "군웅",
+  "base": {
+   "combat": 63,
+   "politics": 42,
+   "intellect": 38,
+   "leadership": 42
+  },
+  "activeFrom": 177,
+  "activeTo": 212,
+  "peakFrom": 186,
+  "peakTo": 203,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "장의거(장의교)",
+  "name": "장의거(장의교)",
+  "faction": "군웅",
+  "base": {
+   "combat": 73,
+   "politics": 47,
+   "intellect": 39,
+   "leadership": 47
+  },
+  "activeFrom": 179,
+  "activeTo": 214,
+  "peakFrom": 188,
+  "peakTo": 205,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "장익",
+  "name": "장익",
+  "faction": "촉",
+  "base": {
+   "combat": 80,
+   "politics": 71,
+   "intellect": 69,
+   "leadership": 81
+  },
+  "activeFrom": 207,
+  "activeTo": 264,
+  "peakFrom": 221,
+  "peakTo": 250,
+  "homeCity": "성도",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "요화"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장임",
+  "name": "장임",
+  "faction": "군웅",
+  "base": {
+   "combat": 92,
+   "politics": 66,
+   "intellect": 80,
+   "leadership": 94
+  },
+  "activeFrom": 188,
+  "activeTo": 214,
+  "peakFrom": 194,
+  "peakTo": 208,
+  "homeCity": "성도",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장자",
+  "name": "장자",
+  "faction": "군웅",
+  "base": {
+   "combat": 39,
+   "politics": 31,
+   "intellect": 34,
+   "leadership": 31
+  },
+  "activeFrom": 177,
+  "activeTo": 212,
+  "peakFrom": 186,
+  "peakTo": 203,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "장저",
+  "name": "장저",
+  "faction": "촉",
+  "base": {
+   "combat": 56,
+   "politics": 40,
+   "intellect": 36,
+   "leadership": 46
+  },
+  "activeFrom": 193,
+  "activeTo": 232,
+  "peakFrom": 203,
+  "peakTo": 222,
+  "homeCity": "자동",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "장제",
+  "name": "장제",
+  "faction": "위",
+  "base": {
+   "combat": 53,
+   "politics": 80,
+   "intellect": 81,
+   "leadership": 50
+  },
+  "activeFrom": 207,
+  "activeTo": 249,
+  "peakFrom": 217,
+  "peakTo": 239,
+  "homeCity": "광릉",
+  "title": "지모를 갖춘 참모",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "장포",
+  "name": "장포",
+  "faction": "촉",
+  "base": {
+   "combat": 66,
+   "politics": 61,
+   "intellect": 57,
+   "leadership": 47
+  },
+  "activeFrom": 244,
+  "activeTo": 264,
+  "peakFrom": 249,
+  "peakTo": 259,
+  "homeCity": "오",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "장비",
+   "관흥",
+   "장비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장합",
+  "name": "장합",
+  "faction": "위",
+  "base": {
+   "combat": 95,
+   "politics": 63,
+   "intellect": 74,
+   "leadership": 95
+  },
+  "activeFrom": 184,
+  "activeTo": 231,
+  "peakFrom": 196,
+  "peakTo": 219,
+  "homeCity": "업",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "고람",
+   "사마의",
+   "조진",
+   "곽도"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장호",
+  "name": "장호",
+  "faction": "위",
+  "base": {
+   "combat": 72,
+   "politics": 51,
+   "intellect": 53,
+   "leadership": 71
+  },
+  "activeFrom": 209,
+  "activeTo": 240,
+  "peakFrom": 217,
+  "peakTo": 232,
+  "homeCity": "진양",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "장료"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장횡",
+  "name": "장횡",
+  "faction": "군웅",
+  "base": {
+   "combat": 69,
+   "politics": 34,
+   "intellect": 33,
+   "leadership": 53
+  },
+  "activeFrom": 197,
+  "activeTo": 211,
+  "peakFrom": 201,
+  "peakTo": 207,
+  "homeCity": "무위",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "장훈",
+  "name": "장훈",
+  "faction": "군웅",
+  "base": {
+   "combat": 68,
+   "politics": 48,
+   "intellect": 50,
+   "leadership": 75
+  },
+  "activeFrom": 184,
+  "activeTo": 206,
+  "peakFrom": 190,
+  "peakTo": 200,
+  "homeCity": "완",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "손책",
+   "양홍"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "장휴",
+  "name": "장휴",
+  "faction": "오",
+  "base": {
+   "combat": 41,
+   "politics": 89,
+   "intellect": 80,
+   "leadership": 46
+  },
+  "activeFrom": 221,
+  "activeTo": 245,
+  "peakFrom": 227,
+  "peakTo": 239,
+  "homeCity": "하비",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "장소",
+   "제갈각",
+   "손등"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "저수(조수)",
+  "name": "저수(조수)",
+  "faction": "촉",
+  "base": {
+   "combat": 58,
+   "politics": 63,
+   "intellect": 92,
+   "leadership": 63
+  },
+  "activeFrom": 176,
+  "activeTo": 211,
+  "peakFrom": 185,
+  "peakTo": 202,
+  "homeCity": "",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "전만",
+  "name": "전만",
+  "faction": "위",
+  "base": {
+   "combat": 82,
+   "politics": 36,
+   "intellect": 40,
+   "leadership": 47
+  },
+  "activeFrom": 195,
+  "activeTo": 235,
+  "peakFrom": 205,
+  "peakTo": 225,
+  "homeCity": "진류",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "전위"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "전위",
+  "name": "전위",
+  "faction": "위",
+  "base": {
+   "combat": 94,
+   "politics": 37,
+   "intellect": 38,
+   "leadership": 63
+  },
+  "activeFrom": 184,
+  "activeTo": 197,
+  "peakFrom": 187,
+  "peakTo": 194,
+  "homeCity": "진류",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "하후돈",
+   "허저",
+   "조앙",
+   "조조"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "전종",
+  "name": "전종",
+  "faction": "오",
+  "base": {
+   "combat": 83,
+   "politics": 67,
+   "intellect": 73,
+   "leadership": 84
+  },
+  "activeFrom": 202,
+  "activeTo": 249,
+  "peakFrom": 214,
+  "peakTo": 237,
+  "homeCity": "오",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "방통",
+   "육적"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "전풍",
+  "name": "전풍",
+  "faction": "군웅",
+  "base": {
+   "combat": 42,
+   "politics": 94,
+   "intellect": 96,
+   "leadership": 76
+  },
+  "activeFrom": 184,
+  "activeTo": 200,
+  "peakFrom": 188,
+  "peakTo": 196,
+  "homeCity": "업",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "심배",
+   "봉기"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "정무",
+  "name": "정무",
+  "faction": "위",
+  "base": {
+   "combat": 42,
+   "politics": 77,
+   "intellect": 82,
+   "leadership": 50
+  },
+  "activeFrom": 215,
+  "activeTo": 265,
+  "peakFrom": 227,
+  "peakTo": 253,
+  "homeCity": "복양",
+  "title": "지모를 갖춘 참모",
+  "bonds": [
+   "정욱",
+   "하후무"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "정병",
+  "name": "정병",
+  "faction": "오",
+  "base": {
+   "combat": 28,
+   "politics": 79,
+   "intellect": 72,
+   "leadership": 28
+  },
+  "activeFrom": 191,
+  "activeTo": 226,
+  "peakFrom": 200,
+  "peakTo": 217,
+  "homeCity": "북해",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "손등"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "정보",
+  "name": "정보",
+  "faction": "오",
+  "base": {
+   "combat": 85,
+   "politics": 80,
+   "intellect": 86,
+   "leadership": 93
+  },
+  "activeFrom": 184,
+  "activeTo": 216,
+  "peakFrom": 192,
+  "peakTo": 208,
+  "homeCity": "하비",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "한당",
+   "황개",
+   "주유",
+   "손견"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "정봉",
+  "name": "정봉",
+  "faction": "오",
+  "base": {
+   "combat": 87,
+   "politics": 68,
+   "intellect": 77,
+   "leadership": 84
+  },
+  "activeFrom": 207,
+  "activeTo": 271,
+  "peakFrom": 223,
+  "peakTo": 255,
+  "homeCity": "여강",
+  "title": "전장을 누비는 맹장",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "정욱",
+  "name": "정욱",
+  "faction": "위",
+  "base": {
+   "combat": 44,
+   "politics": 92,
+   "intellect": 95,
+   "leadership": 78
+  },
+  "activeFrom": 184,
+  "activeTo": 220,
+  "peakFrom": 193,
+  "peakTo": 211,
+  "homeCity": "복양",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "곽가",
+   "순욱",
+   "순유",
+   "조조"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "정은",
+  "name": "정은",
+  "faction": "촉",
+  "base": {
+   "combat": 72,
+   "politics": 43,
+   "intellect": 39,
+   "leadership": 67
+  },
+  "activeFrom": 184,
+  "activeTo": 211,
+  "peakFrom": 191,
+  "peakTo": 204,
+  "homeCity": "안정",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "후선"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "제갈각",
+  "name": "제갈각",
+  "faction": "오",
+  "base": {
+   "combat": 50,
+   "politics": 89,
+   "intellect": 95,
+   "leadership": 69
+  },
+  "activeFrom": 217,
+  "activeTo": 253,
+  "peakFrom": 226,
+  "peakTo": 244,
+  "homeCity": "하비",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "제갈근",
+   "손등",
+   "장휴"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "제갈근",
+  "name": "제갈근",
+  "faction": "오",
+  "base": {
+   "combat": 45,
+   "politics": 96,
+   "intellect": 93,
+   "leadership": 61
+  },
+  "activeFrom": 195,
+  "activeTo": 241,
+  "peakFrom": 207,
+  "peakTo": 229,
+  "homeCity": "하비",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "손권",
+   "장승",
+   "보즐",
+   "노숙"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "제갈량",
+  "name": "제갈량",
+  "faction": "촉",
+  "base": {
+   "combat": 48,
+   "politics": 99,
+   "intellect": 99,
+   "leadership": 97
+  },
+  "activeFrom": 208,
+  "activeTo": 234,
+  "peakFrom": 214,
+  "peakTo": 228,
+  "homeCity": "하비",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "강유",
+   "서서",
+   "조운",
+   "마속"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "제갈탄",
+  "name": "제갈탄",
+  "faction": "위",
+  "base": {
+   "combat": 84,
+   "politics": 75,
+   "intellect": 79,
+   "leadership": 83
+  },
+  "activeFrom": 225,
+  "activeTo": 258,
+  "peakFrom": 233,
+  "peakTo": 250,
+  "homeCity": "하비",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "관구검",
+   "조상",
+   "문흠"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "조광",
+  "name": "조광",
+  "faction": "촉",
+  "base": {
+   "combat": 72,
+   "politics": 58,
+   "intellect": 58,
+   "leadership": 66
+  },
+  "activeFrom": 224,
+  "activeTo": 263,
+  "peakFrom": 234,
+  "peakTo": 253,
+  "homeCity": "업",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "조운"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "조루",
+  "name": "조루",
+  "faction": "촉",
+  "base": {
+   "combat": 51,
+   "politics": 78,
+   "intellect": 73,
+   "leadership": 49
+  },
+  "activeFrom": 202,
+  "activeTo": 219,
+  "peakFrom": 206,
+  "peakTo": 215,
+  "homeCity": "강릉",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "관우",
+   "관평"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "조범",
+  "name": "조범",
+  "faction": "위",
+  "base": {
+   "combat": 41,
+   "politics": 67,
+   "intellect": 46,
+   "leadership": 35
+  },
+  "activeFrom": 187,
+  "activeTo": 218,
+  "peakFrom": 195,
+  "peakTo": 210,
+  "homeCity": "업",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "조운"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "조비",
+  "name": "조비",
+  "faction": "위",
+  "base": {
+   "combat": 77,
+   "politics": 93,
+   "intellect": 87,
+   "leadership": 72
+  },
+  "activeFrom": 200,
+  "activeTo": 226,
+  "peakFrom": 206,
+  "peakTo": 220,
+  "homeCity": "허창",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "조조",
+   "하후상",
+   "사마의",
+   "신비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "조상",
+  "name": "조상",
+  "faction": "위",
+  "base": {
+   "combat": 51,
+   "politics": 68,
+   "intellect": 40,
+   "leadership": 42
+  },
+  "activeFrom": 221,
+  "activeTo": 249,
+  "peakFrom": 228,
+  "peakTo": 242,
+  "homeCity": "허창",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "조진",
+   "문흠",
+   "사마의"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "조순",
+  "name": "조순",
+  "faction": "위",
+  "base": {
+   "combat": 68,
+   "politics": 52,
+   "intellect": 62,
+   "leadership": 74
+  },
+  "activeFrom": 189,
+  "activeTo": 210,
+  "peakFrom": 194,
+  "peakTo": 205,
+  "homeCity": "허창",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "조식(조삭)",
+  "name": "조식(조삭)",
+  "faction": "위",
+  "base": {
+   "combat": 26,
+   "politics": 48,
+   "intellect": 89,
+   "leadership": 48
+  },
+  "activeFrom": 207,
+  "activeTo": 247,
+  "peakFrom": 217,
+  "peakTo": 237,
+  "homeCity": "",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "조앙",
+  "name": "조앙",
+  "faction": "위",
+  "base": {
+   "combat": 64,
+   "politics": 67,
+   "intellect": 65,
+   "leadership": 65
+  },
+  "activeFrom": 189,
+  "activeTo": 197,
+  "peakFrom": 191,
+  "peakTo": 195,
+  "homeCity": "허창",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "마초"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "조예",
+  "name": "조예",
+  "faction": "위",
+  "base": {
+   "combat": 57,
+   "politics": 88,
+   "intellect": 91,
+   "leadership": 72
+  },
+  "activeFrom": 219,
+  "activeTo": 239,
+  "peakFrom": 224,
+  "peakTo": 234,
+  "homeCity": "허창",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "조운",
+  "name": "조운",
+  "faction": "촉",
+  "base": {
+   "combat": 98,
+   "politics": 78,
+   "intellect": 89,
+   "leadership": 97
+  },
+  "activeFrom": 187,
+  "activeTo": 229,
+  "peakFrom": 197,
+  "peakTo": 219,
+  "homeCity": "업",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "관우",
+   "제갈량",
+   "장비",
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "조인",
+  "name": "조인",
+  "faction": "위",
+  "base": {
+   "combat": 93,
+   "politics": 59,
+   "intellect": 67,
+   "leadership": 94
+  },
+  "activeFrom": 187,
+  "activeTo": 223,
+  "peakFrom": 196,
+  "peakTo": 214,
+  "homeCity": "허창",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "하후연",
+   "하후돈",
+   "우금",
+   "조홍"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "조잠",
+  "name": "조잠",
+  "faction": "촉",
+  "base": {
+   "combat": 60,
+   "politics": 27,
+   "intellect": 29,
+   "leadership": 32
+  },
+  "activeFrom": 180,
+  "activeTo": 215,
+  "peakFrom": 189,
+  "peakTo": 206,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "조조",
+  "name": "조조",
+  "faction": "위",
+  "base": {
+   "combat": 89,
+   "politics": 99,
+   "intellect": 97,
+   "leadership": 99
+  },
+  "activeFrom": 184,
+  "activeTo": 220,
+  "peakFrom": 193,
+  "peakTo": 211,
+  "homeCity": "낙양",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "곽가",
+   "하후연",
+   "하후돈",
+   "관우"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "조진",
+  "name": "조진",
+  "faction": "위",
+  "base": {
+   "combat": 79,
+   "politics": 70,
+   "intellect": 71,
+   "leadership": 93
+  },
+  "activeFrom": 204,
+  "activeTo": 231,
+  "peakFrom": 211,
+  "peakTo": 224,
+  "homeCity": "허창",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "조휴",
+   "조비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "조창(조장)",
+  "name": "조창(조장)",
+  "faction": "위",
+  "base": {
+   "combat": 97,
+   "politics": 69,
+   "intellect": 66,
+   "leadership": 69
+  },
+  "activeFrom": 205,
+  "activeTo": 245,
+  "peakFrom": 215,
+  "peakTo": 235,
+  "homeCity": "",
+  "title": "전장을 누비는 맹장",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "조통",
+  "name": "조통",
+  "faction": "촉",
+  "base": {
+   "combat": 69,
+   "politics": 60,
+   "intellect": 64,
+   "leadership": 64
+  },
+  "activeFrom": 223,
+  "activeTo": 260,
+  "peakFrom": 232,
+  "peakTo": 251,
+  "homeCity": "계",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "조운"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "조표",
+  "name": "조표",
+  "faction": "위",
+  "base": {
+   "combat": 62,
+   "politics": 30,
+   "intellect": 30,
+   "leadership": 41
+  },
+  "activeFrom": 184,
+  "activeTo": 196,
+  "peakFrom": 187,
+  "peakTo": 193,
+  "homeCity": "하비",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "조조",
+   "조비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "조홍",
+  "name": "조홍",
+  "faction": "위",
+  "base": {
+   "combat": 86,
+   "politics": 46,
+   "intellect": 50,
+   "leadership": 86
+  },
+  "activeFrom": 188,
+  "activeTo": 232,
+  "peakFrom": 199,
+  "peakTo": 221,
+  "homeCity": "허창",
+  "title": "전장을 누비는 맹장",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "조휴",
+  "name": "조휴",
+  "faction": "위",
+  "base": {
+   "combat": 82,
+   "politics": 64,
+   "intellect": 68,
+   "leadership": 79
+  },
+  "activeFrom": 189,
+  "activeTo": 228,
+  "peakFrom": 199,
+  "peakTo": 218,
+  "homeCity": "허창",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "조진",
+   "조비",
+   "가규"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "종요",
+  "name": "종요",
+  "faction": "위",
+  "base": {
+   "combat": 34,
+   "politics": 97,
+   "intellect": 82,
+   "leadership": 46
+  },
+  "activeFrom": 184,
+  "activeTo": 230,
+  "peakFrom": 196,
+  "peakTo": 218,
+  "homeCity": "허창",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "순욱",
+   "순유",
+   "조비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "종회",
+  "name": "종회",
+  "faction": "위",
+  "base": {
+   "combat": 59,
+   "politics": 86,
+   "intellect": 96,
+   "leadership": 91
+  },
+  "activeFrom": 239,
+  "activeTo": 264,
+  "peakFrom": 245,
+  "peakTo": 258,
+  "homeCity": "허창",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "종요",
+   "강유"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "주령",
+  "name": "주령",
+  "faction": "위",
+  "base": {
+   "combat": 81,
+   "politics": 55,
+   "intellect": 59,
+   "leadership": 76
+  },
+  "activeFrom": 189,
+  "activeTo": 236,
+  "peakFrom": 201,
+  "peakTo": 224,
+  "homeCity": "평원",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "주방",
+  "name": "주방",
+  "faction": "오",
+  "base": {
+   "combat": 47,
+   "politics": 84,
+   "intellect": 87,
+   "leadership": 46
+  },
+  "activeFrom": 210,
+  "activeTo": 238,
+  "peakFrom": 217,
+  "peakTo": 231,
+  "homeCity": "오",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "주연",
+  "name": "주연",
+  "faction": "오",
+  "base": {
+   "combat": 80,
+   "politics": 56,
+   "intellect": 61,
+   "leadership": 84
+  },
+  "activeFrom": 196,
+  "activeTo": 249,
+  "peakFrom": 209,
+  "peakTo": 236,
+  "homeCity": "건업",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "주치",
+   "손권",
+   "육손"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "주유",
+  "name": "주유",
+  "faction": "오",
+  "base": {
+   "combat": 83,
+   "politics": 95,
+   "intellect": 98,
+   "leadership": 99
+  },
+  "activeFrom": 189,
+  "activeTo": 210,
+  "peakFrom": 194,
+  "peakTo": 205,
+  "homeCity": "여강",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "손책",
+   "황개",
+   "손책",
+   "정보"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "주창",
+  "name": "주창",
+  "faction": "촉",
+  "base": {
+   "combat": 91,
+   "politics": 39,
+   "intellect": 38,
+   "leadership": 56
+  },
+  "activeFrom": 184,
+  "activeTo": 219,
+  "peakFrom": 193,
+  "peakTo": 210,
+  "homeCity": "평원",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "관우",
+   "관평"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "주치",
+  "name": "주치",
+  "faction": "오",
+  "base": {
+   "combat": 58,
+   "politics": 68,
+   "intellect": 68,
+   "leadership": 62
+  },
+  "activeFrom": 184,
+  "activeTo": 224,
+  "peakFrom": 194,
+  "peakTo": 214,
+  "homeCity": "하비",
+  "title": "지모를 갖춘 참모",
+  "bonds": [
+   "손책",
+   "여범"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "주태",
+  "name": "주태",
+  "faction": "오",
+  "base": {
+   "combat": 93,
+   "politics": 57,
+   "intellect": 59,
+   "leadership": 81
+  },
+  "activeFrom": 189,
+  "activeTo": 225,
+  "peakFrom": 198,
+  "peakTo": 216,
+  "homeCity": "여강",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "사마의",
+   "사마소"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "주포",
+  "name": "주포",
+  "faction": "군웅",
+  "base": {
+   "combat": 75,
+   "politics": 39,
+   "intellect": 33,
+   "leadership": 64
+  },
+  "activeFrom": 206,
+  "activeTo": 225,
+  "peakFrom": 211,
+  "peakTo": 220,
+  "homeCity": "건녕",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "주환(주항)",
+  "name": "주환(주항)",
+  "faction": "오",
+  "base": {
+   "combat": 91,
+   "politics": 73,
+   "intellect": 83,
+   "leadership": 73
+  },
+  "activeFrom": 201,
+  "activeTo": 239,
+  "peakFrom": 211,
+  "peakTo": 229,
+  "homeCity": "",
+  "title": "전장을 누비는 맹장",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "진교",
+  "name": "진교",
+  "faction": "위",
+  "base": {
+   "combat": 32,
+   "politics": 91,
+   "intellect": 80,
+   "leadership": 41
+  },
+  "activeFrom": 194,
+  "activeTo": 237,
+  "peakFrom": 205,
+  "peakTo": 226,
+  "homeCity": "광릉",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "조인",
+   "진등",
+   "원술",
+   "손책"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "진군",
+  "name": "진군",
+  "faction": "위",
+  "base": {
+   "combat": 37,
+   "politics": 98,
+   "intellect": 91,
+   "leadership": 37
+  },
+  "activeFrom": 186,
+  "activeTo": 235,
+  "peakFrom": 198,
+  "peakTo": 223,
+  "homeCity": "허창",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "허정",
+   "사마의",
+   "순욱",
+   "조비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "진궁",
+  "name": "진궁",
+  "faction": "군웅",
+  "base": {
+   "combat": 55,
+   "politics": 88,
+   "intellect": 94,
+   "leadership": 86
+  },
+  "activeFrom": 184,
+  "activeTo": 198,
+  "peakFrom": 188,
+  "peakTo": 194,
+  "homeCity": "복양",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "장막",
+   "여포",
+   "고순",
+   "조조"
+  ],
+  "rivals": [
+   "진등"
+  ]
+ },
+ {
+  "id": "진등",
+  "name": "진등",
+  "faction": "촉",
+  "base": {
+   "combat": 53,
+   "politics": 86,
+   "intellect": 84,
+   "leadership": 76
+  },
+  "activeFrom": 188,
+  "activeTo": 207,
+  "peakFrom": 193,
+  "peakTo": 202,
+  "homeCity": "하비",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "화흠",
+   "공융",
+   "진교",
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "진란",
+  "name": "진란",
+  "faction": "촉",
+  "base": {
+   "combat": 72,
+   "politics": 33,
+   "intellect": 43,
+   "leadership": 65
+  },
+  "activeFrom": 184,
+  "activeTo": 204,
+  "peakFrom": 189,
+  "peakTo": 199,
+  "homeCity": "여남",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "뇌박"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "진무",
+  "name": "진무",
+  "faction": "오",
+  "base": {
+   "combat": 89,
+   "politics": 49,
+   "intellect": 53,
+   "leadership": 72
+  },
+  "activeFrom": 195,
+  "activeTo": 215,
+  "peakFrom": 200,
+  "peakTo": 210,
+  "homeCity": "여강",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "주유",
+   "동습"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "진식",
+  "name": "진식",
+  "faction": "촉",
+  "base": {
+   "combat": 73,
+   "politics": 38,
+   "intellect": 34,
+   "leadership": 67
+  },
+  "activeFrom": 210,
+  "activeTo": 230,
+  "peakFrom": 215,
+  "peakTo": 225,
+  "homeCity": "강주",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "위연",
+   "제갈량"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "진응",
+  "name": "진응",
+  "faction": "군웅",
+  "base": {
+   "combat": 74,
+   "politics": 34,
+   "intellect": 44,
+   "leadership": 59
+  },
+  "activeFrom": 203,
+  "activeTo": 208,
+  "peakFrom": 204,
+  "peakTo": 207,
+  "homeCity": "계양",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "진진(진운)",
+  "name": "진진(진운)",
+  "faction": "군웅",
+  "base": {
+   "combat": 40,
+   "politics": 53,
+   "intellect": 86,
+   "leadership": 53
+  },
+  "activeFrom": 165,
+  "activeTo": 200,
+  "peakFrom": 174,
+  "peakTo": 191,
+  "homeCity": "",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "진태",
+  "name": "진태",
+  "faction": "위",
+  "base": {
+   "combat": 87,
+   "politics": 81,
+   "intellect": 91,
+   "leadership": 90
+  },
+  "activeFrom": 224,
+  "activeTo": 260,
+  "peakFrom": 233,
+  "peakTo": 251,
+  "homeCity": "허창",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [
+   "진군",
+   "사마사",
+   "사마소",
+   "등애"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "진희",
+  "name": "진희",
+  "faction": "군웅",
+  "base": {
+   "combat": 61,
+   "politics": 39,
+   "intellect": 32,
+   "leadership": 39
+  },
+  "activeFrom": 191,
+  "activeTo": 230,
+  "peakFrom": 201,
+  "peakTo": 220,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "채모",
+  "name": "채모",
+  "faction": "군웅",
+  "base": {
+   "combat": 77,
+   "politics": 80,
+   "intellect": 81,
+   "leadership": 83
+  },
+  "activeFrom": 184,
+  "activeTo": 208,
+  "peakFrom": 190,
+  "peakTo": 202,
+  "homeCity": "양양",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "장윤",
+   "유종",
+   "유비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "채중(제중)",
+  "name": "채중(제중)",
+  "faction": "군웅",
+  "base": {
+   "combat": 38,
+   "politics": 35,
+   "intellect": 45,
+   "leadership": 35
+  },
+  "activeFrom": 200,
+  "activeTo": 237,
+  "peakFrom": 209,
+  "peakTo": 228,
+  "homeCity": "",
+  "title": "지모를 갖춘 참모",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "채화(제화)",
+  "name": "채화(제화)",
+  "faction": "군웅",
+  "base": {
+   "combat": 40,
+   "politics": 36,
+   "intellect": 46,
+   "leadership": 36
+  },
+  "activeFrom": 197,
+  "activeTo": 235,
+  "peakFrom": 207,
+  "peakTo": 225,
+  "homeCity": "",
+  "title": "지모를 갖춘 참모",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "채훈(제훈)",
+  "name": "채훈(제훈)",
+  "faction": "오",
+  "base": {
+   "combat": 61,
+   "politics": 54,
+   "intellect": 68,
+   "leadership": 54
+  },
+  "activeFrom": 180,
+  "activeTo": 215,
+  "peakFrom": 189,
+  "peakTo": 206,
+  "homeCity": "",
+  "title": "지모를 갖춘 참모",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "초촉",
+  "name": "초촉",
+  "faction": "군웅",
+  "base": {
+   "combat": 78,
+   "politics": 41,
+   "intellect": 36,
+   "leadership": 63
+  },
+  "activeFrom": 184,
+  "activeTo": 208,
+  "peakFrom": 190,
+  "peakTo": 202,
+  "homeCity": "남피",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "장남"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "타사왕(두사왕)",
+  "name": "타사왕(두사왕)",
+  "faction": "군웅",
+  "base": {
+   "combat": 52,
+   "politics": 52,
+   "intellect": 72,
+   "leadership": 52
+  },
+  "activeFrom": 195,
+  "activeTo": 230,
+  "peakFrom": 204,
+  "peakTo": 221,
+  "homeCity": "",
+  "title": "지모를 갖춘 참모",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "태사자",
+  "name": "태사자",
+  "faction": "오",
+  "base": {
+   "combat": 97,
+   "politics": 62,
+   "intellect": 71,
+   "leadership": 92
+  },
+  "activeFrom": 185,
+  "activeTo": 209,
+  "peakFrom": 191,
+  "peakTo": 203,
+  "homeCity": "북해",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "공융",
+   "손책"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "포륭(포룡)",
+  "name": "포륭(포룡)",
+  "faction": "군웅",
+  "base": {
+   "combat": 68,
+   "politics": 48,
+   "intellect": 47,
+   "leadership": 48
+  },
+  "activeFrom": 190,
+  "activeTo": 225,
+  "peakFrom": 199,
+  "peakTo": 216,
+  "homeCity": "",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "포신",
+  "name": "포신",
+  "faction": "군웅",
+  "base": {
+   "combat": 59,
+   "politics": 72,
+   "intellect": 73,
+   "leadership": 82
+  },
+  "activeFrom": 184,
+  "activeTo": 192,
+  "peakFrom": 186,
+  "peakTo": 190,
+  "homeCity": "진류",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "조조",
+   "동탁"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "하후덕",
+  "name": "하후덕",
+  "faction": "위",
+  "base": {
+   "combat": 70,
+   "politics": 52,
+   "intellect": 47,
+   "leadership": 61
+  },
+  "activeFrom": 197,
+  "activeTo": 218,
+  "peakFrom": 202,
+  "peakTo": 213,
+  "homeCity": "허창",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "하후돈",
+  "name": "하후돈",
+  "faction": "위",
+  "base": {
+   "combat": 96,
+   "politics": 79,
+   "intellect": 69,
+   "leadership": 96
+  },
+  "activeFrom": 184,
+  "activeTo": 220,
+  "peakFrom": 193,
+  "peakTo": 211,
+  "homeCity": "허창",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "하후연",
+   "한호",
+   "조홍",
+   "조인"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "하후무",
+  "name": "하후무",
+  "faction": "위",
+  "base": {
+   "combat": 35,
+   "politics": 39,
+   "intellect": 29,
+   "leadership": 30
+  },
+  "activeFrom": 215,
+  "activeTo": 259,
+  "peakFrom": 226,
+  "peakTo": 248,
+  "homeCity": "허창",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "하후돈",
+   "조비"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "하후상",
+  "name": "하후상",
+  "faction": "위",
+  "base": {
+   "combat": 75,
+   "politics": 67,
+   "intellect": 77,
+   "leadership": 80
+  },
+  "activeFrom": 199,
+  "activeTo": 225,
+  "peakFrom": 205,
+  "peakTo": 219,
+  "homeCity": "허창",
+  "title": "묵묵히 소임을 다하는 장수",
+  "bonds": [
+   "조비",
+   "맹달"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "하후연",
+  "name": "하후연",
+  "faction": "위",
+  "base": {
+   "combat": 95,
+   "politics": 64,
+   "intellect": 62,
+   "leadership": 96
+  },
+  "activeFrom": 184,
+  "activeTo": 219,
+  "peakFrom": 193,
+  "peakTo": 210,
+  "homeCity": "허창",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [
+   "하후돈",
+   "조홍",
+   "조인",
+   "조조"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "하후위",
+  "name": "하후위",
+  "faction": "위",
+  "base": {
+   "combat": 81,
+   "politics": 68,
+   "intellect": 63,
+   "leadership": 75
+  },
+  "activeFrom": 218,
+  "activeTo": 253,
+  "peakFrom": 227,
+  "peakTo": 244,
+  "homeCity": "허창",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "하후연"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "하후은",
+  "name": "하후은",
+  "faction": "위",
+  "base": {
+   "combat": 61,
+   "politics": 59,
+   "intellect": 56,
+   "leadership": 51
+  },
+  "activeFrom": 194,
+  "activeTo": 208,
+  "peakFrom": 198,
+  "peakTo": 204,
+  "homeCity": "허창",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "조조"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "하후패",
+  "name": "하후패",
+  "faction": "위",
+  "base": {
+   "combat": 93,
+   "politics": 66,
+   "intellect": 77,
+   "leadership": 87
+  },
+  "activeFrom": 216,
+  "activeTo": 262,
+  "peakFrom": 228,
+  "peakTo": 250,
+  "homeCity": "허창",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "하후연",
+   "강유",
+   "조상"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "하후혜",
+  "name": "하후혜",
+  "faction": "위",
+  "base": {
+   "combat": 55,
+   "politics": 80,
+   "intellect": 84,
+   "leadership": 53
+  },
+  "activeFrom": 222,
+  "activeTo": 244,
+  "peakFrom": 228,
+  "peakTo": 238,
+  "homeCity": "허창",
+  "title": "지모를 갖춘 참모",
+  "bonds": [
+   "하후연"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "하후화",
+  "name": "하후화",
+  "faction": "위",
+  "base": {
+   "combat": 58,
+   "politics": 81,
+   "intellect": 83,
+   "leadership": 52
+  },
+  "activeFrom": 224,
+  "activeTo": 275,
+  "peakFrom": 237,
+  "peakTo": 262,
+  "homeCity": "허창",
+  "title": "지모를 갖춘 참모",
+  "bonds": [
+   "하후연"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "학맹",
+  "name": "학맹",
+  "faction": "촉",
+  "base": {
+   "combat": 63,
+   "politics": 46,
+   "intellect": 49,
+   "leadership": 56
+  },
+  "activeFrom": 184,
+  "activeTo": 197,
+  "peakFrom": 187,
+  "peakTo": 194,
+  "homeCity": "진양",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "학소",
+  "name": "학소",
+  "faction": "위",
+  "base": {
+   "combat": 90,
+   "politics": 75,
+   "intellect": 87,
+   "leadership": 95
+  },
+  "activeFrom": 204,
+  "activeTo": 229,
+  "peakFrom": 210,
+  "peakTo": 223,
+  "homeCity": "진양",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "한당",
+  "name": "한당",
+  "faction": "오",
+  "base": {
+   "combat": 85,
+   "politics": 59,
+   "intellect": 62,
+   "leadership": 79
+  },
+  "activeFrom": 184,
+  "activeTo": 225,
+  "peakFrom": 194,
+  "peakTo": 215,
+  "homeCity": "하비",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "황개",
+   "손견",
+   "정보"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "한복",
+  "name": "한복",
+  "faction": "군웅",
+  "base": {
+   "combat": 37,
+   "politics": 62,
+   "intellect": 39,
+   "leadership": 34
+  },
+  "activeFrom": 184,
+  "activeTo": 192,
+  "peakFrom": 186,
+  "peakTo": 190,
+  "homeCity": "업",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "장막"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "한섬",
+  "name": "한섬",
+  "faction": "촉",
+  "base": {
+   "combat": 61,
+   "politics": 35,
+   "intellect": 40,
+   "leadership": 58
+  },
+  "activeFrom": 184,
+  "activeTo": 197,
+  "peakFrom": 187,
+  "peakTo": 194,
+  "homeCity": "평원",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "양봉"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "한수",
+  "name": "한수",
+  "faction": "군웅",
+  "base": {
+   "combat": 74,
+   "politics": 72,
+   "intellect": 83,
+   "leadership": 86
+  },
+  "activeFrom": 184,
+  "activeTo": 215,
+  "peakFrom": 192,
+  "peakTo": 207,
+  "homeCity": "무위",
+  "title": "병사들이 따르는 지휘관",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "한숭",
+  "name": "한숭",
+  "faction": "군웅",
+  "base": {
+   "combat": 31,
+   "politics": 86,
+   "intellect": 78,
+   "leadership": 31
+  },
+  "activeFrom": 184,
+  "activeTo": 210,
+  "peakFrom": 190,
+  "peakTo": 204,
+  "homeCity": "양양",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "서서",
+   "방통"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "한현",
+  "name": "한현",
+  "faction": "군웅",
+  "base": {
+   "combat": 46,
+   "politics": 26,
+   "intellect": 27,
+   "leadership": 31
+  },
+  "activeFrom": 184,
+  "activeTo": 208,
+  "peakFrom": 190,
+  "peakTo": 202,
+  "homeCity": "낙양",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "한호",
+  "name": "한호",
+  "faction": "군웅",
+  "base": {
+   "combat": 67,
+   "politics": 87,
+   "intellect": 63,
+   "leadership": 67
+  },
+  "activeFrom": 184,
+  "activeTo": 218,
+  "peakFrom": 192,
+  "peakTo": 210,
+  "homeCity": "낙양",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "하후돈",
+   "황충"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "허사",
+  "name": "허사",
+  "faction": "촉",
+  "base": {
+   "combat": 30,
+   "politics": 69,
+   "intellect": 65,
+   "leadership": 27
+  },
+  "activeFrom": 189,
+  "activeTo": 206,
+  "peakFrom": 193,
+  "peakTo": 202,
+  "homeCity": "허창",
+  "title": "행정에 밝은 문관",
+  "bonds": [
+   "진등"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "허유",
+  "name": "허유",
+  "faction": "위",
+  "base": {
+   "combat": 36,
+   "politics": 70,
+   "intellect": 82,
+   "leadership": 36
+  },
+  "activeFrom": 184,
+  "activeTo": 204,
+  "peakFrom": 189,
+  "peakTo": 199,
+  "homeCity": "완",
+  "title": "지모를 갖춘 참모",
+  "bonds": [
+   "원소",
+   "장막",
+   "심배"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "허저",
+  "name": "허저",
+  "faction": "위",
+  "base": {
+   "combat": 98,
+   "politics": 30,
+   "intellect": 34,
+   "leadership": 70
+  },
+  "activeFrom": 189,
+  "activeTo": 226,
+  "peakFrom": 198,
+  "peakTo": 217,
+  "homeCity": "허창",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "조조",
+   "전위",
+   "허유"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "허정",
+  "name": "허정",
+  "faction": "촉",
+  "base": {
+   "combat": 27,
+   "politics": 87,
+   "intellect": 79,
+   "leadership": 26
+  },
+  "activeFrom": 184,
+  "activeTo": 222,
+  "peakFrom": 194,
+  "peakTo": 212,
+  "homeCity": "여남",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "형도영",
+  "name": "형도영",
+  "faction": "오",
+  "base": {
+   "combat": 88,
+   "politics": 29,
+   "intellect": 35,
+   "leadership": 54
+  },
+  "activeFrom": 193,
+  "activeTo": 208,
+  "peakFrom": 197,
+  "peakTo": 204,
+  "homeCity": "영릉",
+  "title": "전장을 누비는 맹장",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "호진",
+  "name": "호진",
+  "faction": "촉",
+  "base": {
+   "combat": 72,
+   "politics": 27,
+   "intellect": 26,
+   "leadership": 62
+  },
+  "activeFrom": 185,
+  "activeTo": 190,
+  "peakFrom": 186,
+  "peakTo": 189,
+  "homeCity": "천수",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "여포"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "화웅",
+  "name": "화웅",
+  "faction": "군웅",
+  "base": {
+   "combat": 95,
+   "politics": 43,
+   "intellect": 48,
+   "leadership": 89
+  },
+  "activeFrom": 184,
+  "activeTo": 190,
+  "peakFrom": 186,
+  "peakTo": 188,
+  "homeCity": "천수",
+  "title": "전장을 누비는 맹장",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "화흠",
+  "name": "화흠",
+  "faction": "위",
+  "base": {
+   "combat": 43,
+   "politics": 90,
+   "intellect": 86,
+   "leadership": 29
+  },
+  "activeFrom": 184,
+  "activeTo": 231,
+  "peakFrom": 196,
+  "peakTo": 219,
+  "homeCity": "평원",
+  "title": "나라의 살림을 떠받치는 재사",
+  "bonds": [
+   "왕랑",
+   "허정"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "환계(항계)",
+  "name": "환계(항계)",
+  "faction": "군웅",
+  "base": {
+   "combat": 42,
+   "politics": 38,
+   "intellect": 48,
+   "leadership": 38
+  },
+  "activeFrom": 191,
+  "activeTo": 211,
+  "peakFrom": 196,
+  "peakTo": 206,
+  "homeCity": "",
+  "title": "지모를 갖춘 참모",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "황개",
+  "name": "황개",
+  "faction": "오",
+  "base": {
+   "combat": 92,
+   "politics": 69,
+   "intellect": 71,
+   "leadership": 88
+  },
+  "activeFrom": 184,
+  "activeTo": 218,
+  "peakFrom": 192,
+  "peakTo": 210,
+  "homeCity": "하비",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "한당",
+   "주유",
+   "손견",
+   "정보"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "황권(황건)",
+  "name": "황권(황건)",
+  "faction": "촉",
+  "base": {
+   "combat": 44,
+   "politics": 54,
+   "intellect": 85,
+   "leadership": 54
+  },
+  "activeFrom": 182,
+  "activeTo": 217,
+  "peakFrom": 191,
+  "peakTo": 208,
+  "homeCity": "",
+  "title": "계책으로 판을 뒤집는 지략가",
+  "bonds": [],
+  "rivals": []
+ },
+ {
+  "id": "황완",
+  "name": "황완",
+  "faction": "촉",
+  "base": {
+   "combat": 49,
+   "politics": 70,
+   "intellect": 70,
+   "leadership": 34
+  },
+  "activeFrom": 184,
+  "activeTo": 192,
+  "peakFrom": 186,
+  "peakTo": 190,
+  "homeCity": "낙양",
+  "title": "지모를 갖춘 참모",
+  "bonds": [
+   "동탁"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "황조",
+  "name": "황조",
+  "faction": "군웅",
+  "base": {
+   "combat": 70,
+   "politics": 46,
+   "intellect": 51,
+   "leadership": 70
+  },
+  "activeFrom": 184,
+  "activeTo": 208,
+  "peakFrom": 190,
+  "peakTo": 202,
+  "homeCity": "강하",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "유표",
+   "감녕"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "황충",
+  "name": "황충",
+  "faction": "촉",
+  "base": {
+   "combat": 98,
+   "politics": 65,
+   "intellect": 69,
+   "leadership": 95
+  },
+  "activeFrom": 184,
+  "activeTo": 222,
+  "peakFrom": 194,
+  "peakTo": 212,
+  "homeCity": "완",
+  "title": "전장을 누비는 맹장",
+  "bonds": [
+   "엄안",
+   "조운",
+   "법정",
+   "유반"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "후선",
+  "name": "후선",
+  "faction": "군웅",
+  "base": {
+   "combat": 74,
+   "politics": 59,
+   "intellect": 37,
+   "leadership": 58
+  },
+  "activeFrom": 194,
+  "activeTo": 228,
+  "peakFrom": 202,
+  "peakTo": 220,
+  "homeCity": "천수",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "정은"
+  ],
+  "rivals": []
+ },
+ {
+  "id": "후성",
+  "name": "후성",
+  "faction": "군웅",
+  "base": {
+   "combat": 75,
+   "politics": 57,
+   "intellect": 55,
+   "leadership": 73
+  },
+  "activeFrom": 184,
+  "activeTo": 199,
+  "peakFrom": 188,
+  "peakTo": 195,
+  "homeCity": "진양",
+  "title": "한 자루 무예로 살아가는 무인",
+  "bonds": [
+   "위속",
+   "송헌"
+  ],
+  "rivals": []
+ }
+]
