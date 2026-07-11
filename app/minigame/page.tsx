@@ -7,9 +7,17 @@ import { endMonth, executeCommand, factionCities, freeOfficersIn, officersIn, pr
 import { SCENARIO_DEFS } from "@/lib/rtk2/scenarios";
 import { createGame } from "@/lib/rtk2/setup";
 import type { Command, GameState, Officer } from "@/lib/rtk2/types";
+import { CITY_BY_ID } from "@/lib/rtk2/cities";
+import { Delaunay } from "d3-delaunay";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+
+// 중국 해안선 근사 폴리곤 (chinamap.webp 기준, viewBox 좌표) — 영역 클리핑용
+const LAND_PATH =
+  "M0,36 L70,36 L79,40 L93,42 L95,47 L83,50 L78,53 L84,56 L88,60 L80,63 L79,68 L83,72 L86,76 L84,82 L80,88 L74,94 L68,100 L64,106 L60,110 L56,113 L52,116 L53,122 L46,125 L42,118 L36,122 L30,130 L24,138 L18,146 L10,150 L0,150 Z";
+
+const SEASONS = ["겨울", "겨울", "봄", "봄", "봄", "여름", "여름", "여름", "가을", "가을", "가을", "겨울", "겨울"];
 
 const SAVE_KEY = "rtk2_save";
 
@@ -199,27 +207,57 @@ function Board({ game, setGame }: { game: GameState; setGame: (g: GameState) => 
       {/* 도시 패널 */}
       <div className="rounded-xl border border-white/10 bg-black/30 p-3 text-sm">
         {!city ? (
-          <p className="text-white/40 text-xs">지도에서 주(州)를 선택하세요. 숫자는 국번호, 색은 세력입니다.</p>
+          <p className="text-white/40 text-xs">지도에서 국(國)을 선택하세요. 영역 색이 세력, 숫자가 국번호입니다.</p>
         ) : (
           <>
-            <div className="flex items-baseline justify-between">
-              <p className="font-bold text-lg">
-                {city.id}. {city.name}
-                <span className="text-white/40 text-xs ml-1">{game.factions[city.factionId ?? -1]?.name ?? "공백지"}</span>
-              </p>
-              {isMine && <span className="text-green-400 text-xs">아군 · 행동 가능 {idle.length}명</span>}
-            </div>
-            <div className="grid grid-cols-3 gap-1 my-2 text-xs">
-              <Stat label="금" v={city.gold} />
-              <Stat label="쌀" v={city.rice} />
-              <Stat label="인구" v={city.population} />
-              <Stat label="토지" v={city.land} />
-              <Stat label="치수" v={city.flood} />
-              <Stat label="민충" v={city.peace} />
-              <Stat label="쌀시세" v={city.ricePrice} />
-              <Stat label="무기" v={city.weapons} />
-              <Stat label="말" v={city.horses} />
-            </div>
+            {/* 원작식 헤더: 군주/신뢰도/태수/군사 + 초상 */}
+            {(() => {
+              const faction = city.factionId !== null ? game.factions[city.factionId] : null;
+              const ruler = faction ? game.officers[faction.rulerId] : null;
+              const stationed = city.factionId !== null ? officersIn(game, city.id, city.factionId) : [];
+              const governor =
+                stationed.find((o) => o.isRuler) ?? [...stationed].sort((a, b) => b.int + b.chr - (a.int + a.chr))[0];
+              const advisor = [...stationed].sort((a, b) => b.int - a.int)[0];
+              const freeCount = freeOfficersIn(game, city.id).filter((o) => o.discovered).length;
+              return (
+                <>
+                  <div className="flex justify-between gap-2 rounded-lg bg-black/60 border border-amber-900/50 p-2 mb-2">
+                    <div className="text-xs space-y-0.5">
+                      <p className="font-bold text-base text-white">
+                        {city.id}. {city.name} <span className="text-white/40 text-[10px]">{CITY_BY_ID[city.id]?.province}</span>
+                      </p>
+                      <p>
+                        <span className="text-red-400">군주:</span> {ruler?.name ?? "— (공백지)"}
+                      </p>
+                      <p>
+                        <span className="text-yellow-300">신뢰도:</span> {faction?.trust ?? "—"}
+                      </p>
+                      <p>
+                        <span className="text-cyan-300">태수:</span> {governor?.name ?? "—"}
+                      </p>
+                      <p>
+                        <span className="text-fuchsia-300">군사:</span> {advisor?.name ?? "—"}
+                      </p>
+                    </div>
+                    {ruler && <Portrait name={ruler.name} />}
+                  </div>
+                  <div className="grid grid-cols-3 gap-1 my-2 text-xs">
+                    <Stat label="인구" v={city.population} />
+                    <Stat label="병사" v={stationed.reduce((x, o) => x + o.soldiers, 0)} />
+                    <Stat label="장수" v={stationed.length} />
+                    <Stat label="금" v={city.gold} />
+                    <Stat label="쌀" v={city.rice} />
+                    <Stat label="세율" v={city.taxRate} />
+                    <Stat label="민충" v={city.peace} />
+                    <Stat label="토지" v={city.land} />
+                    <Stat label="치수" v={city.flood} />
+                    <Stat label="말" v={city.horses} />
+                    <Stat label="무기" v={city.weapons} />
+                    <Stat label="재야" v={freeCount} />
+                  </div>
+                </>
+              );
+            })()}
 
             {/* 주둔 장수 */}
             <p className="text-white/50 text-xs mb-1">주둔 장수 {city.factionId !== null ? officersIn(game, city.id, city.factionId).length : 0}명</p>
@@ -248,6 +286,20 @@ function Board({ game, setGame }: { game: GameState; setGame: (g: GameState) => 
   );
 }
 
+function Portrait({ name }: { name: string }) {
+  const [ok, setOk] = useState(true);
+  return (
+    <div className="w-16 h-20 rounded border-2 border-amber-700/60 bg-stone-800 overflow-hidden shrink-0 flex items-center justify-center">
+      {ok ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={`/art/${name}.png`} alt="" className="h-full w-full object-cover" onError={() => setOk(false)} />
+      ) : (
+        <span className="text-2xl font-serif text-amber-200/60">{name[0]}</span>
+      )}
+    </div>
+  );
+}
+
 function Stat({ label, v }: { label: string; v: number }) {
   return (
     <p className="rounded bg-white/5 px-1.5 py-0.5">
@@ -260,62 +312,100 @@ function Stat({ label, v }: { label: string; v: number }) {
 
 function ChinaMap({ game, selected, onSelect }: { game: GameState; selected: number | null; onSelect: (id: number) => void }) {
   const cities = Object.values(game.cities);
+
+  // 보로노이 분할로 국경 생성 (원작처럼 영역이 세력색으로 칠해짐)
+  // 팬텀 포인트: 사막·바다 쪽 셀 팽창 방지 (렌더링 제외)
+  const cellPaths = useMemo(() => {
+    const PHANTOM: [number, number][] = [
+      // 북방 초원·사막
+      [8, 38], [25, 40], [42, 38], [58, 40], [72, 37],
+      [4, 48], [14, 44],
+      // 서부 고원
+      [4, 62], [4, 78], [4, 96], [8, 112], [2, 130],
+      // 동·남 바다
+      [97, 38], [98, 52], [93, 60], [92, 72], [90, 84], [84, 96],
+      [76, 106], [68, 116], [58, 126], [64, 118], [46, 134], [30, 148], [55, 140],
+      // 발해만
+      [86, 47], [90, 53],
+    ];
+    const pts: [number, number][] = [...cities.map((c) => [c.x, c.y] as [number, number]), ...PHANTOM];
+    const delaunay = Delaunay.from(pts);
+    const vor = delaunay.voronoi([0, 36, 100, 150]);
+    return cities.map((_, i) => vor.renderCell(i));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <svg viewBox="0 36 100 114" className="w-full rounded-xl border border-white/10 bg-stone-950">
-      {/* 중국 지형 배경 (북방 여백 크롭) */}
+      <defs>
+        <clipPath id="chinaLand">
+          <path d={LAND_PATH} />
+        </clipPath>
+      </defs>
+      {/* 중국 지형 배경 */}
       <image href="/bg/chinamap.webp" x="0" y="0" width="100" height="150" preserveAspectRatio="none" opacity="0.9" />
-      {/* 인접선 */}
-      {cities.flatMap((c) =>
-        c.neighbors
-          .filter((n) => n > c.id)
-          .map((n) => {
-            const t = game.cities[n];
-            return (
-              <line
-                key={`${c.id}-${n}`}
-                x1={c.x}
-                y1={c.y}
-                x2={t.x}
-                y2={t.y}
-                stroke="#f5deb340"
-                strokeWidth="0.35"
-                strokeDasharray="1.2 0.9"
-              />
-            );
-          })
-      )}
+      {/* 세력 영역 (해안선 클리핑) */}
+      <g clipPath="url(#chinaLand)">
+        {cities.map((c, i) => {
+          const f = c.factionId !== null ? game.factions[c.factionId] : null;
+          const isSel = selected === c.id;
+          return (
+            <path
+              key={c.id}
+              d={cellPaths[i]}
+              fill={f ? f.color : "#3a352c"}
+              opacity={f ? 0.6 : 0.35}
+              stroke={isSel ? "#fbbf24" : "#150f08"}
+              strokeWidth={isSel ? 0.9 : 0.45}
+              onClick={() => onSelect(c.id)}
+              className="cursor-pointer hover:opacity-80"
+            />
+          );
+        })}
+      </g>
+      {/* 국번호 + 지명 */}
       {cities.map((c) => {
         const f = c.factionId !== null ? game.factions[c.factionId] : null;
-        const isSel = selected === c.id;
         return (
-          <g key={c.id} onClick={() => onSelect(c.id)} className="cursor-pointer">
-            <circle
-              cx={c.x}
-              cy={c.y}
-              r={isSel ? 2.9 : 2.2}
-              fill={f?.color ?? "#44403c"}
-              stroke={isSel ? "#fbbf24" : f?.isPlayer ? "#ffffff" : "#00000060"}
-              strokeWidth={isSel ? 0.7 : f?.isPlayer ? 0.55 : 0.3}
-            />
-            <text x={c.x} y={c.y + 0.75} textAnchor="middle" fontSize="2" fill="#fff" fontWeight="bold">
+          <g key={c.id} onClick={() => onSelect(c.id)} className="cursor-pointer pointer-events-none">
+            <text
+              x={c.x}
+              y={c.y + 0.8}
+              textAnchor="middle"
+              fontSize="2.6"
+              fill="#ffffff"
+              stroke="#000000cc"
+              strokeWidth="0.4"
+              paintOrder="stroke"
+              fontWeight="bold"
+            >
               {c.id}
             </text>
             <text
               x={c.x}
-              y={c.y + 4.6}
+              y={c.y + 3.6}
               textAnchor="middle"
-              fontSize="1.9"
-              fill="#ffe9c4"
+              fontSize="1.7"
+              fill={f?.isPlayer ? "#fef3c7" : "#ffffffcc"}
               stroke="#000000aa"
-              strokeWidth="0.28"
+              strokeWidth="0.25"
               paintOrder="stroke"
-              fontWeight="bold"
             >
               {c.name}
             </text>
           </g>
         );
       })}
+      {/* 날짜 박스 (원작 스타일) */}
+      <g>
+        <rect x="1.5" y="38" width="22" height="9" rx="1" fill="#1c1410" stroke="#8b6d3f" strokeWidth="0.4" />
+        <text x="12.5" y="41.8" textAnchor="middle" fontSize="2.6" fill="#ffe9c4" fontWeight="bold">
+          {game.year}년 {game.month}월
+        </text>
+        <text x="12.5" y="45.2" textAnchor="middle" fontSize="2.2" fill="#c9a86a">
+          {SEASONS[game.month]}
+        </text>
+      </g>
     </svg>
   );
 }
@@ -358,35 +448,97 @@ function CommandMenu({
     .filter((c) => c.factionId !== null)
     .flatMap((c) => officersIn(game, c.id, c.factionId));
 
-  const Btn = ({ id, label }: { id: string; label: string }) => (
-    <button
-      onClick={() => setMenu(menu === id ? null : id)}
-      className={`rounded px-2 py-1 text-[11px] font-bold border transition-colors ${
-        menu === id ? "bg-amber-700 border-amber-500" : "border-white/15 hover:bg-white/10"
-      }`}
-    >
-      {label}
-    </button>
-  );
+  // 원작 커맨드 번호 체계 (0~19)
+  const NUMBERED: { n: number; label: string; id: string | null; capital?: boolean }[] = [
+    { n: 0, label: "휴식", id: "rest" },
+    { n: 1, label: "이동", id: "move" },
+    { n: 2, label: "수송", id: "transport" },
+    { n: 3, label: "전쟁", id: "war" },
+    { n: 4, label: "군사", id: "mil" },
+    { n: 5, label: "인사", id: "pers" },
+    { n: 6, label: "외교", id: "diplo", capital: true },
+    { n: 7, label: "계략", id: "plot", capital: true },
+    { n: 8, label: "정보", id: null },
+    { n: 9, label: "개간", id: "dev" },
+    { n: 10, label: "치수", id: "flood" },
+    { n: 11, label: "포상", id: "reward" },
+    { n: 12, label: "선정", id: "give" },
+    { n: 13, label: "상인", id: "trade" },
+    { n: 14, label: "징수", id: "levy" },
+    { n: 15, label: "세율", id: "tax" },
+    { n: 16, label: "위임", id: null },
+    { n: 17, label: "방랑", id: null },
+    { n: 18, label: "특별", id: null },
+    { n: 19, label: "기능", id: null },
+  ];
+  const ruler = game.officers[myFaction.rulerId];
 
   return (
-    <div className="border-t border-white/10 pt-2">
-      <div className="flex flex-wrap gap-1 mb-2">
-        <Btn id="dev" label="개간" />
-        <Btn id="flood" label="치수" />
-        <Btn id="give" label="시여" />
-        <Btn id="trade" label="상인" />
-        <Btn id="reward" label="포상" />
-        <Btn id="search" label="수색" />
-        <Btn id="recruit" label="등용" />
-        <Btn id="draft" label="징병" />
-        <Btn id="train" label="훈련" />
-        <Btn id="move" label="이동" />
-        <Btn id="transport" label="수송" />
-        <Btn id="war" label="전쟁" />
-        {isCapital && <Btn id="diplo" label="외교" />}
-        {isCapital && <Btn id="plot" label="계략" />}
+    <div className="border-t border-amber-900/40 pt-2">
+      <p className="text-[11px] text-amber-200/90 mb-1.5">
+        {ruler?.name} 님, {cityId}국에 내릴 명령은? (0~19) — 행동 가능 {idle.length}명
+      </p>
+      <div className="grid grid-cols-5 gap-0.5 mb-2 text-[10px]">
+        {NUMBERED.map((c) => {
+          const disabled = c.id === null || (c.capital && !isCapital);
+          const active = menu === c.id;
+          return (
+            <button
+              key={c.n}
+              disabled={disabled}
+              title={c.capital && !isCapital ? "본국(군주 소재지)에서만 가능" : c.id === null ? "추후 구현" : ""}
+              onClick={() => c.id && setMenu(menu === c.id ? null : c.id)}
+              className={`rounded px-1 py-1 border font-bold transition-colors ${
+                active
+                  ? "bg-amber-700 border-amber-400"
+                  : disabled
+                    ? "border-white/5 text-white/20"
+                    : "border-white/15 hover:bg-white/10"
+              }`}
+            >
+              <span className="text-amber-400/80">{c.n}</span> {c.label}
+            </button>
+          );
+        })}
       </div>
+      {menu === "rest" && (
+        <p className="text-[11px] text-white/40">명령 없이 달을 넘기려면 상단의 "다음 달 ▶"을 누르세요.</p>
+      )}
+      {menu === "mil" && (
+        <div className="space-y-1">
+          <MiniAction label={`징병 20부대(2000명) — ${bestWar.name}, 금 200·쌀 2000`} onGo={() => runCmd({ type: "conscript", officerId: bestWar.id, amount: 20 })} disabled={city.gold < 200 || city.rice < 2000} />
+          <MiniAction label={`훈련 — ${bestWar.name}(무력 ${bestWar.war})`} onGo={() => runCmd({ type: "train", officerId: bestWar.id })} />
+        </div>
+      )}
+      {menu === "pers" && (
+        <div className="space-y-1">
+          <MiniAction label={`수색 — ${bestChr.name}(매력 ${bestChr.chr})`} onGo={() => runCmd({ type: "search", officerId: bestChr.id })} />
+          <div className="text-[11px]">
+            {free.length === 0 ? (
+              <p className="text-white/40">발견된 재야가 없습니다. 수색으로 찾아보세요.</p>
+            ) : (
+              free.map((o) => (
+                <button key={o.id} className="block w-full text-left rounded bg-white/5 px-2 py-1 hover:bg-white/15" onClick={() => runCmd({ type: "recruit", officerId: bestChr.id, targetId: o.id })}>
+                  등용: {o.name} — 지{o.int} 무{o.war} 매{o.chr}
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+      {menu === "levy" && (
+        <MiniAction label={`임시징수 — 민충성·신뢰도 하락 (즉시 금·쌀 확보)`} onGo={() => runCmd({ type: "levy", officerId: idle[0].id })} />
+      )}
+      {menu === "tax" && (
+        <div className="flex gap-1 text-[11px] items-center">
+          <span className="text-white/50">세율 (현재 {city.taxRate}%):</span>
+          {[20, 35, 50, 65, 80].map((r) => (
+            <button key={r} className={`rounded px-2 py-1 border ${city.taxRate === r ? "border-amber-400 bg-amber-800/50" : "border-white/15 hover:bg-white/10"}`} onClick={() => runCmd({ type: "setTax", rate: r })}>
+              {r}%
+            </button>
+          ))}
+        </div>
+      )}
 
       {menu === "dev" && (
         <MiniAction label={`개간 — ${bestInt.name}(지력 ${bestInt.int}), 금 200`} onGo={() => runCmd({ type: "develop", officerId: bestInt.id, gold: 200 })} disabled={city.gold < 200} />
@@ -396,11 +548,6 @@ function CommandMenu({
       )}
       {menu === "give" && (
         <MiniAction label={`시여 — ${bestChr.name}(매력 ${bestChr.chr}), 쌀 1000`} onGo={() => runCmd({ type: "give", officerId: bestChr.id, rice: 1000 })} disabled={city.rice < 1000} />
-      )}
-      {menu === "search" && <MiniAction label={`수색 — ${bestChr.name}(매력 ${bestChr.chr})`} onGo={() => runCmd({ type: "search", officerId: bestChr.id })} />}
-      {menu === "train" && <MiniAction label={`훈련 — ${bestWar.name}(무력 ${bestWar.war})`} onGo={() => runCmd({ type: "train", officerId: bestWar.id })} />}
-      {menu === "draft" && (
-        <MiniAction label={`징병 20부대(2000명) — ${bestWar.name}, 금 200·쌀 2000`} onGo={() => runCmd({ type: "conscript", officerId: bestWar.id, amount: 20 })} disabled={city.gold < 200 || city.rice < 2000} />
       )}
       {menu === "trade" && (
         <div className="flex gap-1 flex-wrap text-[11px]">
@@ -423,19 +570,6 @@ function CommandMenu({
               {o.name} (충성 {o.loyalty}) — 금 50 포상
             </button>
           ))}
-        </div>
-      )}
-      {menu === "recruit" && (
-        <div className="space-y-1 text-[11px]">
-          {free.length === 0 ? (
-            <p className="text-white/40">발견된 재야가 없습니다. 수색으로 찾아보세요.</p>
-          ) : (
-            free.map((o) => (
-              <button key={o.id} className="block w-full text-left rounded bg-white/5 px-2 py-1 hover:bg-white/15" onClick={() => runCmd({ type: "recruit", officerId: bestChr.id, targetId: o.id })}>
-                {o.name} — 지{o.int} 무{o.war} 매{o.chr} (사자: {bestChr.name})
-              </button>
-            ))
-          )}
         </div>
       )}
       {menu === "move" && (

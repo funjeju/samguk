@@ -31,6 +31,14 @@ export function executeCommand(
 ): { state: GameState; recruited?: string } {
   const s = clone(prev);
   const city = s.cities[cityId];
+
+  // 세율 설정: 행동력 소모 없음 (원작 Rate)
+  if (cmd.type === "setTax") {
+    city.taxRate = clamp(cmd.rate, 20, 80);
+    push(s, `${city.name} 세율을 ${city.taxRate}%로 조정했다`);
+    return { state: s };
+  }
+
   const actorId = "officerId" in cmd ? cmd.officerId : (cmd as { officerIds: string[] }).officerIds[0];
   const actor = s.officers[actorId];
   if (!actor || actor.acted || actor.cityId !== cityId || actor.wounded > 0) return { state: prev };
@@ -650,13 +658,19 @@ export function endMonth(prev: GameState): GameState {
   for (const city of Object.values(s.cities)) {
     // 쌀 시세 변동 (15~88)
     city.ricePrice = clamp(city.ricePrice + rnd(-12, 12), 15, 88);
+    // 고세율은 민심을 갉아먹고, 저세율은 민심을 회복시킨다
+    if (city.factionId !== null && city.taxRate !== 50 && Math.random() < 0.5) {
+      city.peace = clamp(city.peace - Math.round((city.taxRate - 50) / 15));
+    }
   }
 
   // 1월: 금 수입 + 인구 증가 + 수명 판정 / 7월: 쌀 수확
   if (s.month === 1) {
     for (const city of Object.values(s.cities)) {
       if (city.factionId === null) continue;
-      const income = Math.round((city.population / 100) * (city.land / 100) * (0.5 + city.peace / 100) * 2.2);
+      const income = Math.round(
+        (city.population / 100) * (city.land / 100) * (0.5 + city.peace / 100) * 2.2 * (city.taxRate / 50)
+      );
       city.gold = Math.min(30000, city.gold + income);
       city.population = Math.min(3000000, Math.round(city.population * 1.02));
       if (city.factionId === s.playerFactionId) push(s, `${city.name} 세수 — 금 +${income}`);

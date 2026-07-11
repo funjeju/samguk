@@ -51,6 +51,7 @@ export interface CityState {
   ricePrice: number; // 쌀 시세: 금 100으로 살 수 있는 쌀 (15~88 변동)
   horses: number; // 말 (전투·포상용)
   weapons: number; // 무기 (병사 무장률)
+  taxRate: number; // 세율 % (원작 Rate — 높으면 수입↑ 민충성↓)
 }
 
 export interface Faction {
@@ -80,7 +81,8 @@ export type Command =
   | { type: "transport"; officerId: string; toCity: number; gold: number; rice: number } // 수송 (물자만, 자국 인접)
   | { type: "war"; officerIds: string[]; toCity: number } // 출병 (인접만)
   | { type: "plot"; officerId: string; kind: "forgery"; targetOfficerId: string } // 계략: 위서
-  | { type: "diplomacy"; officerId: string; kind: "ally" | "gift"; targetFactionId: number; gold?: number };
+  | { type: "diplomacy"; officerId: string; kind: "ally" | "gift"; targetFactionId: number; gold?: number }
+  | { type: "setTax"; rate: number }; // 세율 설정 (행동력 소모 없음)
 
 export interface BattleSide {
   factionId: number;

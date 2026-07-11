@@ -121,6 +121,7 @@ export function createGame(scenarioId: number, playerRulerName: string): GameSta
       ricePrice: 30 + Math.floor(Math.random() * 40),
       horses: 0,
       weapons: 300 + cd.richness * 100,
+      taxRate: 50,
     };
   }
 
