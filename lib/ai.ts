@@ -31,7 +31,9 @@ export function aiPickCard(difficulty: Difficulty, hand: CardInstance[], ctx: Ai
   powers.sort((a, b) => b.p - a.p);
 
   if (difficulty === "normal") {
-    return { main: powers[0].card, support: null };
+    // 보통: 상위 3장 중 랜덤 — 늘 최강만 내는 탐욕보다 부드러운 난이도 곡선
+    const top = powers.slice(0, Math.min(3, powers.length));
+    return { main: top[Math.floor(Math.random() * top.length)].card, support: null };
   }
 
   // hard: 상대 잔여 평균 전투력 추정 대비 판단

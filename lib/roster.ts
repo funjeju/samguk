@@ -44,7 +44,7 @@ export const SCENARIOS: Scenario[] = [
     ruleTexts: [
       "난세의 서막 — 군웅 소속 카드 전투 +5",
       "천공장군 — 장각 통솔 +8",
-      "이 시대 미등장 장수는 전투력 ×0.6",
+      "이 시대 미등장 장수는 전투력 ×0.8",
     ],
     statMods: [
       { faction: "군웅", stat: "combat", add: 5 },
@@ -58,7 +58,7 @@ export const SCENARIOS: Scenario[] = [
     ruleTexts: [
       "제후 연합 — 오(吳) 소속 카드 통솔 +5",
       "낙양의 폭군 — 동탁 전투 +8",
-      "이 시대 미등장 장수는 전투력 ×0.6",
+      "이 시대 미등장 장수는 전투력 ×0.8",
     ],
     statMods: [
       { faction: "오", stat: "leadership", add: 5 },
@@ -72,7 +72,7 @@ export const SCENARIOS: Scenario[] = [
     ruleTexts: [
       "난세의 간웅 — 위(魏) 소속 카드 통솔 +5",
       "몰락하는 명가 — 원소 전투 +8",
-      "이 시대 미등장 장수는 전투력 ×0.6",
+      "이 시대 미등장 장수는 전투력 ×0.8",
     ],
     statMods: [
       { faction: "위", stat: "leadership", add: 5 },
@@ -86,7 +86,7 @@ export const SCENARIOS: Scenario[] = [
     ruleTexts: [
       "장강의 불길 — 오(吳) 소속 카드 지략 +5",
       "미주랑 — 주유 지략 +8",
-      "이 시대 미등장 장수는 전투력 ×0.6",
+      "이 시대 미등장 장수는 전투력 ×0.8",
     ],
     statMods: [
       { faction: "오", stat: "intellect", add: 5 },
@@ -100,7 +100,7 @@ export const SCENARIOS: Scenario[] = [
     ruleTexts: [
       "한중왕의 기세 — 촉(蜀) 소속 카드 통솔 +5",
       "수엄칠군 — 관우 전투 +8",
-      "이 시대 미등장 장수는 전투력 ×0.6",
+      "이 시대 미등장 장수는 전투력 ×0.8",
     ],
     statMods: [
       { faction: "촉", stat: "leadership", add: 5 },
@@ -114,7 +114,7 @@ export const SCENARIOS: Scenario[] = [
     ruleTexts: [
       "출사표 — 촉(蜀) 소속 카드 지략 +5",
       "와룡의 집념 — 제갈량 지략 +8",
-      "이 시대 미등장 장수는 전투력 ×0.6",
+      "이 시대 미등장 장수는 전투력 ×0.8",
     ],
     statMods: [
       { faction: "촉", stat: "intellect", add: 5 },

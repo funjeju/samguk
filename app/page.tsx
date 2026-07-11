@@ -1,7 +1,7 @@
 "use client";
 
 import GeneralCard from "@/components/GeneralCard";
-import { createCard, rollGrade, shuffle } from "@/lib/battle";
+import { calcPower, createCard, rollGrade, shuffle } from "@/lib/battle";
 import { enhanceCards, fetchCollection, fetchRecord, saveMatchResult, type UserRecord } from "@/lib/collection";
 import { INFO_FACTION_DETAIL_TURN, INFO_POWER_EVERY, INFO_ROLE_TURN, REWARD, TURNS } from "@/lib/constants";
 import { AUTH_ERROR_KO, currentUser, ensureUser, firebaseEnabled, signInEmail, signOutUser, signUpEmail } from "@/lib/firebase";
@@ -500,24 +500,30 @@ function Battle({
         )}
       </div>
 
-      {/* 내 손패 */}
+      {/* 내 손패 (유효 전투력 = 전투50%+통솔30%+지략20% × 역사·홈, 이 판 기준 미리보기) */}
       <div className="flex flex-col items-center gap-3 pb-4">
         <div className="flex gap-2 justify-center flex-wrap">
-          {match.myHand.map((c) => (
-            <div key={c.cardId} className="relative">
-              <GeneralCard
-                card={c}
-                selected={selected === c.cardId || supportSel === c.cardId}
-                dimmed={!!reveal}
-                onClick={() => clickCard(c)}
-              />
-              {supportSel === c.cardId && (
-                <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded bg-blue-500 px-2 py-0.5 text-[10px] font-bold">
-                  모사
+          {match.myHand.map((c) => {
+            const preview = calcPower(c, match.scenario, match.city, match.eraFloor).total;
+            return (
+              <div key={c.cardId} className="relative flex flex-col items-center gap-0.5">
+                <GeneralCard
+                  card={c}
+                  selected={selected === c.cardId || supportSel === c.cardId}
+                  dimmed={!!reveal}
+                  onClick={() => clickCard(c)}
+                />
+                <span className="rounded bg-black/60 px-2 py-0.5 text-[10px] text-amber-200">
+                  이 판 전투력 <b>{Math.round(preview)}</b>
                 </span>
-              )}
-            </div>
-          ))}
+                {supportSel === c.cardId && (
+                  <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded bg-blue-500 px-2 py-0.5 text-[10px] font-bold">
+                    모사
+                  </span>
+                )}
+              </div>
+            );
+          })}
         </div>
         <p className="text-white/30 text-xs h-4">
           {selected && !supportSel && match.myHand.some((c) => c.cardId !== selected && isStrategist(c))
@@ -1003,19 +1009,25 @@ function Pvp({ joinId, onBack }: { joinId: string | null; onBack: () => void }) 
 
       <div className="flex flex-col items-center gap-3 pb-4">
         <div className="flex gap-2 justify-center flex-wrap">
-          {hand.map((c) => (
-            <div key={c.cardId} className="relative">
-              <GeneralCard
-                card={c}
-                selected={selected === c.cardId || supportSel === c.cardId}
-                dimmed={submitted || !!reveal}
-                onClick={() => clickCard(c)}
-              />
-              {supportSel === c.cardId && (
-                <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded bg-blue-500 px-2 py-0.5 text-[10px] font-bold">모사</span>
-              )}
-            </div>
-          ))}
+          {hand.map((c) => {
+            const preview = calcPower(c, scenario, city).total;
+            return (
+              <div key={c.cardId} className="relative flex flex-col items-center gap-0.5">
+                <GeneralCard
+                  card={c}
+                  selected={selected === c.cardId || supportSel === c.cardId}
+                  dimmed={submitted || !!reveal}
+                  onClick={() => clickCard(c)}
+                />
+                <span className="rounded bg-black/60 px-2 py-0.5 text-[10px] text-amber-200">
+                  이 판 전투력 <b>{Math.round(preview)}</b>
+                </span>
+                {supportSel === c.cardId && (
+                  <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded bg-blue-500 px-2 py-0.5 text-[10px] font-bold">모사</span>
+                )}
+              </div>
+            );
+          })}
         </div>
         <button
           onClick={commit}
