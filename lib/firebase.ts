@@ -2,9 +2,12 @@ import { getApps, initializeApp } from "firebase/app";
 import {
   EmailAuthProvider,
   getAuth,
+  GoogleAuthProvider,
   linkWithCredential,
+  linkWithPopup,
   signInAnonymously,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
   type User,
 } from "firebase/auth";
@@ -66,6 +69,31 @@ export async function signInEmail(email: string, password: string): Promise<User
   return result.user;
 }
 
+// Google 로그인: 게스트(익명) 상태면 계정을 연결해 컬렉션·전적 유지,
+// 이미 다른 계정에 연결된 구글 계정이면 그 계정으로 로그인 전환
+export async function signInGoogle(): Promise<User> {
+  const auth = getAuth(app!);
+  const provider = new GoogleAuthProvider();
+  const current = auth.currentUser;
+  if (current && current.isAnonymous) {
+    try {
+      const result = await linkWithPopup(current, provider);
+      userPromise = Promise.resolve(result.user);
+      return result.user;
+    } catch (e) {
+      if ((e as { code?: string }).code === "auth/credential-already-in-use") {
+        const result = await signInWithPopup(auth, provider);
+        userPromise = Promise.resolve(result.user);
+        return result.user;
+      }
+      throw e;
+    }
+  }
+  const result = await signInWithPopup(auth, provider);
+  userPromise = Promise.resolve(result.user);
+  return result.user;
+}
+
 export async function signOutUser(): Promise<void> {
   const auth = getAuth(app!);
   await signOut(auth);
@@ -77,6 +105,9 @@ export function currentUser(): User | null {
 }
 
 export const AUTH_ERROR_KO: Record<string, string> = {
+  "auth/operation-not-allowed": "Google 로그인이 아직 콘솔에서 활성화되지 않았습니다.",
+  "auth/popup-closed-by-user": "로그인 창이 닫혔습니다. 다시 시도해 주세요.",
+  "auth/popup-blocked": "팝업이 차단되었습니다. 팝업 허용 후 다시 시도해 주세요.",
   "auth/email-already-in-use": "이미 가입된 이메일입니다. 로그인해 주세요.",
   "auth/invalid-email": "이메일 형식이 올바르지 않습니다.",
   "auth/weak-password": "비밀번호는 6자 이상이어야 합니다.",
