@@ -103,13 +103,32 @@ export function executeCommand(
       break;
     }
     case "reward": {
+      // 원작 규칙: 포상은 한 달에 1명만, 상승폭은 군주 매력 비례
+      if (s.rewardUsed) {
+        push(s, "포상은 한 달에 한 명에게만 내릴 수 있다");
+        return { state: prev };
+      }
       const target = s.officers[cmd.targetId];
       const gold = Math.min(cmd.gold, city.gold, 100);
       if (!target || gold < 10) return { state: prev };
       city.gold -= gold;
       const gain = Math.round((gold / 10) * (ruler.chr / 40));
       target.loyalty = clamp(target.loyalty + gain);
+      s.rewardUsed = true;
       push(s, `${target.name}에게 금 ${gold} 포상 — 충성 +${gain} (${target.loyalty})`);
+      break;
+    }
+    case "transport": {
+      // 수송: 물자만 자국 인접 도시로 (장수는 호송 후 복귀)
+      const to = s.cities[cmd.toCity];
+      if (!city.neighbors.includes(cmd.toCity) || to.factionId !== faction.id) return { state: prev };
+      const gold = Math.min(cmd.gold, city.gold);
+      const rice = Math.min(cmd.rice, city.rice);
+      city.gold -= gold;
+      city.rice -= rice;
+      to.gold = Math.min(30000, to.gold + gold);
+      to.rice = Math.min(3000000, to.rice + rice);
+      push(s, `${actor.name}, ${to.name}(으)로 수송 — 금 ${gold}, 쌀 ${rice}`);
       break;
     }
     case "search": {
@@ -292,11 +311,22 @@ function resolveBattle(
     return report;
   }
 
-  // 일기토 (개전 시 1회) — 양측 최고 무력 장수
+  // 일기토 (개전 시 1회) — 양측 최고 무력 장수. 수비측이 수락/거절 (원작 규칙)
   const aBest = atk.reduce((a, b) => (a.war >= b.war ? a : b));
   const dBest = def.reduce((a, b) => (a.war >= b.war ? a : b));
   let duelWinner: Officer | null = null;
+  let duelDeclined = false;
   if (aBest.war >= 80 || dBest.war >= 80) {
+    // 수락 판단: 무력이 크게 밀리지 않거나, 야망 높은 장수는 멋대로 받아버림
+    const accepts = dBest.war >= aBest.war - 10 || dBest.ambition >= 80;
+    if (!accepts) {
+      // 거절 페널티: 전 부대 병사 ~8% 탈주 (원작 실측치)
+      def.forEach((o) => (o.soldiers = Math.floor(o.soldiers * 0.92)));
+      rounds.push(`${dBest.name}, ${aBest.name}의 일기토를 거절! 수비군 사기가 꺾여 병사들이 탈주한다 (-8%)`);
+      duelDeclined = true;
+    }
+  }
+  if (!duelDeclined && (aBest.war >= 80 || dBest.war >= 80)) {
     const log: string[] = [];
     let aHp = 3;
     let dHp = 3;
@@ -327,8 +357,9 @@ function resolveBattle(
     rounds.push(`⚔ 일기토! ${aBest.name}(무력${aBest.war}) vs ${dBest.name}(무력${dBest.war}) — ${winner.name} 승리`);
   }
 
-  // 30일 소모전
+  // 30일 소모전 — 무장도(도시 무기 보유량 대비 병사) 양측 모두 반영
   const weaponRateDef = clamp(Math.round((city.weapons / Math.max(1, def.reduce((x, o) => x + o.soldiers, 0))) * 100), 30, 100);
+  const weaponRateAtk = clamp(Math.round((from.weapons / Math.max(1, atk.reduce((x, o) => x + o.soldiers, 0))) * 100), 30, 100);
   let atkRice = Math.min(from.rice, atk.reduce((x, o) => x + o.soldiers, 0));
   from.rice -= atkRice;
   for (let day = 1; day <= 30; day++) {
@@ -346,7 +377,7 @@ function resolveBattle(
       captureCity(s, report, atk, def);
       return report;
     }
-    let aPow = atkAlive.reduce((x, o) => x + unitPower(o, 70), 0);
+    let aPow = atkAlive.reduce((x, o) => x + unitPower(o, weaponRateAtk), 0);
     let dPow = defAlive.reduce((x, o) => x + unitPower(o, weaponRateDef), 0) * 1.25; // 수성 보정
 
     // 화계: 지력 85+ 장수 보유 시
@@ -730,6 +761,7 @@ export function endMonth(prev: GameState): GameState {
     s.year += 1;
   }
   Object.values(s.officers).forEach((o) => (o.acted = false));
+  s.rewardUsed = false; // 포상 월 1회 리셋
 
   // 승패 판정
   const playerCities = factionCities(s, s.playerFactionId).length;

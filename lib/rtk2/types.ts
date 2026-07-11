@@ -76,7 +76,8 @@ export type Command =
   | { type: "recruit"; officerId: string; targetId: string } // 등용 (매력·상성·신뢰도·충성)
   | { type: "conscript"; officerId: string; amount: number } // 징병 (금·쌀 소모, 민충 하락)
   | { type: "train"; officerId: string } // 훈련
-  | { type: "move"; officerIds: string[]; toCity: number; gold: number; rice: number } // 이동·수송
+  | { type: "move"; officerIds: string[]; toCity: number; gold: number; rice: number } // 이동 (장수+물자)
+  | { type: "transport"; officerId: string; toCity: number; gold: number; rice: number } // 수송 (물자만, 자국 인접)
   | { type: "war"; officerIds: string[]; toCity: number } // 출병 (인접만)
   | { type: "plot"; officerId: string; kind: "forgery"; targetOfficerId: string } // 계략: 위서
   | { type: "diplomacy"; officerId: string; kind: "ally" | "gift"; targetFactionId: number; gold?: number };
@@ -107,5 +108,6 @@ export interface GameState {
   log: string[];
   pendingBattle: BattleReport | null; // UI 연출용
   pendingCaptives: string[]; // 처리 대기 포로
+  rewardUsed: boolean; // 포상은 한 달에 1명만 (원작 규칙)
   finished: "won" | "lost" | null;
 }

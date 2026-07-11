@@ -261,14 +261,27 @@ function Stat({ label, v }: { label: string; v: number }) {
 function ChinaMap({ game, selected, onSelect }: { game: GameState; selected: number | null; onSelect: (id: number) => void }) {
   const cities = Object.values(game.cities);
   return (
-    <svg viewBox="0 0 100 104" className="w-full rounded-xl border border-white/10 bg-gradient-to-b from-stone-900 to-stone-950">
+    <svg viewBox="0 36 100 114" className="w-full rounded-xl border border-white/10 bg-stone-950">
+      {/* 중국 지형 배경 (북방 여백 크롭) */}
+      <image href="/bg/chinamap.webp" x="0" y="0" width="100" height="150" preserveAspectRatio="none" opacity="0.9" />
       {/* 인접선 */}
       {cities.flatMap((c) =>
         c.neighbors
           .filter((n) => n > c.id)
           .map((n) => {
             const t = game.cities[n];
-            return <line key={`${c.id}-${n}`} x1={c.x} y1={c.y} x2={t.x} y2={t.y} stroke="#ffffff18" strokeWidth="0.4" />;
+            return (
+              <line
+                key={`${c.id}-${n}`}
+                x1={c.x}
+                y1={c.y}
+                x2={t.x}
+                y2={t.y}
+                stroke="#f5deb340"
+                strokeWidth="0.35"
+                strokeDasharray="1.2 0.9"
+              />
+            );
           })
       )}
       {cities.map((c) => {
@@ -279,15 +292,25 @@ function ChinaMap({ game, selected, onSelect }: { game: GameState; selected: num
             <circle
               cx={c.x}
               cy={c.y}
-              r={isSel ? 3.4 : 2.6}
+              r={isSel ? 2.9 : 2.2}
               fill={f?.color ?? "#44403c"}
               stroke={isSel ? "#fbbf24" : f?.isPlayer ? "#ffffff" : "#00000060"}
-              strokeWidth={isSel ? 0.8 : f?.isPlayer ? 0.6 : 0.3}
+              strokeWidth={isSel ? 0.7 : f?.isPlayer ? 0.55 : 0.3}
             />
-            <text x={c.x} y={c.y + 0.9} textAnchor="middle" fontSize="2.4" fill="#fff" fontWeight="bold">
+            <text x={c.x} y={c.y + 0.75} textAnchor="middle" fontSize="2" fill="#fff" fontWeight="bold">
               {c.id}
             </text>
-            <text x={c.x} y={c.y + 5.4} textAnchor="middle" fontSize="2.2" fill="#ffffff90">
+            <text
+              x={c.x}
+              y={c.y + 4.6}
+              textAnchor="middle"
+              fontSize="1.9"
+              fill="#ffe9c4"
+              stroke="#000000aa"
+              strokeWidth="0.28"
+              paintOrder="stroke"
+              fontWeight="bold"
+            >
               {c.name}
             </text>
           </g>
@@ -326,6 +349,14 @@ function CommandMenu({
   const neighborsMineOrEmpty = city.neighbors
     .map((n) => game.cities[n])
     .filter((c) => c.factionId === game.playerFactionId || c.factionId === null);
+  const neighborsMine = city.neighbors.map((n) => game.cities[n]).filter((c) => c.factionId === game.playerFactionId);
+  // 본국(군주 소재 도시)에서만 외교·계략 가능 (원작 규칙)
+  const myFaction = game.factions[game.playerFactionId];
+  const isCapital = game.officers[myFaction.rulerId]?.cityId === cityId;
+  const otherFactions = game.factions.filter((f) => f.alive && f.id !== game.playerFactionId);
+  const enemyOfficersNearby = neighborsEnemy
+    .filter((c) => c.factionId !== null)
+    .flatMap((c) => officersIn(game, c.id, c.factionId));
 
   const Btn = ({ id, label }: { id: string; label: string }) => (
     <button
@@ -351,7 +382,10 @@ function CommandMenu({
         <Btn id="draft" label="징병" />
         <Btn id="train" label="훈련" />
         <Btn id="move" label="이동" />
+        <Btn id="transport" label="수송" />
         <Btn id="war" label="전쟁" />
+        {isCapital && <Btn id="diplo" label="외교" />}
+        {isCapital && <Btn id="plot" label="계략" />}
       </div>
 
       {menu === "dev" && (
@@ -412,6 +446,43 @@ function CommandMenu({
             </button>
           ))}
           {neighborsMineOrEmpty.length === 0 && <p className="text-white/40">이동 가능한 인접지가 없습니다</p>}
+        </div>
+      )}
+      {menu === "transport" && (
+        <div className="space-y-1 text-[11px]">
+          {neighborsMine.map((t) => (
+            <button key={t.id} className="block w-full text-left rounded bg-white/5 px-2 py-1 hover:bg-white/15" onClick={() => runCmd({ type: "transport", officerId: bestChr.id, toCity: t.id, gold: Math.floor(city.gold / 2), rice: Math.floor(city.rice / 2) })}>
+              {t.id}. {t.name} — 금·쌀 절반 수송 ({bestChr.name} 호송)
+            </button>
+          ))}
+          {neighborsMine.length === 0 && <p className="text-white/40">수송할 인접 자국 도시가 없습니다</p>}
+        </div>
+      )}
+      {menu === "diplo" && (
+        <div className="space-y-1 text-[11px]">
+          <p className="text-white/50">본국 외교 — 사자: {bestChr.name} (매력 {bestChr.chr})</p>
+          {otherFactions.map((f) => (
+            <div key={f.id} className="flex gap-1 items-center">
+              <span className="w-14" style={{ color: f.color }}>{f.name}{myFaction.allies.includes(f.id) && " 🤝"}</span>
+              <button className="rounded bg-white/10 px-2 py-0.5 hover:bg-white/20" onClick={() => runCmd({ type: "diplomacy", officerId: bestChr.id, kind: "ally", targetFactionId: f.id })}>
+                동맹 제의
+              </button>
+              <button className="rounded bg-white/10 px-2 py-0.5 hover:bg-white/20" disabled={city.gold < 200} onClick={() => runCmd({ type: "diplomacy", officerId: bestChr.id, kind: "gift", targetFactionId: f.id, gold: 200 })}>
+                선물 (금 200)
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+      {menu === "plot" && (
+        <div className="space-y-1 text-[11px] max-h-32 overflow-y-auto">
+          <p className="text-white/50">위서(僞書) — 인접 적장의 충성을 흔든다 (실행: {bestInt.name}, 지력 {bestInt.int})</p>
+          {enemyOfficersNearby.slice(0, 12).map((o) => (
+            <button key={o.id} className="block w-full text-left rounded bg-white/5 px-2 py-1 hover:bg-white/15" onClick={() => runCmd({ type: "plot", officerId: bestInt.id, kind: "forgery", targetOfficerId: o.id })}>
+              {o.name} ({game.factions[o.factionId ?? -1]?.name}) — 충성 {o.loyalty}
+            </button>
+          ))}
+          {enemyOfficersNearby.length === 0 && <p className="text-white/40">인접에 적장이 없습니다</p>}
         </div>
       )}
       {menu === "war" && (

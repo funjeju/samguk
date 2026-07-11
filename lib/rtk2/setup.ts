@@ -210,6 +210,7 @@ export function createGame(scenarioId: number, playerRulerName: string): GameSta
     log: [`${def.year}년 1월 — ${def.name}. ${player.name} 세력으로 천하 통일에 도전한다.`],
     pendingBattle: null,
     pendingCaptives: [],
+    rewardUsed: false,
     finished: null,
   };
 }
