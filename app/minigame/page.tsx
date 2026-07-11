@@ -287,12 +287,13 @@ function Board({ game, setGame }: { game: GameState; setGame: (g: GameState) => 
 }
 
 function Portrait({ name }: { name: string }) {
-  const [ok, setOk] = useState(true);
+  const [idx, setIdx] = useState(0);
+  const sources = [`/art/${name}.webp`, `/art/${name}.png`];
   return (
     <div className="w-16 h-20 rounded border-2 border-amber-700/60 bg-stone-800 overflow-hidden shrink-0 flex items-center justify-center">
-      {ok ? (
+      {idx < sources.length ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={`/art/${name}.png`} alt="" className="h-full w-full object-cover" onError={() => setOk(false)} />
+        <img src={sources[idx]} alt="" className="h-full w-full object-cover" onError={() => setIdx(idx + 1)} />
       ) : (
         <span className="text-2xl font-serif text-amber-200/60">{name[0]}</span>
       )}

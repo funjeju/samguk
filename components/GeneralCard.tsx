@@ -44,7 +44,10 @@ export default function GeneralCard({
 }) {
   const gen = GENERAL_BY_ID[card.generalId];
   const fs = FACTION_STYLE[gen.faction];
-  const [hasArt, setHasArt] = useState(true);
+  // 아트 탐색: webp → png → 플레이스홀더
+  const [srcIdx, setSrcIdx] = useState(0);
+  const sources = [`/art/${gen.id}.webp`, `/art/${gen.id}.png`];
+  const hasArt = srcIdx < sources.length;
 
   return (
     <div
@@ -66,14 +69,15 @@ export default function GeneralCard({
       )}
 
       {/* 전면 아트: 카드 전체 채움 */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={`/art/${gen.id}.png`}
-        alt=""
-        className="absolute inset-0 h-full w-full object-cover"
-        onError={() => setHasArt(false)}
-        style={{ display: hasArt ? "block" : "none" }}
-      />
+      {hasArt && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={sources[srcIdx]}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+          onError={() => setSrcIdx(srcIdx + 1)}
+        />
+      )}
 
       {/* 상단 오버레이: 국가·등급 */}
       <div className="absolute top-0 inset-x-0 flex items-start justify-between p-1.5 bg-gradient-to-b from-black/70 via-black/25 to-transparent pb-4">
