@@ -10,7 +10,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { calcPairPower, createCard, shuffle } from "./battle";
-import { DECK_SIZE, DUEL, EARLY_WIN, isCourtTurn, TRAIT_VALUES, TURNS } from "./constants";
+import { DECK_SIZE, DUEL, EARLY_WIN, isCourtTurn, POWER_W, TRAIT_VALUES, TURNS } from "./constants";
 import { checkDuelTrigger, resolveDuel } from "./duel";
 import { db, ensureUser } from "./firebase";
 import { CITIES, GENERAL_BY_ID, ROSTER, SCENARIOS } from "./roster";
@@ -61,11 +61,9 @@ export function buildPvpDeck(owned: CardInstance[], pinnedIds: string[], fillMod
   let fillers: CardInstance[] = [];
   if (need > 0) {
     if (fillMode === "tiered") {
-      const ranked = [...ROSTER].sort(
-        (a, b) =>
-          b.base.combat * 0.5 + b.base.leadership * 0.3 + b.base.intellect * 0.2 -
-          (a.base.combat * 0.5 + a.base.leadership * 0.3 + a.base.intellect * 0.2)
-      );
+      const w = (g: (typeof ROSTER)[number]) =>
+        g.base.combat * POWER_W.combat + g.base.leadership * POWER_W.leadership + g.base.intellect * POWER_W.intellect;
+      const ranked = [...ROSTER].sort((a, b) => w(b) - w(a));
       const third = Math.ceil(ranked.length / 3);
       const tiers = [ranked.slice(0, third), ranked.slice(third, third * 2), ranked.slice(third * 2)];
       const per = [Math.ceil(need / 3), Math.ceil(need / 3), need - Math.ceil(need / 3) * 2];

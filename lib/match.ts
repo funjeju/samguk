@@ -1,6 +1,6 @@
 import { aiPickCard } from "./ai";
 import { calcPairPower, calcPower, createCard, shuffle } from "./battle";
-import { DECK_SIZE, DUEL, EARLY_WIN, HAND_SIZE, isCourtTurn, PHASE_SHIFT_ERA_FLOOR, TRAIT_VALUES, TURNS } from "./constants";
+import { DECK_SIZE, DUEL, EARLY_WIN, HAND_SIZE, isCourtTurn, PHASE_SHIFT_ERA_FLOOR, POWER_W, TRAIT_VALUES, TURNS } from "./constants";
 import { checkDuelTrigger, resolveDuel } from "./duel";
 import { CITIES, GENERAL_BY_ID, ROSTER, SCENARIOS } from "./roster";
 import type { CardInstance, City, Difficulty, Scenario, TurnLog } from "./types";
@@ -63,11 +63,9 @@ function buildPlayerDeck(
   if (need > 0) {
     if (fillMode === "tiered") {
       // 전투력 권역별 균형: 로스터를 가중 전투력 순으로 3등분 → 상/중/하에서 고르게
-      const ranked = [...ROSTER].sort(
-        (a, b) =>
-          b.base.combat * 0.5 + b.base.leadership * 0.3 + b.base.intellect * 0.2 -
-          (a.base.combat * 0.5 + a.base.leadership * 0.3 + a.base.intellect * 0.2)
-      );
+      const w = (g: (typeof ROSTER)[number]) =>
+        g.base.combat * POWER_W.combat + g.base.leadership * POWER_W.leadership + g.base.intellect * POWER_W.intellect;
+      const ranked = [...ROSTER].sort((a, b) => w(b) - w(a));
       const third = Math.ceil(ranked.length / 3);
       const tiers = [ranked.slice(0, third), ranked.slice(third, third * 2), ranked.slice(third * 2)];
       const perTier = [Math.ceil(need / 3), Math.ceil(need / 3), need - Math.ceil(need / 3) * 2];

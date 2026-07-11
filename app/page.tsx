@@ -3,7 +3,7 @@
 import GeneralCard from "@/components/GeneralCard";
 import { calcPower, createCard, rollGrade, shuffle } from "@/lib/battle";
 import { enhanceCards, fetchCollection, fetchRecord, saveMatchResult, type UserRecord } from "@/lib/collection";
-import { INFO_FACTION_DETAIL_TURN, INFO_POWER_EVERY, INFO_ROLE_TURN, isCourtTurn, REWARD, TURNS } from "@/lib/constants";
+import { INFO_FACTION_DETAIL_TURN, INFO_POWER_EVERY, INFO_ROLE_TURN, isCourtTurn, POWER_W, REWARD, TURNS } from "@/lib/constants";
 import { AUTH_ERROR_KO, currentUser, ensureUser, firebaseEnabled, signInEmail, signOutUser, signUpEmail } from "@/lib/firebase";
 import { createMatch, oppRemainingInfo, playTurn, type MatchState } from "@/lib/match";
 import {
@@ -888,7 +888,10 @@ function Pvp({ joinId, onBack }: { joinId: string | null; onBack: () => void }) 
     const scenario = SCENARIOS.find((s) => s.id === room!.scenarioId)!;
     const city = CITIES.find((c) => c.id === room!.cityId)!;
     const remaining = Math.round(
-      remainCards.reduce((x, c) => x + (c.stats.combat * 0.5 + c.stats.leadership * 0.3 + c.stats.intellect * 0.2), 0)
+      remainCards.reduce(
+        (x, c) => x + (c.stats.combat * POWER_W.combat + c.stats.leadership * POWER_W.leadership + c.stats.intellect * POWER_W.intellect),
+        0
+      )
     );
     void scenario;
     void city;

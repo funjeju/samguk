@@ -7,7 +7,7 @@ export const HAND_SIZE = 5; // 손패
 export const DECK_SIZE = 30; // 덱
 
 // 유효 전투력 가중 (정치는 대전 판정 제외 — 모사·경영 담당)
-export const POWER_W = { combat: 0.5, leadership: 0.3, intellect: 0.2 };
+export const POWER_W = { combat: 0.7, leadership: 0.2, intellect: 0.1 };
 
 // 2:2 모사 보정 가중 (구현명세 §1.3) — 모사의 지략·정치가 장수를 보좌
 export const SUPPORT_W = { intellect: 0.3, politics: 0.2 };
