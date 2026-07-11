@@ -1,6 +1,6 @@
 import { aiPickCard } from "./ai";
 import { calcPairPower, calcPower, createCard, shuffle } from "./battle";
-import { DECK_SIZE, DUEL, EARLY_WIN, HAND_SIZE, PHASE_SHIFT_ERA_FLOOR, TRAIT_VALUES, TURNS } from "./constants";
+import { DECK_SIZE, DUEL, EARLY_WIN, HAND_SIZE, isCourtTurn, PHASE_SHIFT_ERA_FLOOR, TRAIT_VALUES, TURNS } from "./constants";
 import { checkDuelTrigger, resolveDuel } from "./duel";
 import { CITIES, GENERAL_BY_ID, ROSTER, SCENARIOS } from "./roster";
 import type { CardInstance, City, Difficulty, Scenario, TurnLog } from "./types";
@@ -17,6 +17,7 @@ export interface MatchState {
   shiftsDone: number;
   shiftNotice: { scenario: Scenario; city: City } | null; // 방금 전환됨 — UI 배너용
   eraFloor?: number; // 전환 후 역사 배율 하한 (완충)
+  overawedSide: "me" | "opp" | null; // 위압당한 쪽 — 이번 턴 최강 카드 사용 불가
   turn: number; // 1부터
   myScore: number;
   oppScore: number;
@@ -113,6 +114,7 @@ export function createMatch(
     shiftTurns,
     shiftsDone: 0,
     shiftNotice: null,
+    overawedSide: null,
     turn: 1,
     myScore: 0,
     oppScore: 0,
@@ -150,12 +152,28 @@ export function playTurn(m: MatchState, myCardId: string, mySupportId?: string):
   const myCard = m.myHand.find((c) => c.cardId === myCardId);
   if (!myCard) return m;
   const mySupport = mySupportId ? (m.myHand.find((c) => c.cardId === mySupportId) ?? null) : null;
+  const mode: "battle" | "court" = isCourtTurn(m.turn) ? "court" : "battle";
+
+  // 위압: 위압당한 쪽은 이번 턴 최강 카드 사용 불가
+  const maxOf = (hand: CardInstance[]) =>
+    hand.reduce((a, b) =>
+      calcPower(a, m.scenario, m.city, m.eraFloor, mode).total >= calcPower(b, m.scenario, m.city, m.eraFloor, mode).total ? a : b
+    );
+  if (m.overawedSide === "me" && m.myHand.length > 1 && myCard.cardId === maxOf(m.myHand).cardId) {
+    return m; // UI에서 차단되지만 엔진에서도 방어
+  }
 
   const myInfo = myRemainingInfo(m);
-  const oppPick = aiPickCard(m.difficulty, m.oppHand, {
+  let oppHandForAi = m.oppHand;
+  if (m.overawedSide === "opp" && m.oppHand.length > 1) {
+    const blocked = maxOf(m.oppHand).cardId;
+    oppHandForAi = m.oppHand.filter((c) => c.cardId !== blocked);
+  }
+  const oppPick = aiPickCard(m.difficulty, oppHandForAi, {
     scenario: m.scenario,
     city: m.city,
     eraFloor: m.eraFloor,
+    mode,
     oppRemainingTotal: myInfo.total,
     oppRemainingCount: myInfo.count,
     myDeckCount: m.oppDeck.length,
@@ -164,8 +182,8 @@ export function playTurn(m: MatchState, myCardId: string, mySupportId?: string):
   const oppCard = oppPick.main;
   const oppSupport = oppPick.support;
 
-  const myPowerRaw = calcPairPower(myCard, mySupport, m.scenario, m.city, m.eraFloor);
-  const oppPowerRaw = calcPairPower(oppCard, oppSupport, m.scenario, m.city, m.eraFloor);
+  const myPowerRaw = calcPairPower(myCard, mySupport, m.scenario, m.city, m.eraFloor, mode);
+  const oppPowerRaw = calcPairPower(oppCard, oppSupport, m.scenario, m.city, m.eraFloor, mode);
 
   // 특수 속성 적용 (조건부형 — 발동 시에만, 폭은 크게)
   const last = m.logs[m.logs.length - 1];
@@ -221,18 +239,21 @@ export function playTurn(m: MatchState, myCardId: string, mySupportId?: string):
     ...myPowerRaw,
     total: Math.round(myAdj.total * 10) / 10,
     traitNote: myAdj.notes.length ? myAdj.notes.join("·") : undefined,
+    court: mode === "court" || undefined,
   };
   const oppPower = {
     ...oppPowerRaw,
     total: Math.round(oppAdj.total * 10) / 10,
     traitNote: oppAdj.notes.length ? oppAdj.notes.join("·") : undefined,
+    court: mode === "court" || undefined,
   };
 
-  // 일기토: 1:1 턴에서 라이벌 매칭 또는 양측 전투 85+ → 합산 판정 이탈, 승자 2점
+  // 일기토: 1:1 턴에서 라이벌 매칭 또는 양측 전투 85+ → 합산 판정 이탈, 승자 2점 (조정 국면 제외)
   let duel: TurnLog["duel"];
   let winner: TurnLog["winner"];
   let winPoints = 1;
-  const duelCheck = !mySupport && !oppSupport ? checkDuelTrigger(myCard, oppCard) : { trigger: false, isRival: false };
+  const duelCheck =
+    !mySupport && !oppSupport && mode !== "court" ? checkDuelTrigger(myCard, oppCard) : { trigger: false, isRival: false };
   if (duelCheck.trigger) {
     duel = resolveDuel(myCard, oppCard, m.scenario, m.city, duelCheck.isRival, m.eraFloor);
     winner = duel.winner;
@@ -279,6 +300,14 @@ export function playTurn(m: MatchState, myCardId: string, mySupportId?: string):
     else result = "draw";
   }
 
+  // 위압: 위압 속성 카드로 승리하면 상대는 다음 턴 최강 카드 사용 불가
+  const nextOverawed: MatchState["overawedSide"] =
+    winner === "me" && (myCard.traits ?? []).includes("overawe")
+      ? "opp"
+      : winner === "opp" && (oppCard.traits ?? []).includes("overawe")
+        ? "me"
+        : null;
+
   // 국면 전환: 다음 턴이 전환 시점이면 역사·도시 재추첨 + 완충 하한 적용
   const nextTurn = m.turn + 1;
   let { scenario, city, shiftsDone, shiftNotice, eraFloor } = m;
@@ -298,6 +327,7 @@ export function playTurn(m: MatchState, myCardId: string, mySupportId?: string):
     shiftsDone,
     shiftNotice,
     eraFloor,
+    overawedSide: nextOverawed,
     turn: nextTurn,
     myScore,
     oppScore,

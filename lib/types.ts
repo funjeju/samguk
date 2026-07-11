@@ -61,6 +61,7 @@ export interface PowerBreakdown {
   cityBonus: number;
   supportBonus?: number; // 2:2 모사 보정 (모사 지략·정치 × 모사의 역사·홈 배율)
   traitNote?: string; // 발동한 특수 속성 (예: "수성·위엄")
+  court?: boolean; // 조정 국면 판정 (정치 50%·지략 30%·통솔 20%)
   total: number;
 }
 

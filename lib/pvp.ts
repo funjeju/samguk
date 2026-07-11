@@ -10,7 +10,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { calcPairPower, createCard, shuffle } from "./battle";
-import { DECK_SIZE, DUEL, EARLY_WIN, TRAIT_VALUES, TURNS } from "./constants";
+import { DECK_SIZE, DUEL, EARLY_WIN, isCourtTurn, TRAIT_VALUES, TURNS } from "./constants";
 import { checkDuelTrigger, resolveDuel } from "./duel";
 import { db, ensureUser } from "./firebase";
 import { CITIES, GENERAL_BY_ID, ROSTER, SCENARIOS } from "./roster";
@@ -160,9 +160,10 @@ export async function hostResolveTurn(
 ): Promise<void> {
   const scenario = SCENARIOS.find((s) => s.id === room.scenarioId)!;
   const city = CITIES.find((c) => c.id === room.cityId)!;
+  const mode: "battle" | "court" = isCourtTurn(turn) ? "court" : "battle";
 
-  const hostRaw = calcPairPower(host.card, host.support, scenario, city);
-  const guestRaw = calcPairPower(guest.card, guest.support, scenario, city);
+  const hostRaw = { ...calcPairPower(host.card, host.support, scenario, city, undefined, mode), court: mode === "court" || undefined };
+  const guestRaw = { ...calcPairPower(guest.card, guest.support, scenario, city, undefined, mode), court: mode === "court" || undefined };
 
   const applyTraits = (
     bd: PowerBreakdown,
@@ -213,7 +214,10 @@ export async function hostResolveTurn(
   let duel: DuelResult | null = null;
   let winner: PvpSide | "draw";
   let points = 1;
-  const duelCheck = !host.support && !guest.support ? checkDuelTrigger(host.card, guest.card) : { trigger: false, isRival: false };
+  const duelCheck =
+    !host.support && !guest.support && mode !== "court"
+      ? checkDuelTrigger(host.card, guest.card)
+      : { trigger: false, isRival: false };
   if (duelCheck.trigger) {
     duel = resolveDuel(host.card, guest.card, scenario, city, duelCheck.isRival); // "me" = host
     winner = duel.winner === "me" ? "host" : "guest";

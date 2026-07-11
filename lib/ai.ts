@@ -11,6 +11,7 @@ export interface AiContext {
   scenario: Scenario;
   city: City;
   eraFloor?: number;
+  mode?: "battle" | "court"; // 조정 국면이면 정치·지략 가중으로 평가
   oppRemainingTotal: number; // 공개 정보: 상대(플레이어) 잔여 총 전투력
   oppRemainingCount: number;
   myDeckCount: number; // AI 잔여 덱
@@ -26,8 +27,8 @@ export function aiPickCard(difficulty: Difficulty, hand: CardInstance[], ctx: Ai
     return { main: hand[Math.floor(Math.random() * hand.length)], support: null };
   }
 
-  const { scenario, city, eraFloor } = ctx;
-  const powers = hand.map((c) => ({ card: c, p: calcPower(c, scenario, city, eraFloor).total }));
+  const { scenario, city, eraFloor, mode } = ctx;
+  const powers = hand.map((c) => ({ card: c, p: calcPower(c, scenario, city, eraFloor, mode).total }));
   powers.sort((a, b) => b.p - a.p);
 
   if (difficulty === "normal") {
@@ -52,7 +53,7 @@ export function aiPickCard(difficulty: Difficulty, hand: CardInstance[], ctx: Ai
       const sup = strategists.reduce((a, b) =>
         calcSupportBonus(a, scenario, city, eraFloor) >= calcSupportBonus(b, scenario, city, eraFloor) ? a : b
       );
-      const pairTotal = calcPairPower(best.card, sup, scenario, city, eraFloor).total;
+      const pairTotal = calcPairPower(best.card, sup, scenario, city, eraFloor, mode).total;
       if (pairTotal > estimate * 1.15) return { main: best.card, support: sup };
     }
   }

@@ -1,5 +1,6 @@
 import {
   CITY_BONUS,
+  COURT_W,
   ERA_MULT,
   GRADE_BONUS,
   GRADE_BONUS_MAX_SHARE,
@@ -56,11 +57,13 @@ export function createCard(generalId: string, grade?: 1 | 2 | 3 | 4): CardInstan
 
 // 유효 전투력 계산 — 구현명세 §1.2
 // minEraMult: 국면 전환 후 역사 배율 하한 (완충 — GDD §6)
+// mode "court": 조정 국면 — 정치 50%·지략 30%·통솔 20% 가중 (전투 미반영)
 export function calcPower(
   card: CardInstance,
   scenario: Scenario,
   city: City,
-  minEraMult?: number
+  minEraMult?: number,
+  mode: "battle" | "court" = "battle"
 ): PowerBreakdown {
   const gen = GENERAL_BY_ID[card.generalId];
 
@@ -72,7 +75,10 @@ export function calcPower(
     }
   }
 
-  const weighted = s.combat * POWER_W.combat + s.leadership * POWER_W.leadership + s.intellect * POWER_W.intellect;
+  const weighted =
+    mode === "court"
+      ? s.politics * COURT_W.politics + s.intellect * COURT_W.intellect + s.leadership * COURT_W.leadership
+      : s.combat * POWER_W.combat + s.leadership * POWER_W.leadership + s.intellect * POWER_W.intellect;
 
   // 역사 배율
   const y = scenario.year;
@@ -126,9 +132,10 @@ export function calcPairPower(
   support: CardInstance | null,
   scenario: Scenario,
   city: City,
-  minEraMult?: number
+  minEraMult?: number,
+  mode: "battle" | "court" = "battle"
 ): PowerBreakdown {
-  const base = calcPower(main, scenario, city, minEraMult);
+  const base = calcPower(main, scenario, city, minEraMult, mode);
   if (!support) return base;
   const supportBonus = calcSupportBonus(support, scenario, city, minEraMult);
   return { ...base, supportBonus, total: Math.round((base.total + supportBonus) * 10) / 10 };

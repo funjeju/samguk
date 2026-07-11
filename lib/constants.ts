@@ -12,6 +12,11 @@ export const POWER_W = { combat: 0.5, leadership: 0.3, intellect: 0.2 };
 // 2:2 모사 보정 가중 (구현명세 §1.3) — 모사의 지략·정치가 장수를 보좌
 export const SUPPORT_W = { intellect: 0.3, politics: 0.2 };
 
+// 조정 국면 (정치전 턴): 7·14·21·28턴은 판정 가중이 뒤집힌다 — 문관 카드의 존재 이유
+export const COURT_EVERY = 7;
+export const COURT_W = { politics: 0.5, intellect: 0.3, leadership: 0.2 };
+export const isCourtTurn = (turn: number) => turn % COURT_EVERY === 0;
+
 // 역사 배율 — 폭은 ±0.2 이내로 (미등장 0.6은 과도하다는 피드백 반영)
 export const ERA_MULT = {
   peak: 1.2, // 전성기
@@ -54,6 +59,7 @@ export const TRAITS = [
   { id: "vengeance", name: "복수", type: "cond", desc: "직전 턴 패배 시 +15%" },
   { id: "chain", name: "연환", type: "cond", desc: "직전 턴 동일 국가 아군 승리 시 +10%" },
   { id: "rhetoric", name: "설전", type: "cond", desc: "상대 모사 보정 50% 감쇄" },
+  { id: "overawe", name: "위압", type: "cond", desc: "이 카드로 승리하면 상대는 다음 턴 최강 카드를 낼 수 없다" },
 ] as const;
 export const TRAIT_VALUES = {
   majestyPct: 0.015,

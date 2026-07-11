@@ -3,7 +3,7 @@
 import GeneralCard from "@/components/GeneralCard";
 import { calcPower, createCard, rollGrade, shuffle } from "@/lib/battle";
 import { enhanceCards, fetchCollection, fetchRecord, saveMatchResult, type UserRecord } from "@/lib/collection";
-import { INFO_FACTION_DETAIL_TURN, INFO_POWER_EVERY, INFO_ROLE_TURN, REWARD, TURNS } from "@/lib/constants";
+import { INFO_FACTION_DETAIL_TURN, INFO_POWER_EVERY, INFO_ROLE_TURN, isCourtTurn, REWARD, TURNS } from "@/lib/constants";
 import { AUTH_ERROR_KO, currentUser, ensureUser, firebaseEnabled, signInEmail, signOutUser, signUpEmail } from "@/lib/firebase";
 import { createMatch, oppRemainingInfo, playTurn, type MatchState } from "@/lib/match";
 import {
@@ -415,6 +415,18 @@ function Battle({
   const oppInfo = useMemo(() => oppRemainingInfo(match), [match]);
   const showFactionDetail = match.turn > INFO_FACTION_DETAIL_TURN;
   const showRoles = match.turn > INFO_ROLE_TURN;
+  const court = isCourtTurn(match.turn);
+  // 위압당한 턴: 최강 카드 사용 불가
+  const blockedCardId = useMemo(() => {
+    if (match.overawedSide !== "me" || match.myHand.length <= 1) return null;
+    const mode = court ? ("court" as const) : ("battle" as const);
+    return match.myHand.reduce((a, b) =>
+      calcPower(a, match.scenario, match.city, match.eraFloor, mode).total >=
+      calcPower(b, match.scenario, match.city, match.eraFloor, mode).total
+        ? a
+        : b
+    ).cardId;
+  }, [match, court]);
 
   const commit = () => {
     if (!selected || reveal) return;
@@ -440,6 +452,7 @@ function Battle({
         <div className="flex gap-4 text-white/70 items-center">
           <span className="text-red-400">{match.scenario.name}</span>
           <span className="text-blue-400">{match.city.name}</span>
+          {court && <span className="rounded bg-indigo-800/80 px-2 py-0.5 text-xs font-bold text-indigo-100">📜 조정 국면 — 정치·지략 판정</span>}
           {match.phaseShifts > 0 && (
             <span className="text-white/40 text-xs">
               ⚡ 전환 {match.shiftsDone}/{match.phaseShifts}
@@ -504,18 +517,24 @@ function Battle({
       <div className="flex flex-col items-center gap-3 pb-4">
         <div className="flex gap-2 justify-center flex-wrap">
           {match.myHand.map((c) => {
-            const preview = calcPower(c, match.scenario, match.city, match.eraFloor).total;
+            const preview = calcPower(c, match.scenario, match.city, match.eraFloor, court ? "court" : "battle").total;
+            const blocked = blockedCardId === c.cardId;
             return (
               <div key={c.cardId} className="relative flex flex-col items-center gap-0.5">
                 <GeneralCard
                   card={c}
                   selected={selected === c.cardId || supportSel === c.cardId}
-                  dimmed={!!reveal}
-                  onClick={() => clickCard(c)}
+                  dimmed={!!reveal || blocked}
+                  onClick={() => !blocked && clickCard(c)}
                 />
-                <span className="rounded bg-black/60 px-2 py-0.5 text-[10px] text-amber-200">
-                  이 판 전투력 <b>{Math.round(preview)}</b>
+                <span className={`rounded bg-black/60 px-2 py-0.5 text-[10px] ${court ? "text-indigo-200" : "text-amber-200"}`}>
+                  {court ? "조정 전투력" : "이 판 전투력"} <b>{Math.round(preview)}</b>
                 </span>
+                {blocked && (
+                  <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded bg-red-600 px-2 py-0.5 text-[10px] font-bold">
+                    위압당함
+                  </span>
+                )}
                 {supportSel === c.cardId && (
                   <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded bg-blue-500 px-2 py-0.5 text-[10px] font-bold">
                     모사
@@ -725,6 +744,7 @@ function PowerLine({ label, bd, show }: { label: string; bd: TurnLog["myPower"];
         {label} <b className="text-white text-base">{bd.total}</b>
       </p>
       <p className="text-[10px]">
+        {bd.court && <span className="text-indigo-300">📜조정 </span>}
         {bd.weighted} × {bd.eraLabel} {bd.eraMult} × {bd.homeLabel} {bd.homeMult}
         {bd.cityBonus > 0 && ` + 도시 ${bd.cityBonus}`}
         {bd.supportBonus != null && ` + 모사 ${bd.supportBonus}`}
@@ -983,6 +1003,9 @@ function Pvp({ joinId, onBack }: { joinId: string | null; onBack: () => void }) 
           <span className="text-red-400">{scenario.name}</span>
           <span className="text-blue-400">{city.name}</span>
           <span className="text-white/30 text-xs">PvP</span>
+          {isCourtTurn(turnNo) && (
+            <span className="rounded bg-indigo-800/80 px-2 py-0.5 text-xs font-bold text-indigo-100">📜 조정 국면</span>
+          )}
         </div>
         <div className="font-bold text-lg">
           <span className="text-green-400">{myScore}</span>
@@ -1010,7 +1033,7 @@ function Pvp({ joinId, onBack }: { joinId: string | null; onBack: () => void }) 
       <div className="flex flex-col items-center gap-3 pb-4">
         <div className="flex gap-2 justify-center flex-wrap">
           {hand.map((c) => {
-            const preview = calcPower(c, scenario, city).total;
+            const preview = calcPower(c, scenario, city, undefined, isCourtTurn(turnNo) ? "court" : "battle").total;
             return (
               <div key={c.cardId} className="relative flex flex-col items-center gap-0.5">
                 <GeneralCard
