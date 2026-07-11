@@ -6,18 +6,44 @@ import { enhanceCards, fetchCollection, fetchRecord, saveMatchResult, type UserR
 import { INFO_FACTION_DETAIL_TURN, INFO_POWER_EVERY, INFO_ROLE_TURN, REWARD, TURNS } from "@/lib/constants";
 import { AUTH_ERROR_KO, currentUser, ensureUser, firebaseEnabled, signInEmail, signOutUser, signUpEmail } from "@/lib/firebase";
 import { createMatch, oppRemainingInfo, playTurn, type MatchState } from "@/lib/match";
+import {
+  buildPvpDeck,
+  createRoom,
+  hostResolveTurn,
+  joinRoom,
+  listenPick,
+  listenRoom,
+  submitPick,
+  type PvpPickData,
+  type PvpRoom,
+  type PvpSide,
+  type PvpTurnResult,
+} from "@/lib/pvp";
+import { CITIES, SCENARIOS } from "@/lib/roster";
+import type { DuelResult } from "@/lib/types";
+import { useRef } from "react";
 import { GENERAL_BY_ID, ROSTER } from "@/lib/roster";
 import type { CardInstance, Difficulty, Faction, TurnLog } from "@/lib/types";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 
-type Screen = "intro" | "sequence" | "battle" | "result" | "collection";
+type Screen = "intro" | "sequence" | "battle" | "result" | "collection" | "pvp";
 
 const DIFF_LABEL: Record<Difficulty, string> = { easy: "쉬움", normal: "보통", hard: "어려움" };
 
 export default function Home() {
   const [screen, setScreen] = useState<Screen>("intro");
   const [match, setMatch] = useState<MatchState | null>(null);
+  const [pvpJoinId, setPvpJoinId] = useState<string | null>(null);
+
+  // 초대 링크(?room=xxx)로 접속 시 PvP 자동 입장
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("room");
+    if (id) {
+      setPvpJoinId(id);
+      setScreen("pvp");
+    }
+  }, []);
 
   const startMatch = async (d: Difficulty, shifts: number) => {
     let owned: CardInstance[] = [];
@@ -41,8 +67,20 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-stone-950 via-stone-900 to-stone-950 text-white">
-      {screen === "intro" && <Intro onStart={startMatch} onCollection={() => setScreen("collection")} />}
+      {screen === "intro" && (
+        <Intro onStart={startMatch} onCollection={() => setScreen("collection")} onPvp={() => setScreen("pvp")} />
+      )}
       {screen === "collection" && <Collection onBack={() => setScreen("intro")} />}
+      {screen === "pvp" && (
+        <Pvp
+          joinId={pvpJoinId}
+          onBack={() => {
+            setPvpJoinId(null);
+            window.history.replaceState(null, "", "/");
+            setScreen("intro");
+          }}
+        />
+      )}
       {screen === "sequence" && match && <StartSequence match={match} onDone={() => setScreen("battle")} />}
       {screen === "battle" && match && (
         <Battle match={match} setMatch={setMatch} onFinished={() => setScreen("result")} />
@@ -65,9 +103,11 @@ export default function Home() {
 function Intro({
   onStart,
   onCollection,
+  onPvp,
 }: {
   onStart: (d: Difficulty, shifts: number) => void;
   onCollection: () => void;
+  onPvp: () => void;
 }) {
   const [record, setRecord] = useState<UserRecord | null>(null);
   const [shifts, setShifts] = useState(0);
@@ -128,7 +168,13 @@ function Intro({
             </button>
           ))}
         </div>
-        <div className="mt-2 flex gap-2">
+        <div className="mt-2 flex gap-2 flex-wrap justify-center">
+          <button
+            onClick={onPvp}
+            className="rounded-lg border border-red-500/40 bg-red-950/40 px-8 py-2 text-sm text-red-200 font-bold hover:bg-red-900/50 transition-colors"
+          >
+            ⚔ 친구 대결 (PvP)
+          </button>
           <button
             onClick={onCollection}
             className="rounded-lg border border-white/20 px-8 py-2 text-sm text-white/70 hover:bg-white/10 transition-colors"
@@ -678,6 +724,321 @@ function PowerLine({ label, bd, show }: { label: string; bd: TurnLog["myPower"];
         {bd.supportBonus != null && ` + 모사 ${bd.supportBonus}`}
         {bd.traitNote && <span className="text-amber-300"> ⚡{bd.traitNote}</span>}
       </p>
+    </div>
+  );
+}
+
+/* ─────────────── PvP (친구 대결) ─────────────── */
+
+function Pvp({ joinId, onBack }: { joinId: string | null; onBack: () => void }) {
+  const [phase, setPhase] = useState<"init" | "waiting" | "playing" | "done" | "error">("init");
+  const [roomId, setRoomId] = useState<string | null>(joinId);
+  const [side, setSide] = useState<PvpSide>("host");
+  const [room, setRoom] = useState<PvpRoom | null>(null);
+  const [deck, setDeck] = useState<CardInstance[]>([]);
+  const [hand, setHand] = useState<CardInstance[]>([]);
+  const drawIdx = useRef(5);
+  const [turnNo, setTurnNo] = useState(1);
+  const [selected, setSelected] = useState<string | null>(null);
+  const [supportSel, setSupportSel] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const [reveal, setReveal] = useState<TurnLog | null>(null);
+  const [flipped, setFlipped] = useState(false);
+  const [oppRemaining, setOppRemaining] = useState<number | null>(null);
+  const [copied, setCopied] = useState(false);
+  const resolving = useRef(false);
+  const prevInfo = useRef<{ winner: PvpSide | "draw" | null; host?: CardInstance; guest?: CardInstance }>({ winner: null });
+  const savedRef = useRef(false);
+  const usedRef = useRef<{ main: string; support: string | null }>({ main: "", support: null });
+
+  const isStrategist = (c: CardInstance) => c.stats.intellect >= 85;
+
+  // 초기화: 덱 구성 → 방 생성 or 참가
+  useEffect(() => {
+    if (!firebaseEnabled) {
+      setPhase("error");
+      return;
+    }
+    (async () => {
+      try {
+        let owned: CardInstance[] = [];
+        try {
+          owned = await fetchCollection();
+        } catch {}
+        let pinnedIds: string[] = [];
+        let fillMode: "random" | "tiered" = "random";
+        try {
+          pinnedIds = JSON.parse(localStorage.getItem("deck_pinned") ?? "[]");
+          fillMode = (localStorage.getItem("deck_fillmode") as "random" | "tiered") ?? "random";
+        } catch {}
+        const myDeck = buildPvpDeck(owned, pinnedIds, fillMode);
+        setDeck(myDeck);
+        setHand(myDeck.slice(0, 5));
+        drawIdx.current = 5;
+
+        if (joinId) {
+          const r = await joinRoom(joinId, myDeck);
+          if (!r) {
+            setPhase("error");
+            return;
+          }
+          setSide(r.hostUid === (await import("@/lib/firebase")).currentUser()?.uid ? "host" : "guest");
+          setRoomId(joinId);
+        } else {
+          const id = await createRoom(myDeck);
+          setRoomId(id);
+          setSide("host");
+          setPhase("waiting");
+        }
+      } catch {
+        setPhase("error");
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // 방 구독
+  useEffect(() => {
+    if (!roomId) return;
+    return listenRoom(roomId, (r) => {
+      setRoom(r);
+      if (r.status === "playing") setPhase((p) => (p === "init" || p === "waiting" ? "playing" : p));
+      if (r.status === "done") setPhase("done");
+    });
+  }, [roomId]);
+
+  // 현재 턴 pick 구독 (양측 제출 → host 판정 → result 재생)
+  useEffect(() => {
+    if (!roomId || phase !== "playing" || !room) return;
+    return listenPick(roomId, turnNo, (data) => {
+      if (data.result) {
+        if (!reveal) showResult(data);
+        return;
+      }
+      if (side === "host" && data.host && data.guest && !resolving.current) {
+        resolving.current = true;
+        hostResolveTurn(roomId, room, turnNo, data.host, data.guest, prevInfo.current.winner, prevInfo.current)
+          .finally(() => (resolving.current = false));
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomId, phase, turnNo, room?.status, submitted]);
+
+  const flipDuel = (d: DuelResult): DuelResult => ({
+    ...d,
+    favorite: d.favorite === "me" ? "opp" : "me",
+    winner: d.winner === "me" ? "opp" : "me",
+    rounds: d.rounds.map((r) => ({ ...r, winner: r.winner === "me" ? "opp" : "me" })),
+  });
+
+  const showResult = (data: { host?: PvpPickData; guest?: PvpPickData; result?: PvpTurnResult }) => {
+    const res = data.result!;
+    const mine = side === "host" ? data.host! : data.guest!;
+    const theirs = side === "host" ? data.guest! : data.host!;
+    const log: TurnLog = {
+      turn: turnNo,
+      myCard: mine.card,
+      oppCard: theirs.card,
+      mySupport: mine.support ?? undefined,
+      oppSupport: theirs.support ?? undefined,
+      myPower: side === "host" ? res.hostPower : res.guestPower,
+      oppPower: side === "host" ? res.guestPower : res.hostPower,
+      duel: res.duel ? (side === "host" ? res.duel : flipDuel(res.duel)) : undefined,
+      winner: res.winner === "draw" ? "draw" : res.winner === side ? "me" : "opp",
+    };
+    prevInfo.current = { winner: res.winner === "draw" ? "draw" : res.winner, host: data.host?.card, guest: data.guest?.card };
+    if (turnNo >= 5) setOppRemaining(theirs.remaining);
+    setReveal(log);
+    setFlipped(false);
+    setTimeout(() => setFlipped(true), 700);
+  };
+
+  const commit = async () => {
+    if (!selected || submitted || !roomId) return;
+    const card = hand.find((c) => c.cardId === selected)!;
+    const support = supportSel ? (hand.find((c) => c.cardId === supportSel) ?? null) : null;
+    usedRef.current = { main: card.cardId, support: support?.cardId ?? null };
+    const remainCards = [...hand.filter((c) => c.cardId !== card.cardId && c.cardId !== support?.cardId), ...deck.slice(drawIdx.current)];
+    const scenario = SCENARIOS.find((s) => s.id === room!.scenarioId)!;
+    const city = CITIES.find((c) => c.id === room!.cityId)!;
+    const remaining = Math.round(
+      remainCards.reduce((x, c) => x + (c.stats.combat * 0.5 + c.stats.leadership * 0.3 + c.stats.intellect * 0.2), 0)
+    );
+    void scenario;
+    void city;
+    setSubmitted(true);
+    await submitPick(roomId, turnNo, side, { card, support, remaining, count: remainCards.length });
+  };
+
+  const nextTurn = () => {
+    // 사용 카드 소모 + 드로우
+    const used = usedRef.current;
+    let newHand = hand.filter((c) => c.cardId !== used.main && c.cardId !== used.support);
+    while (newHand.length < 5 && drawIdx.current < deck.length) {
+      newHand = [...newHand, deck[drawIdx.current]];
+      drawIdx.current += 1;
+    }
+    setHand(newHand);
+    setReveal(null);
+    setSelected(null);
+    setSupportSel(null);
+    setSubmitted(false);
+    setTurnNo((t) => t + 1);
+  };
+
+  // 종료 시 보상 저장 (1회)
+  useEffect(() => {
+    if (phase === "done" && room?.winner && !savedRef.current && firebaseEnabled) {
+      savedRef.current = true;
+      const r = room.winner === "draw" ? "draw" : room.winner === side ? "win" : "lose";
+      saveMatchResult(r).catch(() => {});
+    }
+  }, [phase, room, side]);
+
+  const clickCard = (c: CardInstance) => {
+    if (submitted || reveal) return;
+    if (selected === c.cardId) {
+      setSelected(supportSel);
+      setSupportSel(null);
+    } else if (supportSel === c.cardId) {
+      setSupportSel(null);
+    } else if (selected && isStrategist(c)) {
+      setSupportSel(c.cardId);
+    } else {
+      setSelected(c.cardId);
+      setSupportSel(null);
+    }
+  };
+
+  /* ── 렌더 ── */
+  if (phase === "error")
+    return (
+      <PvpShell onBack={onBack}>
+        <p className="text-red-300">방을 찾을 수 없거나 접속에 실패했습니다.</p>
+      </PvpShell>
+    );
+  if (phase === "init")
+    return (
+      <PvpShell onBack={onBack}>
+        <p className="text-white/50">덱을 구성하는 중...</p>
+      </PvpShell>
+    );
+  if (phase === "waiting") {
+    const link = `${window.location.origin}/?room=${roomId}`;
+    return (
+      <PvpShell onBack={onBack}>
+        <p className="text-amber-300 font-bold text-xl mb-2">방이 열렸습니다</p>
+        <p className="text-white/60 text-sm mb-4">아래 링크를 친구에게 보내세요. 접속하면 바로 대전이 시작됩니다.</p>
+        <div className="flex gap-2 items-center justify-center">
+          <code className="rounded bg-black/50 px-3 py-2 text-xs">{link}</code>
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(link).then(() => setCopied(true));
+            }}
+            className="rounded bg-amber-600 px-4 py-2 text-sm font-bold hover:bg-amber-500"
+          >
+            {copied ? "복사됨!" : "복사"}
+          </button>
+        </div>
+        <p className="text-white/40 text-xs mt-4 animate-pulse">상대를 기다리는 중...</p>
+      </PvpShell>
+    );
+  }
+  if (phase === "done" && room) {
+    const myScore = side === "host" ? room.hostScore : room.guestScore;
+    const oppScore = side === "host" ? room.guestScore : room.hostScore;
+    const won = room.winner === side;
+    return (
+      <PvpShell onBack={onBack}>
+        <p className={`text-5xl font-bold mb-2 ${won ? "text-green-400" : room.winner === "draw" ? "text-white/60" : "text-red-400"}`}>
+          {won ? "승리" : room.winner === "draw" ? "무승부" : "패배"}
+        </p>
+        <p className="text-white/60 text-xl">
+          {myScore} : {oppScore}
+        </p>
+        <p className="text-white/40 text-sm mt-2">보상 카드가 컬렉션에 지급되었습니다</p>
+        <button onClick={onBack} className="mt-4 rounded-lg bg-amber-600 px-10 py-2.5 font-bold hover:bg-amber-500">
+          돌아가기
+        </button>
+      </PvpShell>
+    );
+  }
+  if (!room) return null;
+
+  const scenario = SCENARIOS.find((s) => s.id === room.scenarioId)!;
+  const city = CITIES.find((c) => c.id === room.cityId)!;
+  const myScore = side === "host" ? room.hostScore : room.guestScore;
+  const oppScore = side === "host" ? room.guestScore : room.hostScore;
+
+  return (
+    <div className="flex min-h-screen flex-col p-4 max-w-5xl mx-auto">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-white/10 bg-black/40 px-4 py-2 text-sm">
+        <div className="flex gap-4 text-white/70 items-center">
+          <span className="text-red-400">{scenario.name}</span>
+          <span className="text-blue-400">{city.name}</span>
+          <span className="text-white/30 text-xs">PvP</span>
+        </div>
+        <div className="font-bold text-lg">
+          <span className="text-green-400">{myScore}</span>
+          <span className="text-white/40 mx-2">{Math.min(turnNo, TURNS)} / {TURNS} 턴</span>
+          <span className="text-red-400">{oppScore}</span>
+        </div>
+        <div className="text-white/50 text-xs text-right">
+          상대 잔여 전투력 {oppRemaining !== null ? <b className="text-white/90">{oppRemaining}</b> : <span className="text-white/30">? (5턴부터)</span>}
+        </div>
+      </div>
+
+      <div className="flex flex-1 items-center justify-center py-6">
+        {reveal ? (
+          <RevealPanel log={reveal} flipped={flipped} onNext={nextTurn} finished={false} />
+        ) : submitted ? (
+          <div className="text-center">
+            <p className="text-amber-300 text-lg animate-pulse">상대의 선택을 기다리는 중...</p>
+            <p className="text-white/30 text-xs mt-2">동시 공개 — 서로의 카드는 공개 순간까지 비밀입니다</p>
+          </div>
+        ) : (
+          <p className="text-white/30 text-lg">손패에서 카드를 골라 출진시키세요</p>
+        )}
+      </div>
+
+      <div className="flex flex-col items-center gap-3 pb-4">
+        <div className="flex gap-2 justify-center flex-wrap">
+          {hand.map((c) => (
+            <div key={c.cardId} className="relative">
+              <GeneralCard
+                card={c}
+                selected={selected === c.cardId || supportSel === c.cardId}
+                dimmed={submitted || !!reveal}
+                onClick={() => clickCard(c)}
+              />
+              {supportSel === c.cardId && (
+                <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded bg-blue-500 px-2 py-0.5 text-[10px] font-bold">모사</span>
+              )}
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={commit}
+          disabled={!selected || submitted || !!reveal}
+          className={`rounded-lg px-12 py-2.5 text-lg font-bold disabled:opacity-30 disabled:cursor-not-allowed transition-colors ${
+            supportSel ? "bg-blue-700 hover:bg-blue-600" : "bg-red-700 hover:bg-red-600"
+          }`}
+        >
+          {supportSel ? "2:2 출진" : "출진"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function PvpShell({ children, onBack }: { children: React.ReactNode; onBack: () => void }) {
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center gap-3 p-6 text-center">
+      <p className="text-red-400/80 tracking-[0.4em] text-sm">친 구 대 결</p>
+      {children}
+      <button onClick={onBack} className="mt-2 text-white/40 text-sm underline hover:text-white">
+        메인으로
+      </button>
     </div>
   );
 }

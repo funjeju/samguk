@@ -90,6 +90,13 @@ service cloud.firestore {
       allow create: if request.auth != null && request.resource.data.ownerId == request.auth.uid;
       allow update, delete: if request.auth != null && resource.data.ownerId == request.auth.uid;
     }
+    // PvP 방 (지인전 v1 — 로그인 사용자 접근 허용)
+    match /rooms/{roomId} {
+      allow read, create, update: if request.auth != null;
+      match /picks/{turn} {
+        allow read, create, update: if request.auth != null;
+      }
+    }
   }
 }`;
 
