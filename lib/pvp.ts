@@ -2,12 +2,16 @@
 // 구조: 덱·손패는 각자 로컬 비밀, 매 턴 "낸 카드"만 공개 제출 → 정보전 유지 (GDD §2.9)
 // 판정: 방장 클라이언트가 결과를 계산·기록(권위자), 양쪽이 같은 결과를 재생 — 지인전 v1
 import {
+  collection,
   deleteField,
   doc,
   getDoc,
+  limit,
   onSnapshot,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { calcPairPower, createCard, shuffle } from "./battle";
 import { DECK_SIZE, DUEL, EARLY_WIN, isCourtTurn, POWER_W, TRAIT_VALUES, TURNS } from "./constants";
@@ -36,6 +40,7 @@ export interface PvpTurnResult {
 export interface PvpRoom {
   status: "waiting" | "playing" | "done";
   hostUid: string;
+  hostName?: string; // 방 목록 표시용 방장 이름
   guestUid?: string;
   scenarioId: string;
   cityId: string;
@@ -92,6 +97,7 @@ export async function createRoom(deck: CardInstance[]): Promise<string> {
   const room: PvpRoom = {
     status: "waiting",
     hostUid: user.uid,
+    hostName: user.displayName || `군주-${user.uid.slice(0, 4)}`,
     scenarioId: scenario.id,
     cityId: city.id,
     turn: 1,
@@ -129,6 +135,22 @@ export async function joinRoom(roomId: string, deck: CardInstance[]): Promise<Pv
 export function listenRoom(roomId: string, cb: (room: PvpRoom) => void): () => void {
   return onSnapshot(roomRef(roomId), (snap) => {
     if (snap.exists()) cb(snap.data() as PvpRoom);
+  });
+}
+
+export type OpenRoom = PvpRoom & { id: string };
+
+// 로비: 대기 중인 방 목록 실시간 구독 (1시간 이내 생성분, 최신순)
+// where + limit만 사용 (단일 필드 인덱스로 충분 — 복합 인덱스 불필요), 정렬은 클라이언트에서
+export function listenOpenRooms(cb: (rooms: OpenRoom[]) => void): () => void {
+  const q = query(collection(db!, "rooms"), where("status", "==", "waiting"), limit(50));
+  return onSnapshot(q, (snap) => {
+    const cutoff = Date.now() - 60 * 60 * 1000;
+    const rooms = snap.docs
+      .map((d) => ({ id: d.id, ...(d.data() as PvpRoom) }))
+      .filter((r) => r.createdAt >= cutoff)
+      .sort((a, b) => b.createdAt - a.createdAt);
+    cb(rooms);
   });
 }
 

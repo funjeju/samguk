@@ -29,7 +29,10 @@ export const db = app ? getFirestore(app) : null;
 
 let userPromise: Promise<User> | null = null;
 
-// 익명 로그인 (최초 1회, 이후 재사용)
+// 로그인 세션 확보 (최초 1회, 이후 재사용)
+// 중요: 페이지 로드 시 persistence에서 저장된 세션(익명·구글·이메일)이 비동기로 복원된다.
+// 복원을 기다리지 않고 signInAnonymously를 부르면 기존 로그인이 새 익명 계정으로 덮어써진다.
+// → onAuthStateChanged 최초 발화(복원 완료)를 기다린 뒤, 정말 세션이 없을 때만 익명 생성.
 export function ensureUser(): Promise<User> {
   if (!app) return Promise.reject(new Error("firebase disabled"));
   if (!userPromise) {
@@ -37,17 +40,26 @@ export function ensureUser(): Promise<User> {
     userPromise = auth.currentUser
       ? Promise.resolve(auth.currentUser)
       : new Promise((resolve, reject) => {
-          const unsub = auth.onAuthStateChanged((u) => {
-            if (u) {
+          const unsub = auth.onAuthStateChanged(
+            (u) => {
               unsub();
-              resolve(u);
+              if (u) {
+                resolve(u); // 복원된 기존 계정 그대로 사용
+              } else {
+                signInAnonymously(auth)
+                  .then((r) => resolve(r.user))
+                  .catch((e) => {
+                    userPromise = null;
+                    reject(e);
+                  });
+              }
+            },
+            (e) => {
+              unsub();
+              userPromise = null;
+              reject(e);
             }
-          });
-          signInAnonymously(auth).catch((e) => {
-            unsub();
-            userPromise = null;
-            reject(e);
-          });
+          );
         });
   }
   return userPromise;

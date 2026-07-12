@@ -11,9 +11,11 @@ import {
   createRoom,
   hostResolveTurn,
   joinRoom,
+  listenOpenRooms,
   listenPick,
   listenRoom,
   submitPick,
+  type OpenRoom,
   type PvpPickData,
   type PvpRoom,
   type PvpSide,
@@ -111,9 +113,21 @@ function Intro({
 }) {
   const [record, setRecord] = useState<UserRecord | null>(null);
   const [shifts, setShifts] = useState(0);
+  const [confirm, setConfirm] = useState<Difficulty | null>(null);
   useEffect(() => {
     if (firebaseEnabled) fetchRecord().then(setRecord).catch(() => {});
   }, []);
+
+  // 확인 모달용 출전 덱 요약 (덱 편성 화면에서 지정한 카드)
+  const deckSummary = () => {
+    let pinnedCount = 0;
+    let fillMode: "random" | "tiered" = "random";
+    try {
+      pinnedCount = (JSON.parse(localStorage.getItem("deck_pinned") ?? "[]") as string[]).length;
+      fillMode = (localStorage.getItem("deck_fillmode") as "random" | "tiered") ?? "random";
+    } catch {}
+    return { pinnedCount, fillMode };
+  };
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center gap-8 p-6 overflow-hidden">
@@ -161,7 +175,7 @@ function Intro({
           {(["easy", "normal", "hard"] as Difficulty[]).map((d) => (
             <button
               key={d}
-              onClick={() => onStart(d, shifts)}
+              onClick={() => setConfirm(d)}
               className="rounded-lg border border-amber-500/50 bg-amber-900/30 px-8 py-3 text-lg font-bold hover:bg-amber-700/50 transition-colors"
             >
               {DIFF_LABEL[d]}
@@ -195,6 +209,64 @@ function Intro({
         )}
         <AuthBox />
       </motion.div>
+
+      {confirm && (() => {
+        const { pinnedCount, fillMode } = deckSummary();
+        return (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-6"
+            onClick={() => setConfirm(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-sm rounded-2xl border border-amber-500/40 bg-stone-900 p-6 text-center shadow-2xl"
+            >
+              <p className="text-amber-300 font-bold text-xl mb-4">이대로 출진하시겠습니까?</p>
+              <div className="mb-5 flex flex-col gap-2 text-sm">
+                <div className="flex justify-between border-b border-white/10 pb-2">
+                  <span className="text-white/50">AI 난이도</span>
+                  <span className="font-bold">{DIFF_LABEL[confirm]}</span>
+                </div>
+                <div className="flex justify-between border-b border-white/10 pb-2">
+                  <span className="text-white/50">국면 전환</span>
+                  <span className="font-bold">{shifts === 0 ? "없음 (안정)" : `${shifts}회`}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white/50">출전 덱</span>
+                  <span className="font-bold">
+                    {pinnedCount > 0 ? `지정 ${pinnedCount}장` : "자동 편성"}
+                    {pinnedCount < 30 && (
+                      <span className="text-white/40 font-normal">
+                        {" "}+ 용병 {30 - pinnedCount}장 ({fillMode === "random" ? "랜덤" : "권역 균형"})
+                      </span>
+                    )}
+                  </span>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setConfirm(null)}
+                  className="flex-1 rounded-lg border border-white/20 py-2.5 text-sm font-bold text-white/70 hover:bg-white/10"
+                >
+                  취소
+                </button>
+                <button
+                  onClick={() => {
+                    const d = confirm;
+                    setConfirm(null);
+                    onStart(d, shifts);
+                  }}
+                  className="flex-1 rounded-lg bg-amber-600 py-2.5 text-sm font-bold hover:bg-amber-500"
+                >
+                  대전 시작
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
@@ -785,7 +857,9 @@ function PowerLine({ label, bd, show }: { label: string; bd: TurnLog["myPower"];
 /* ─────────────── PvP (친구 대결) ─────────────── */
 
 function Pvp({ joinId, onBack }: { joinId: string | null; onBack: () => void }) {
-  const [phase, setPhase] = useState<"init" | "waiting" | "playing" | "done" | "error">("init");
+  const [phase, setPhase] = useState<"init" | "lobby" | "waiting" | "playing" | "done" | "error">("init");
+  const [rooms, setRooms] = useState<OpenRoom[]>([]);
+  const [joining, setJoining] = useState(false);
   const [roomId, setRoomId] = useState<string | null>(joinId);
   const [side, setSide] = useState<PvpSide>("host");
   const [room, setRoom] = useState<PvpRoom | null>(null);
@@ -839,10 +913,7 @@ function Pvp({ joinId, onBack }: { joinId: string | null; onBack: () => void }) 
           setSide(r.hostUid === (await import("@/lib/firebase")).currentUser()?.uid ? "host" : "guest");
           setRoomId(joinId);
         } else {
-          const id = await createRoom(myDeck);
-          setRoomId(id);
-          setSide("host");
-          setPhase("waiting");
+          setPhase("lobby");
         }
       } catch {
         setPhase("error");
@@ -850,6 +921,47 @@ function Pvp({ joinId, onBack }: { joinId: string | null; onBack: () => void }) 
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // 로비: 대기 중인 방 목록 구독
+  useEffect(() => {
+    if (phase !== "lobby") return;
+    return listenOpenRooms(setRooms);
+  }, [phase]);
+
+  // 로비에서 방 만들기 / 참전
+  const openRoom = async () => {
+    if (joining || deck.length === 0) return;
+    setJoining(true);
+    try {
+      const id = await createRoom(deck);
+      setRoomId(id);
+      setSide("host");
+      setPhase("waiting");
+    } catch {
+      setPhase("error");
+    } finally {
+      setJoining(false);
+    }
+  };
+
+  const enterRoom = async (id: string) => {
+    if (joining || deck.length === 0) return;
+    setJoining(true);
+    try {
+      const r = await joinRoom(id, deck);
+      if (!r) {
+        setJoining(false);
+        return; // 이미 찬 방 등 — 목록에 그대로 두고 재시도 가능
+      }
+      const uid = (await import("@/lib/firebase")).currentUser()?.uid;
+      setSide(r.hostUid === uid ? "host" : "guest");
+      setRoomId(id);
+    } catch {
+      setPhase("error");
+    } finally {
+      setJoining(false);
+    }
+  };
 
   // 방 구독
   useEffect(() => {
@@ -980,6 +1092,56 @@ function Pvp({ joinId, onBack }: { joinId: string | null; onBack: () => void }) 
         <p className="text-white/50">덱을 구성하는 중...</p>
       </PvpShell>
     );
+  if (phase === "lobby") {
+    const myUid = currentUser()?.uid;
+    return (
+      <PvpShell onBack={onBack}>
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-amber-300 font-bold text-xl">대전 방 목록</p>
+          <button
+            onClick={openRoom}
+            disabled={joining}
+            className="rounded bg-amber-600 px-4 py-2 text-sm font-bold hover:bg-amber-500 disabled:opacity-40"
+          >
+            + 새 방 만들기
+          </button>
+        </div>
+        {rooms.length === 0 ? (
+          <p className="text-white/40 text-sm py-8">열린 방이 없습니다. 새 방을 만들어 상대를 기다려보세요.</p>
+        ) : (
+          <div className="flex flex-col gap-2">
+            {rooms.map((r) => {
+              const mine = r.hostUid === myUid;
+              const secsAgo = Math.max(0, Math.round((Date.now() - r.createdAt) / 1000));
+              const ago = secsAgo < 60 ? `${secsAgo}초 전` : `${Math.round(secsAgo / 60)}분 전`;
+              return (
+                <div
+                  key={r.id}
+                  className="flex items-center gap-3 rounded-lg border border-white/15 bg-black/30 px-4 py-3"
+                >
+                  <div className="flex-1 text-left">
+                    <p className="font-bold text-sm">
+                      {r.hostName ?? "익명 군주"} {mine && <span className="text-white/40 font-normal">(내 방)</span>}
+                    </p>
+                    <p className="text-white/50 text-xs">
+                      덱 전투력 {r.hostPower} · {ago}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => enterRoom(r.id)}
+                    disabled={joining || mine}
+                    className="rounded bg-green-700 px-4 py-1.5 text-sm font-bold hover:bg-green-600 disabled:opacity-30"
+                  >
+                    {mine ? "대기 중" : "참전"}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </PvpShell>
+    );
+  }
   if (phase === "waiting") {
     const link = `${window.location.origin}/?room=${roomId}`;
     return (
@@ -1232,7 +1394,19 @@ function Collection({ onBack }: { onBack: () => void }) {
     localStorage.setItem("deck_fillmode", m);
   };
 
-  // 같은 장수 + 같은 등급끼리 묶기 (강화 재료 표시)
+  // 카드 유효 전투력 (전투 70·통솔 20·지략 10 — 일반 전투 가중과 동일)
+  const cardPower = (c: CardInstance) =>
+    c.stats.combat * POWER_W.combat + c.stats.leadership * POWER_W.leadership + c.stats.intellect * POWER_W.intellect;
+
+  // 빠른 선택: 전투력 상위 N장을 출전 지정
+  const quickPick = (n: number) => {
+    if (!cards) return;
+    const top = [...cards].sort((a, b) => cardPower(b) - cardPower(a)).slice(0, n).map((c) => c.cardId);
+    setPinned(top);
+    localStorage.setItem("deck_pinned", JSON.stringify(top));
+  };
+
+  // 같은 장수 + 같은 등급끼리 묶기 (강화 재료 표시) — 전투력 높은 순 정렬
   const groups = useMemo(() => {
     if (!cards) return [];
     const map = new Map<string, CardInstance[]>();
@@ -1240,7 +1414,7 @@ function Collection({ onBack }: { onBack: () => void }) {
       const key = `${c.generalId}:${c.grade}`;
       map.set(key, [...(map.get(key) ?? []), c]);
     }
-    return [...map.values()];
+    return [...map.values()].sort((a, b) => cardPower(b[0]) - cardPower(a[0]));
   }, [cards]);
 
   const enhance = async (group: CardInstance[]) => {
@@ -1282,6 +1456,20 @@ function Collection({ onBack }: { onBack: () => void }) {
             <p className="text-amber-300 font-bold mb-1">
               덱 편성 — 지정 {pinned.length}/30 <span className="text-white/40 font-normal">(카드를 눌러 출전 지정, 나머지는 용병 충원)</span>
             </p>
+            <div className="flex gap-2 items-center mb-1.5">
+              <span className="text-white/50">전투력 상위 자동 선택:</span>
+              {[10, 20, 30].map((n) => (
+                <button
+                  key={n}
+                  onClick={() => quickPick(n)}
+                  disabled={!!cards && cards.length < n}
+                  className="rounded px-2.5 py-0.5 border border-green-500/40 bg-green-800/40 font-bold hover:bg-green-700/50 disabled:opacity-30 disabled:hover:bg-green-800/40"
+                >
+                  상위 {n}장
+                </button>
+              ))}
+              <span className="text-white/30">보유 {cards?.length ?? 0}장</span>
+            </div>
             <div className="flex gap-2 items-center">
               <span className="text-white/50">용병 충원:</span>
               {(["random", "tiered"] as const).map((m) => (
