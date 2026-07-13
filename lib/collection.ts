@@ -9,8 +9,9 @@ import {
   where,
   writeBatch,
 } from "firebase/firestore";
+import { deleteDoc } from "firebase/firestore";
 import { createCard, rollGrade, shuffle } from "./battle";
-import { REWARD } from "./constants";
+import { CONFISCATE, POINTS, REWARD } from "./constants";
 import { db, ensureUser } from "./firebase";
 import { ROSTER } from "./roster";
 import type { CardInstance } from "./types";
@@ -20,6 +21,7 @@ export interface UserRecord {
   losses: number;
   draws: number;
   lossStreak: number;
+  points: number; // 승리 포인트 (향후 보호 슬롯 구매/유료화 토대)
 }
 
 // 대전 결과 저장: 전적 갱신 + 보상 카드 생성·소유권 기록 (거래 대비 스키마 — GDD §5.2)
@@ -27,9 +29,11 @@ export interface UserRecord {
 export async function saveMatchResult(result: "win" | "lose" | "draw"): Promise<{
   rewards: CardInstance[];
   record: UserRecord;
+  pointsGained: number;
 }> {
   const user = await ensureUser();
   const userRef = doc(db!, "users", user.uid);
+  const pointsGained = POINTS[result];
 
   const record = await runTransaction(db!, async (tx) => {
     const snap = await tx.get(userRef);
@@ -38,12 +42,14 @@ export async function saveMatchResult(result: "win" | "lose" | "draw"): Promise<
       losses: 0,
       draws: 0,
       lossStreak: 0,
+      points: 0,
     };
     const next: UserRecord = {
       wins: prev.wins + (result === "win" ? 1 : 0),
       losses: prev.losses + (result === "lose" ? 1 : 0),
       draws: prev.draws + (result === "draw" ? 1 : 0),
       lossStreak: result === "lose" ? prev.lossStreak + 1 : 0,
+      points: (prev.points ?? 0) + pointsGained,
     };
     tx.set(userRef, next, { merge: true });
     return { prev, next };
@@ -70,7 +76,30 @@ export async function saveMatchResult(result: "win" | "lose" | "draw"): Promise<
     )
   );
 
-  return { rewards, record: record.next };
+  return { rewards, record: record.next, pointsGained };
+}
+
+// 패배 몰수: 이번 대전에 출격한 카드 중 '내 소유' 카드만 대상, 보호 지정분 제외,
+// 랜덤 1~2장을 컬렉션에서 제거(상대에게 빼앗김). 제거된 카드 반환.
+export async function confiscateCards(
+  playedCardIds: string[],
+  protectedIds: string[] = []
+): Promise<CardInstance[]> {
+  const owned = await fetchCollection(); // 실제 소유 카드만 (용병은 여기 없음)
+  const ownedById = new Map(owned.map((c) => [c.cardId, c]));
+  const protectedSet = new Set(protectedIds);
+  const candidates = [...new Set(playedCardIds)]
+    .filter((id) => ownedById.has(id) && !protectedSet.has(id))
+    .map((id) => ownedById.get(id)!);
+  if (candidates.length === 0) return [];
+
+  const n = Math.min(
+    candidates.length,
+    CONFISCATE.min + Math.floor(Math.random() * (CONFISCATE.max - CONFISCATE.min + 1))
+  );
+  const taken = shuffle(candidates).slice(0, n);
+  await Promise.all(taken.map((c) => deleteDoc(doc(db!, "cards", c.cardId))));
+  return taken;
 }
 
 export async function fetchCollection(): Promise<CardInstance[]> {

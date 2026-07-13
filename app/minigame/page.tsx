@@ -1,5 +1,6 @@
 "use client";
 
+import { artUrl } from "@/lib/art";
 import { grantCards } from "@/lib/collection";
 import { firebaseEnabled } from "@/lib/firebase";
 import { GENERAL_BY_ID } from "@/lib/roster";
@@ -288,7 +289,7 @@ function Board({ game, setGame }: { game: GameState; setGame: (g: GameState) => 
 
 function Portrait({ name }: { name: string }) {
   const [idx, setIdx] = useState(0);
-  const sources = [`/art/${name}.webp`, `/art/${name}.png`];
+  const sources = [artUrl(name)];
   return (
     <div className="w-16 h-20 rounded border-2 border-amber-700/60 bg-stone-800 overflow-hidden shrink-0 flex items-center justify-center">
       {idx < sources.length ? (

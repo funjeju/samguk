@@ -46,3 +46,6 @@ firebase-admin-key.json
 *.xlsx
 
 .vercel
+
+# 초상은 Firebase Storage에서 서빙 (scripts/upload-art.mjs), git·배포에 넣지 않음
+public/art/

@@ -42,6 +42,15 @@ export const GRADE_RATE = [60, 27, 10, 3];
 // 보상 장수
 export const REWARD = { win: 5, lose: 2, loseStreakBonus: 4, streakAt: 3 };
 
+// 포인트 제도 (승리 보상 — 향후 보호 슬롯 구매/유료화의 토대)
+export const POINTS = { win: 10, lose: 2, draw: 5 };
+
+// 패배 몰수: 이번 대전에 출격한 내 소유 카드 중 랜덤 1~2장을 상대에게 빼앗김
+export const CONFISCATE = { min: 1, max: 2 };
+
+// 보호 지정: 덱 편성 때 최대 이만큼 지정 — 몰수 대상에서 제외 (현재 무료, 향후 포인트/유료)
+export const PROTECT_MAX = 3;
+
 // 국면 전환 (GDD §2.8)
 export const PHASE_SHIFT_MAX = 3; // 게임 생성 시 선택 가능한 최대 횟수
 export const PHASE_SHIFT_ERA_FLOOR = 0.85; // 전환 후 역사 배율 하한 (급격한 무력화 완충 — §6)

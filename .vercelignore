@@ -1,0 +1,10 @@
+.git
+.next
+node_modules
+scripts
+*.log
+*.bak
+*.mjs.bak
+memory
+firebase-admin-key.json
+public/art

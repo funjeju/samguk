@@ -1,5 +1,6 @@
 "use client";
 
+import { artUrl } from "@/lib/art";
 import { STRATEGIST_INTELLECT_MIN, TRAITS, WARRIOR_COMBAT_MIN } from "@/lib/constants";
 import { GENERAL_BY_ID } from "@/lib/roster";
 import type { CardInstance, Faction } from "@/lib/types";
@@ -44,9 +45,9 @@ export default function GeneralCard({
 }) {
   const gen = GENERAL_BY_ID[card.generalId];
   const fs = FACTION_STYLE[gen.faction];
-  // 아트 탐색: webp → png → 플레이스홀더
+  // 아트: Firebase Storage → 실패 시 국가 워터마크
   const [srcIdx, setSrcIdx] = useState(0);
-  const sources = [`/art/${gen.id}.webp`, `/art/${gen.id}.png`];
+  const sources = [artUrl(gen.id)];
   const hasArt = srcIdx < sources.length;
 
   return (
